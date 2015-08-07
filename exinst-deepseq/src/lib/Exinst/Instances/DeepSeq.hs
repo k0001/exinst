@@ -13,25 +13,22 @@ module Exinst.Instances.DeepSeq () where
 
 import           Control.DeepSeq (NFData(rnf))
 import           Data.Constraint
-import           Data.Singletons
 import           Exinst.Singletons
 import           Prelude
 
 --------------------------------------------------------------------------------
 
 instance forall (f1 :: k1 -> *)
-  . ( SingKind ('KProxy :: KProxy k1)
-    , Dict1 NFData f1
+  . ( Dict1 NFData f1
     ) => NFData (Some1 f1)
   where
     {-# INLINABLE rnf #-}
     rnf !some1 = withSome1 some1 $ \sa1 (x :: f1 a1) ->
        case dict1 sa1 :: Dict (NFData (f1 a1)) of
           Dict -> rnf x `seq` ()
+
 instance forall (f2 :: k2 -> k1 -> *)
-  . ( SingKind ('KProxy :: KProxy k2)
-    , SingKind ('KProxy :: KProxy k1)
-    , Dict2 NFData f2
+  . ( Dict2 NFData f2
     ) => NFData (Some2 f2)
   where
     {-# INLINABLE rnf #-}
@@ -40,23 +37,16 @@ instance forall (f2 :: k2 -> k1 -> *)
           Dict -> rnf x `seq` ()
 
 instance forall (f3 :: k3 -> k2 -> k1 -> *)
-  . ( SingKind ('KProxy :: KProxy k3)
-    , SingKind ('KProxy :: KProxy k2)
-    , SingKind ('KProxy :: KProxy k1)
-    , Dict3 NFData f3
+  . ( Dict3 NFData f3
     ) => NFData (Some3 f3)
   where
     {-# INLINABLE rnf #-}
     rnf !some3 = withSome3 some3 $ \sa3 sa2 sa1 (x :: f3 a3 a2 a1) ->
        case dict3 sa3 sa2 sa1 :: Dict (NFData (f3 a3 a2 a1)) of
-         Dict -> rnf x `seq` ()
+          Dict -> rnf x `seq` ()
 
 instance forall (f4 :: k4 -> k3 -> k2 -> k1 -> *)
-  . ( SingKind ('KProxy :: KProxy k4)
-    , SingKind ('KProxy :: KProxy k3)
-    , SingKind ('KProxy :: KProxy k2)
-    , SingKind ('KProxy :: KProxy k1)
-    , Dict4 NFData f4
+  . ( Dict4 NFData f4
     ) => NFData (Some4 f4)
   where
     {-# INLINABLE rnf #-}
