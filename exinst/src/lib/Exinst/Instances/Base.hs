@@ -171,11 +171,10 @@ instance forall (f4 :: k4 -> k3 -> k2 -> k1 -> *)
 --------------------------------------------------------------------------------
 -- Ord
 
--- | In @'compare' x y@, if the existential wrapped in @x@ is not of the same type
--- of the existential wrapped in @y@, then @'compare' x y == 'LT'@.
 instance forall (f1 :: k1 -> *)
   . ( SingKind ('KProxy :: KProxy k1)
     , SDecide ('KProxy :: KProxy k1)
+    , Ord (DemoteRep ('KProxy :: KProxy k1))
     , Dict1 Ord f1
     , Eq (Some1 f1)
     ) => Ord (Some1 f1)
@@ -184,18 +183,19 @@ instance forall (f1 :: k1 -> *)
     compare = \some1x some1y -> 
        withSome1 some1x $ \sa1x (x :: f1 a1x) -> 
           withSome1 some1y $ \sa1y (y :: f1 a1y) -> 
-             maybe LT id $ do
-                Refl <- testEquality sa1x sa1y
-                case dict1 sa1x :: Dict (Ord (f1 a1x)) of
-                   Dict -> Just (compare x y)
+             let termCompare = compare (fromSing sa1x) (fromSing sa1y)
+             in maybe termCompare id $ do
+                  Refl <- testEquality sa1x sa1y
+                  case dict1 sa1x :: Dict (Ord (f1 a1x)) of
+                     Dict -> Just (compare x y)
 
--- | In @'compare' x y@, if the existential wrapped in @x@ is not of the same type
--- of the existential wrapped in @y@, then @'compare' x y == 'LT'@.
 instance forall (f2 :: k2 -> k1 -> *)
   . ( SingKind ('KProxy :: KProxy k2)
     , SingKind ('KProxy :: KProxy k1)
     , SDecide ('KProxy :: KProxy k2)
     , SDecide ('KProxy :: KProxy k1)
+    , Ord (DemoteRep ('KProxy :: KProxy k2))
+    , Ord (DemoteRep ('KProxy :: KProxy k1))
     , Dict2 Ord f2
     , Eq (Some2 f2)
     ) => Ord (Some2 f2)
@@ -204,14 +204,14 @@ instance forall (f2 :: k2 -> k1 -> *)
     compare = \some2x some2y -> 
        withSome2 some2x $ \sa2x sa1x (x :: f2 a2x a1x) -> 
           withSome2 some2y $ \sa2y sa1y (y :: f2 a2y a1y) -> 
-             maybe LT id $ do
-                Refl <- testEquality sa2x sa2y
-                Refl <- testEquality sa1x sa1y
-                case dict2 sa2x sa1x :: Dict (Ord (f2 a2x a1x)) of
-                   Dict -> Just (compare x y)
+             let termCompare = compare (fromSing sa2x, fromSing sa1x)
+                                       (fromSing sa2y, fromSing sa1y)
+             in maybe termCompare id $ do
+                   Refl <- testEquality sa2x sa2y
+                   Refl <- testEquality sa1x sa1y
+                   case dict2 sa2x sa1x :: Dict (Ord (f2 a2x a1x)) of
+                      Dict -> Just (compare x y)
 
--- | In @'compare' x y@, if the existential wrapped in @x@ is not of the same type
--- of the existential wrapped in @y@, then @'compare' x y == 'LT'@.
 instance forall (f3 :: k3 -> k2 -> k1 -> *)
   . ( SingKind ('KProxy :: KProxy k3)
     , SingKind ('KProxy :: KProxy k2)
@@ -219,6 +219,9 @@ instance forall (f3 :: k3 -> k2 -> k1 -> *)
     , SDecide ('KProxy :: KProxy k3)
     , SDecide ('KProxy :: KProxy k2)
     , SDecide ('KProxy :: KProxy k1)
+    , Ord (DemoteRep ('KProxy :: KProxy k3))
+    , Ord (DemoteRep ('KProxy :: KProxy k2))
+    , Ord (DemoteRep ('KProxy :: KProxy k1))
     , Dict3 Ord f3
     , Eq (Some3 f3)
     ) => Ord (Some3 f3)
@@ -227,15 +230,16 @@ instance forall (f3 :: k3 -> k2 -> k1 -> *)
     compare = \some3x some3y -> 
        withSome3 some3x $ \sa3x sa2x sa1x (x :: f3 a3x a2x a1x) -> 
           withSome3 some3y $ \sa3y sa2y sa1y (y :: f3 a3y a2y a1y) -> 
-             maybe LT id $ do
-                Refl <- testEquality sa3x sa3y
-                Refl <- testEquality sa2x sa2y
-                Refl <- testEquality sa1x sa1y
-                case dict3 sa3x sa2x sa1x :: Dict (Ord (f3 a3x a2x a1x)) of
-                   Dict -> Just (compare x y)
+             let termCompare = compare
+                   (fromSing sa3x, fromSing sa2x, fromSing sa1x)
+                   (fromSing sa3y, fromSing sa2y, fromSing sa1y)
+             in maybe termCompare id $ do
+                  Refl <- testEquality sa3x sa3y
+                  Refl <- testEquality sa2x sa2y
+                  Refl <- testEquality sa1x sa1y
+                  case dict3 sa3x sa2x sa1x :: Dict (Ord (f3 a3x a2x a1x)) of
+                     Dict -> Just (compare x y)
 
--- | In @'compare' x y@, if the existential wrapped in @x@ is not of the same type
--- of the existential wrapped in @y@, then @'compare' x y == 'LT'@.
 instance forall (f4 :: k4 -> k3 -> k2 -> k1 -> *)
   . ( SingKind ('KProxy :: KProxy k4)
     , SingKind ('KProxy :: KProxy k3)
@@ -245,6 +249,10 @@ instance forall (f4 :: k4 -> k3 -> k2 -> k1 -> *)
     , SDecide ('KProxy :: KProxy k3)
     , SDecide ('KProxy :: KProxy k2)
     , SDecide ('KProxy :: KProxy k1)
+    , Ord (DemoteRep ('KProxy :: KProxy k4))
+    , Ord (DemoteRep ('KProxy :: KProxy k3))
+    , Ord (DemoteRep ('KProxy :: KProxy k2))
+    , Ord (DemoteRep ('KProxy :: KProxy k1))
     , Dict4 Ord f4
     , Eq (Some4 f4)
     ) => Ord (Some4 f4)
@@ -253,11 +261,14 @@ instance forall (f4 :: k4 -> k3 -> k2 -> k1 -> *)
     compare = \some4x some4y -> 
        withSome4 some4x $ \sa4x sa3x sa2x sa1x (x :: f4 a4x a3x a2x a1x) -> 
           withSome4 some4y $ \sa4y sa3y sa2y sa1y (y :: f4 a4y a3y a2y a1y) -> 
-             maybe LT id $ do
-                Refl <- testEquality sa4x sa4y
-                Refl <- testEquality sa3x sa3y
-                Refl <- testEquality sa2x sa2y
-                Refl <- testEquality sa1x sa1y
-                case dict4 sa4x sa3x sa2x sa1x :: Dict (Ord (f4 a4x a3x a2x a1x)) of
-                   Dict -> Just (compare x y)
+             let termCompare = compare
+                   (fromSing sa4x, fromSing sa3x, fromSing sa2x, fromSing sa1x)
+                   (fromSing sa4y, fromSing sa3y, fromSing sa2y, fromSing sa1y)
+             in maybe termCompare id $ do
+                  Refl <- testEquality sa4x sa4y
+                  Refl <- testEquality sa3x sa3y
+                  Refl <- testEquality sa2x sa2y
+                  Refl <- testEquality sa1x sa1y
+                  case dict4 sa4x sa3x sa2x sa1x :: Dict (Ord (f4 a4x a3x a2x a1x)) of
+                     Dict -> Just (compare x y)
 
