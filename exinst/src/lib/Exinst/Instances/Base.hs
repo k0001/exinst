@@ -21,17 +21,22 @@ import           Prelude
 --------------------------------------------------------------------------------
 -- Show
 
+-- Internal wrappers used to automatically derive 'Show' instances.
+data Some1'Show r1 x = Some1 r1 x deriving (Show)
+data Some2'Show r2 r1 x = Some2 r2 r1 x deriving (Show)
+data Some3'Show r3 r2 r1 x = Some3 r3 r2 r1 x deriving (Show)
+data Some4'Show r4 r3 r2 r1 x = Some4 r4 r3 r2 r1 x deriving (Show)
+
 instance forall (f1 :: k1 -> *)
   . ( SingKind ('KProxy :: KProxy k1)
     , Show (DemoteRep ('KProxy :: KProxy k1))
     , Dict1 Show f1
     ) => Show (Some1 f1)
   where
-    {-# INLINABLE show #-}
-    show = \some1 -> withSome1 some1 $ \sa1 (x :: f1 a1) ->
+    {-# INLINABLE showsPrec #-}
+    showsPrec n = \some1 -> withSome1 some1 $ \sa1 (x :: f1 a1) ->
        case dict1 sa1 :: Dict (Show (f1 a1)) of
-          Dict -> concat ["Some1 (", show (fromSing sa1),
-                              ") (", show x, ")"]
+          Dict -> showsPrec n (Some1 (fromSing sa1) x)
 
 instance forall (f2 :: k2 -> k1 -> *)
   . ( SingKind ('KProxy :: KProxy k2)
@@ -41,12 +46,10 @@ instance forall (f2 :: k2 -> k1 -> *)
     , Dict2 Show f2
     ) => Show (Some2 f2)
   where
-    {-# INLINABLE show #-}
-    show = \some2 -> withSome2 some2 $ \sa2 sa1 (x :: f2 a2 a1) ->
+    {-# INLINABLE showsPrec #-}
+    showsPrec n = \some2 -> withSome2 some2 $ \sa2 sa1 (x :: f2 a2 a1) ->
        case dict2 sa2 sa1 :: Dict (Show (f2 a2 a1)) of
-          Dict -> concat ["Some2 (", show (fromSing sa2),
-                              ") (", show (fromSing sa1),
-                              ") (", show x, ")"]
+          Dict -> showsPrec n (Some2 (fromSing sa2) (fromSing sa1) x)
 
 instance forall (f3 :: k3 -> k2 -> k1 -> *)
   . ( SingKind ('KProxy :: KProxy k3)
@@ -58,13 +61,10 @@ instance forall (f3 :: k3 -> k2 -> k1 -> *)
     , Dict3 Show f3
     ) => Show (Some3 f3)
   where
-    {-# INLINABLE show #-}
-    show = \some3 -> withSome3 some3 $ \sa3 sa2 sa1 (x :: f3 a3 a2 a1) ->
+    {-# INLINABLE showsPrec #-}
+    showsPrec n = \some3 -> withSome3 some3 $ \sa3 sa2 sa1 (x :: f3 a3 a2 a1) ->
        case dict3 sa3 sa2 sa1 :: Dict (Show (f3 a3 a2 a1)) of
-          Dict -> concat ["Some3 (", show (fromSing sa3),
-                              ") (", show (fromSing sa2),
-                              ") (", show (fromSing sa1),
-                              ") (", show x, ")"]
+          Dict -> showsPrec n (Some3 (fromSing sa3) (fromSing sa2) (fromSing sa1) x)
 
 instance forall (f4 :: k4 -> k3 -> k2 -> k1 -> *)
   . ( SingKind ('KProxy :: KProxy k4)
@@ -78,14 +78,11 @@ instance forall (f4 :: k4 -> k3 -> k2 -> k1 -> *)
     , Dict4 Show f4
     ) => Show (Some4 f4)
   where
-    {-# INLINABLE show #-}
-    show = \some4 -> withSome4 some4 $ \sa4 sa3 sa2 sa1 (x :: f4 a4 a3 a2 a1) ->
+    {-# INLINABLE showsPrec #-}
+    showsPrec n = \some4 -> withSome4 some4 $ \sa4 sa3 sa2 sa1 (x :: f4 a4 a3 a2 a1) ->
        case dict4 sa4 sa3 sa2 sa1 :: Dict (Show (f4 a4 a3 a2 a1)) of
-          Dict -> concat ["Some3 (", show (fromSing sa4),
-                              ") (", show (fromSing sa3),
-                              ") (", show (fromSing sa2),
-                              ") (", show (fromSing sa1),
-                              ") (", show x, ")"]
+          Dict -> showsPrec n (Some4 (fromSing sa4) (fromSing sa3)
+                                     (fromSing sa2) (fromSing sa1) x)
 
 --------------------------------------------------------------------------------
 -- Read: TODO
