@@ -19,5 +19,6 @@ library
     , hashable >=1.2 && <1.3
     , constraints >=0.4 && <0.5
     , exinst >=0.0 && <0.1
+    , singletons >=1.1 && <1.2
   ghcjs-options: -Wall -Werror
   ghc-options: -Wall -Werror

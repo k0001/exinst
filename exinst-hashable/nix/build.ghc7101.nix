@@ -5,6 +5,7 @@ with (import <nixpkgs/pkgs/development/haskell-modules/lib.nix> { inherit pkgs; 
 
 let hs = haskell-ng.packages.ghc7101.override {
     overrides = self: super: {
+      singletons = haskell-ng.lib.overrideCabal super.singletons (drv: { doCheck = false; });
       exinst = self.callPackage ../../exinst/nix/default.nix {};
       exinst-hashable = self.callPackage ./default.nix {};
     };
