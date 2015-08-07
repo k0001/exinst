@@ -5,7 +5,6 @@
 , hashable
 , constraints
 , exinst
-, singletons
 }:
 
 mkDerivation {
@@ -16,5 +15,5 @@ mkDerivation {
   isExecutable = false;
   license = stdenv.lib.licenses.bsd3;
   doHaddock = true;
-  buildDepends = [ hashable constraints exinst singletons ];
+  buildDepends = [ hashable constraints exinst ];
 }

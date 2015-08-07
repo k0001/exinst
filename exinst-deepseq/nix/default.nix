@@ -5,7 +5,6 @@
 , deepseq
 , constraints
 , exinst
-, singletons
 }:
 
 mkDerivation {
@@ -16,5 +15,5 @@ mkDerivation {
   isExecutable = false;
   license = stdenv.lib.licenses.bsd3;
   doHaddock = true;
-  buildDepends = [ deepseq constraints exinst singletons ];
+  buildDepends = [ deepseq constraints exinst ];
 }

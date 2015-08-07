@@ -7,7 +7,6 @@ let hs = haskell-ng.packages.ghc7101.override {
     overrides = self: super: {
       exinst = self.callPackage ../../exinst/nix/default.nix {};
       exinst-deepseq = self.callPackage ./default.nix {};
-      singletons = haskell-ng.lib.overrideCabal super.singletons (drv: { doCheck = false; });
     };
   };
 in hs.exinst-deepseq
