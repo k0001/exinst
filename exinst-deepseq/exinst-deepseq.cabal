@@ -1,4 +1,4 @@
-name:                exinst
+name:                exinst-deepseq
 version:             0.0.1
 author:              Renzo Carbonara
 maintainer:          renzoλcarbonara.com.ar
@@ -13,11 +13,12 @@ library
   hs-source-dirs: src/lib
   default-language: Haskell2010
   exposed-modules:
-      Exinst.Singletons
-      Exinst.Singletons.Internal
+      Exinst.Instances.DeepSeq
   build-depends:
       base >=4.8 && <4.9
+    , deepseq >=1.4 && <1.5
     , constraints >=0.4 && <0.5
+    , exinst >=0.0 && <0.1
     , singletons >=1.1 && <1.2
   ghcjs-options: -Wall -Werror
   ghc-options: -Wall -Werror

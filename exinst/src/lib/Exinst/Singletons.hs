@@ -12,6 +12,7 @@ module Exinst.Singletons
    Some1
  , mkSome1
  , withSome1
+ , withSome1I
  , fromSome1
  , Dict1(dict1)
 
@@ -19,6 +20,7 @@ module Exinst.Singletons
  , Some2
  , mkSome2
  , withSome2
+ , withSome2I
  , fromSome2
  , Dict2(dict2)
 
@@ -26,6 +28,7 @@ module Exinst.Singletons
  , Some3
  , mkSome3
  , withSome3
+ , withSome3I
  , fromSome3
  , Dict3(dict3)
 
@@ -33,6 +36,7 @@ module Exinst.Singletons
  , Some4
  , mkSome4
  , withSome4
+ , withSome4I
  , fromSome4
  , Dict4(dict4)
  ) where
@@ -43,19 +47,7 @@ import Data.Singletons.Decide
 import Data.Singletons.Types
 import Prelude
 
---------------------------------------------------------------------------------
-
-data Some1 (f1 :: k1 -> *) = forall a1.
-  Some1 !(Sing a1) !(f1 a1)
-
-data Some2 (f2 :: k2 -> k1 -> *) = forall a2 a1.
-  Some2 !(Sing a2) !(Sing a1) !(f2 a2 a1)
-
-data Some3 (f3 :: k3 -> k2 -> k1 -> *) = forall a3 a2 a1.
-  Some3 !(Sing a3) !(Sing a2) !(Sing a1) !(f3 a3 a2 a1)
-
-data Some4 (f4 :: k4 -> k3 -> k2 -> k1 -> *) = forall a4 a3 a2 a1.
-  Some4 !(Sing a4) !(Sing a3) !(Sing a2) !(Sing a1) !(f4 a4 a3 a2 a1)
+import Exinst.Singletons.Internal
 
 --------------------------------------------------------------------------------
 
@@ -94,40 +86,79 @@ mkSome4 = Some4 (sing :: Sing a4) (sing :: Sing a3)
 
 --------------------------------------------------------------------------------
 
-withSome1
+withSome1I
   :: forall (f1 :: k1 -> *) (r :: *)
    . Some1 f1
   -> (forall a1. SingI a1 => f1 a1 -> r)
   -> r -- ^
-withSome1 (Some1 sa1 x) g = withSingI sa1 (g x)
-{-# INLINABLE withSome1 #-}
+withSome1I (Some1 sa1 x) g = withSingI sa1 (g x)
+{-# INLINABLE withSome1I #-}
 
-withSome2
+withSome2I
   :: forall (f2 :: k2 -> k1 -> *) (r :: *)
   .  Some2 f2
   -> (forall a2 a1. (SingI a2, SingI a1) => f2 a2 a1 -> r)
   -> r -- ^
-withSome2 (Some2 sa2 sa1 x) g = withSingI sa2 (withSingI sa1 (g x))
-{-# INLINABLE withSome2 #-}
+withSome2I (Some2 sa2 sa1 x) g = withSingI sa2 (withSingI sa1 (g x))
+{-# INLINABLE withSome2I #-}
 
-withSome3
+withSome3I
   :: forall (f3 :: k3 -> k2 -> k1 -> *) (r :: *)
   .  Some3 f3
   -> (forall a3 a2 a1. (SingI a3, SingI a2, SingI a1) => f3 a3 a2 a1 -> r)
   -> r -- ^
-withSome3 (Some3 sa3 sa2 sa1 x) g =
+withSome3I (Some3 sa3 sa2 sa1 x) g =
   withSingI sa3 (withSingI sa2 (withSingI sa1 (g x)))
-{-# INLINABLE withSome3 #-}
+{-# INLINABLE withSome3I #-}
 
-withSome4
+withSome4I
   :: forall (f4 :: k4 -> k3 -> k2 -> k1 -> *) (r :: *)
   .  Some4 f4
   -> (forall a4 a3 a2 a1
         .  (SingI a4, SingI a3, SingI a2, SingI a1)
         => f4 a4 a3 a2 a1 -> r)
   -> r -- ^
-withSome4 (Some4 sa4 sa3 sa2 sa1 x) g =
+withSome4I (Some4 sa4 sa3 sa2 sa1 x) g =
   withSingI sa4 (withSingI sa3 (withSingI sa2 (withSingI sa1 (g x))))
+{-# INLINABLE withSome4I #-}
+
+--------------------------------------------------------------------------------
+
+-- | Like 'withSome1I', but takes an explicit 'Sing' instead of a 'SingI' instance.
+withSome1
+  :: forall (f1 :: k1 -> *) (r :: *)
+   . Some1 f1
+  -> (forall a1. Sing a1 -> f1 a1 -> r)
+  -> r -- ^
+withSome1 (Some1 sa1 x) g = g sa1 x
+{-# INLINABLE withSome1 #-}
+
+-- | Like 'withSome2I', but takes explicit 'Sing's instead of 'SingI' instances.
+withSome2
+  :: forall (f2 :: k2 -> k1 -> *) (r :: *)
+  .  Some2 f2
+  -> (forall a2 a1. Sing a2 -> Sing a1 -> f2 a2 a1 -> r)
+  -> r -- ^
+withSome2 (Some2 sa2 sa1 x) g = g sa2 sa1 x
+{-# INLINABLE withSome2 #-}
+
+-- | Like 'withSome3I', but takes explicit 'Sing's instead of 'SingI' instances.
+withSome3
+  :: forall (f3 :: k3 -> k2 -> k1 -> *) (r :: *)
+  .  Some3 f3
+  -> (forall a3 a2 a1. Sing a3 -> Sing a2 -> Sing a1 -> f3 a3 a2 a1 -> r)
+  -> r -- ^
+withSome3 (Some3 sa3 sa2 sa1 x) g = g sa3 sa2 sa1 x
+{-# INLINABLE withSome3 #-}
+
+-- | Like 'withSome4I', but takes explicit 'Sing's instead of 'SingI' instances.
+withSome4
+  :: forall (f4 :: k4 -> k3 -> k2 -> k1 -> *) (r :: *)
+  .  Some4 f4
+  -> (forall a4 a3 a2 a1
+        . Sing a4 -> Sing a3 -> Sing a2 -> Sing a1 -> f4 a4 a3 a2 a1 -> r)
+  -> r -- ^
+withSome4 (Some4 sa4 sa3 sa2 sa1 x) g = g sa4 sa3 sa2 sa1 x
 {-# INLINABLE withSome4 #-}
 
 --------------------------------------------------------------------------------
