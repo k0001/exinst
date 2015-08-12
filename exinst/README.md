@@ -8,6 +8,8 @@ type-indexed types whose type-indexes have been existentialized. Currently it on
 support using [singleton](https://hackage.haskell.org/package/singletons) types as
 type-indexes, but `Typeable` support for `*`-kinded types is on the roadmap.
 
+> TODO: implement support for `*`-kinded types using `Typeable`.
+
 In short, what `exinst` currently gives you is: For any type ``t :: k -> *``,
 if `k` is a singleton type and `c (t k) :: Constraint` is satisfied, then you can
 existentialize away the `k` parameter with `Some1 t`, and have `c (Some1 t)`
