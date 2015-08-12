@@ -1,4 +1,4 @@
-   asdsadCopyright (c) 2015, Renzo Carbonara
+Copyright (c) 2015, Renzo Carbonara
 
 All rights reserved.
 
