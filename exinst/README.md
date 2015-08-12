@@ -19,8 +19,9 @@ existentialized using `Some1`, `Some2`, `Some3` and `Some4` respectively.
 
 As a motivation, let's consider the following example:
 
+> TODO: check language extensions needed for the following example.
+
 ```haskell
--- TODO: check language extensions needed for this example.
 {-# LANGUAGE GADTs #-}
 {-# LANGUAGE DataKinds #-}
 
@@ -210,7 +211,9 @@ type.
 
 That class seems to be a bit too abstract, but the instances we as users need to
 write for it are quite silly and straightforward. Even **boilerplatey** if you
-will; they could even be generated using TH (TODO: Add the TH to the library).
+will; they could even be generated using TH
+
+> TODO: Write the TH for deriving the `Dict{1,2,3,4}` implementation.
 
 Here's an example of how to provide `Show` support for `Some1 Receptacle` via
 `Dict1`:
@@ -286,9 +289,9 @@ for `Z` is available for the 'DemoteRep ('KProxy :: KProxy k)', that a `Dict1 Z
 (f :: k -> *)` or more general instance exists, and that the `Y` instance for
 `Some1 (f :: k -> *)` is satisfied too.
 
-TODO: Have something similar to `Dict1` and friends for working with
-non-singleton types, possibly integrating with 'Data.Constraint.Forall.ForallT'
-if it made sense to do so.
+> TODO: Have something similar to `Dict1` and friends for working with
+> non-singleton types, possibly integrating with 'Data.Constraint.Forall.ForallT'
+> if it made sense to do so.
 
 ## About `Some2`, `Some3` and `Some4`.
 
@@ -323,11 +326,10 @@ a “smaller” dict. That is, `dict4` reifies the type of the fourth-to-last
 type-index of `X` and then calls `dict3` to do the same for the third-to-last
 type-index of `X` and so on.
 
-TODO: See if instead of having `Some1`, `Some2`, `Some3`, `Some4`, and their
-respective `Dict1`, `Dict2`, `Dict3` and `Dict4`, etc., we can have a single
-`SomeN` and a single `DictN` working out the number of parameters using
-type-level natural numbers. 
-
+> TODO: See if instead of having `Some1`, `Some2`, `Some3`, `Some4`, and their
+> respective `Dict1`, `Dict2`, `Dict3` and `Dict4`, etc., we can have a single
+> `SomeN` and a single `DictN` working out the number of parameters using
+> type-level natural numbers. 
 
 ## Converting `Some1 (f :: k -> *)` to `f (a :: k)`.
 
