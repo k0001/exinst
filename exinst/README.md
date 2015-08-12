@@ -106,7 +106,7 @@ However, the above solution is unsatisfying for various reasons: For one, the
 `Show` instance for `ReceptacleOfAnySizeThatCanBeShown` works only as long as
 the `ReceptacleOfAnySizeThatCanBeShown` itself carries a witness that the `Show`
 constraint for `Receptacle a` is satisfied, which means that if we want to write
-yet another instance for `ReceptacleOfAnySizeThatCanBeShown` that simply forwarded
+yet another instance for `ReceptacleOfAnySizeThatCanBeShown` that simply forwards
 its implementation to the underlying `Receptacle a`, say `Eq`, then the
 `MkReceptacleOfAnySizeThatCanBeShown` constructor would need to be modified to witness
 the `Eq (Receptacle a)` instance too:
@@ -136,7 +136,7 @@ all the required constraints, which means that, if the `Receptacle a` we pass to
 a function, then the type of that function will also require that its caller
 satisfies all of the same constraints, even though it is obvious to us,
 statically, that the instances exist. We can now see how all of this becomes
-unmanegeable, or at least very **boilerplatey**, as those constraints start to
+unmanegeable, or at least very *boilerplatey*, as those constraints start to
 propagate through our code base.
 
 What we need is a way for instances such as the `Show` instance for
@@ -161,6 +161,13 @@ import Data.Singletons.TH
 Data.Singletons.TH.genSingletons [''Size]
 ```
 
+And we'll also need a `Show` instance for `Size` for reasons that will become
+apparent later:
+
+```haskell
+deriving isntance Show Size
+```
+
 Now we can construct a `Show1 Size` and `show` achieving the same results as we
 did with `ReceptacleOfAnySizeThatCanBeShown` before.
 
@@ -170,13 +177,13 @@ Note: this code won't work yet. Keep reading.
 > import Exinst.Singletons (mkSome1)
 > import Exinst.Instances.Base () 
 > :t mkSome1 Glass
-Some1 Receptacle
+:t mkSome1 Glass :: Some1 Receptacle
 > show (mkSome1 Glass)
 "Some1 Small Glass"
 ```
 
 Well, actually, the default `Show` instance for `Some1` shows a bit more of
-information, as this permits this string to be `Read` back into a `Some1
+information, as it permits this string to be `Read` back into a `Some1
 Receptacle` if needed, but displaying just `"Glass"` would be possible too, if
 desired.
 
