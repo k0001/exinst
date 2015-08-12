@@ -58,7 +58,7 @@ want to show all of them, no matter what size they are”, then we should realiz
 that what we are actually asking for is that no matter what `Size` our
 `Receptable` has, we need to be able to find a `Show` instance for that
 `Receptacle`. In Haskell, we can express just that using existential types
-hidden behind a data constructor.
+and constraints hidden behind a data constructor.
 
 ```haskell
 data ReceptacleOfAnySizeThatCanBeShown
@@ -69,7 +69,7 @@ data ReceptacleOfAnySizeThatCanBeShown
 We can construct values of type `ReceptacleOfAnySizeThatCanBeShown` only as long
 as there exist a `Show` instance for the `Receptacle a` we give to the
 `MkReceptacleOfAnySizeThatCanBeShown` constructor. In our case, both `Receptacle
-'Small` and `Receptacle 'Big` have `Show` instances, so all `Vase`, `Glass` and
+'Small` and `Receptacle 'Big` have `Show` instances, so all of `Vase`, `Glass` and
 `Barrel` can be used successfully with `MkReceptacleOfAnySizeThatCanBeShown`.
 
 Now, `ReceptacleOfAnySizeThatCanBeShown` on itself doesn't yet have a `Show`
@@ -128,20 +128,20 @@ accurate anymore, and will become less and less accurate as we continue adding
 constraints to `MkReceptacleOfAnySizeThatCanBeShown`.
 
 Additionally, everywhere we use the `MkReceptacleOfAnySizeThatCanBeShown`
-constructor we need to witness that the `Receptacle a` satisfies all the
-required constraints, which means that, if the `Receptacle a` we pass
-to `MkReceptacleOfAnySizeThatCanBeShown` is being received, say, as a parameter
-to a function, then the type of that function will also require that its
-caller satisfies all of the same constraints, even though it is obvious that
-the instances exist. We can now see how all of this becomes unmanegeable, or at
-least very **boilerplatey**, as those constraints start to propagate
-through our code base.
+constructor we need to witness that the existentialized `Receptacle a` satisfies
+all the required constraints, which means that, if the `Receptacle a` we pass to
+`MkReceptacleOfAnySizeThatCanBeShown` is being received, say, as a parameter to
+a function, then the type of that function will also require that its caller
+satisfies all of the same constraints, even though it is obvious to us,
+statically, that the instances exist. We can now see how all of this becomes
+unmanegeable, or at least very **boilerplatey**, as those constraints start to
+propagate through our code base.
 
 What we need is a way for instances such as the `Show` instance for
 `ReceptacleOfAnySizeThatCanBeShown` to find the `Show` instance for `Receptacle
 a` without it being explicitely witnessed by the
 `MkReceptacleOfAnySizeThatCanBeShown` constructor. That is exactly the problem
-that `exinst` solves.
+that `exinst` solves: allowing *exi*stentials to find their *inst*ances.
 
 
 ## Usage
@@ -210,7 +210,7 @@ witness that the constraint `c` is satisfied by `f1` applied to the singleton
 type. 
 
 That class seems to be a bit too abstract, but the instances we as users need to
-write for it are quite silly and straightforward. Even **boilerplatey** if you
+write for it are quite silly and straightforward. Even *boilerplatey* if you
 will; they could even be generated using TH
 
 > TODO: Write the TH for deriving the `Dict{1,2,3,4}` implementation.
