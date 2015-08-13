@@ -8,6 +8,9 @@
 -- | This module exports 'Hashable' instances for 'Some1', 'Some2', 'Some3' and
 -- 'Some4' from "Exinst.Singletons", provided situable 'Dict1', 'Dict2', 'Dict3'
 -- and 'Dict4' instances are available.
+--
+-- See the README file in the @exinst@ package for more general documentation:
+-- https://hackage.haskell.org/package/exinst#readme
 module Exinst.Instances.Hashable () where
 
 import           Data.Hashable (Hashable(hashWithSalt))

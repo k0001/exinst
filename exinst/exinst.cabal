@@ -1,14 +1,14 @@
 name:                exinst
-version:             0.0.1
+version:             0.1
 author:              Renzo Carbonara
 maintainer:          renzoλcarbonara.com.ar
 copyright:           Renzo Carbonara 2015
 license:             BSD3
 license-file:        LICENSE.txt
 extra-source-files:  README.md CHANGELOG.md
-category:
+category:            Data
 build-type:          Simple
-cabal-version:       >=1.22
+cabal-version:       >=1.18
 
 library
   hs-source-dirs: src/lib

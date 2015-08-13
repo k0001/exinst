@@ -7,6 +7,7 @@
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE TypeFamilies #-}
 
+-- | See the README file for documentation: https://hackage.haskell.org/package/exinst#readme
 module Exinst.Singletons
  ( -- * 1 type index
    Some1
