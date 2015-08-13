@@ -36,6 +36,7 @@ As a motivation, let's consider the following example:
 {-# LANGUAGE GADTs #-}
 {-# LANGUAGE DataKinds #-}
 {-# LANGUAGE KindSignatures #-}
+{-# LANGUAGE FlexibleInstances #-}
 
 data Size = Big | Small
 
@@ -48,7 +49,7 @@ instance Show (Receptacle 'Small) where
   show Vase  = "Vase"
   show Glass = "Glass"
 
-instance Show (Receptacle 'Barrel) where
+instance Show (Receptacle 'Big) where
   show Barrel = "Barrel"
 ```
 
@@ -73,6 +74,10 @@ that what we are actually asking for is that no matter what `Size` our
 and constraints hidden behind a data constructor.
 
 ```haskell
+--We need to add these language extensions to the ones in the previous example
+--{-# LANGUAGE ExistentialQuantification #-}
+--{-# LANGUAGE FlexibleContexts #-}
+
 data ReceptacleOfAnySizeThatCanBeShown
   = forall a. (Show (Receptacle a))
       => MkReceptacleOfAnySizeThatCanBeShown (Receptacle a)
@@ -90,7 +95,7 @@ but we can give an explicit `Show` instance that just forwards the work to the
 `Show` instance of the underlying `Receptacle a`.
 
 ```haskell
-instance Show `ReceptacleOfAnySizeThatCanBeShown` where
+instance Show ReceptacleOfAnySizeThatCanBeShown where
   show (MkReceptacleOfAnySizeThatCanBeShown a) = show a
 ```
 
@@ -175,7 +180,7 @@ And we'll also need a `Show` instance for `Size` for reasons that will become
 apparent later:
 
 ```haskell
-deriving isntance Show Size
+deriving instance Show Size
 ```
 
 Now we can construct a `Show1 Size` and `show` achieving the same results as we
