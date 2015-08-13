@@ -394,3 +394,23 @@ previous example, the type index itself is shown in this `Show` implementation,
 in the hope that it can be later recovered and reified to the type level when
 using `Read`.
 
+
+# Related work on Generic instances for GADTs
+
+One of the most appealing applications of `exinst` is to reduce the boilerplate
+associated with manually writing instances for existentialized GADTs. However,
+quite often, writing instances for said GADTs on their own is very cumbersome
+due to the lack of generic instance deriving mechanisms for GADTs. There exists,
+however, at the time of this writing, at least one library able to derive
+Generic representations for some GADTs using TH:
+[instant-generics](https://hackage.haskell.org/package/instant-generics).
+
+Combining `instant-generic` (and `instant-aeson`, `instant-hashable`,
+`instant-bytes` and `instant-deepseq`), with `exinst` (and `exinst-aeson`,
+`exinst-hashable`, `exinst-bytes` and `exinst-deepseq`), you can reduce a lot of the
+boilerplate associated with working with GADTs, in particular when it comes to the
+serialization and deserialization of them (i.e., `Show` and `Read`, or `ToJSON`
+and `FromJSON`) or puting GADTs in monomorphic containers (i.e., `[]` or `HashMap`),
+which become straightforward things to do once you are able able to both
+generically derive the instances for your GADT and then existentialize away the
+type-index while keeping the underlying instances available.
