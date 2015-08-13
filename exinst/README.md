@@ -5,10 +5,11 @@
 
 Exinst is a library providing you with tools to automatically derive instances for
 type-indexed types whose type-indexes have been existentialized. Currently it only
-support using [`singleton`](https://hackage.haskell.org/package/singletons) types as
-type-indexes, but `Typeable` support for types with kind `*` is on the roadmap.
+supports using [`singleton`](https://hackage.haskell.org/package/singletons) types as
+type-indexes.
 
-> TODO: implement support for types with kind `*` using `Typeable`.
+> TODO: implement support for non-singleton-types types with kind `*` using
+> `Typeable`.
 
 In short, what `exinst` currently gives you is: For any type ``t :: k -> *``,
 if `k` is a singleton type and `c (t k) :: Constraint` is satisfied, then you can
@@ -34,6 +35,7 @@ As a motivation, let's consider the following example:
 ```haskell
 {-# LANGUAGE GADTs #-}
 {-# LANGUAGE DataKinds #-}
+{-# LANGUAGE KindSignatures #-}
 
 data Size = Big | Small
 
@@ -237,7 +239,7 @@ Here's an example of how to provide `Show` support for `Some1 Receptacle` via
 
 ```
 instance (Show (Receptacle 'Small), Show (Receptacle 'Big)) => Dict1 Show Receptacle where
-  dict1 = \case
+  dict1 = \x -> case x of
     SSmall -> Dict
     SBig -> Dict
 ```
@@ -265,7 +267,7 @@ you often want to write:
 
 ```haskell
 instance (c (f1 'Small), c (f1 'Big)) => Dict1 c f1 where
-  dict1 = \case
+  dict1 = \x -> case x of
     SSmall -> Dict
     SBig -> Dict
 ```
@@ -276,10 +278,13 @@ level representation for that `a` and the aid of `dict1`, said instance can be
 looked up at runtime.
 
 Notice that `Some1` itself doesn't have any requirements about `Dict1`, it's the
-various instances for `Some1` who rely on `Dict1`. As of this writing, we can
-find some ready-made instances for `Some1`, `Some2`, `Some3` and `Some4` in the
-following modules, which you need to import so as to bring to scope the desired
-instances at their usage site:
+various instances for `Some1` who rely on `Dict1`. `Dict1` has nothing to do
+with `Some1`, nor with the choice of `f` nor with the choice of `c`; it is only
+related to the singleton type used as a type-index for `f`.
+
+As of this writing, we can find some ready-made instances for `Some1`, `Some2`,
+`Some3` and `Some4` in the following modules, which you need to import so as to
+bring to scope the desired instances at their usage site:
 
 * Package `exinst`, module `Exinst.Instances.Base`: Instances for various
   type-classes found in the `base` package: `Eq`, `Ord`, `Show`.
@@ -308,6 +313,57 @@ for `Z` is available for the `DemoteRep ('KProxy :: KProxy k)`, that a `Dict1 Z
 > non-singleton types, possibly integrating with 'Data.Constraint.Forall.ForallT'
 > if it made sense to do so.
 
+Here is the full code needed to have, say, the `Eq`, `Show` and `FromJSON`
+instances available for `Some1 Receptacle`:
+
+```haskell
+{-# LANGUAGE StandaloneDeriving #-}
+{-# LANGUAGE GADTs #-}
+{-# LANGUAGE DataKinds #-}
+{-# LANGUAGE KindSignatures #-}
+
+import qualified Data.Aeson as Ae
+
+-----
+
+data Size = Big | Small
+  deriving (Eq, Show)
+
+instance Ae.FromJSON Size where
+  parseJSON = Ae.withText "Size" $ \t -> case t of
+     "Big" -> return Big
+     "Small" -> return Small
+     _ -> mzero
+
+-----
+
+data Receptacle (a :: Size) :: * where
+  Vase :: Receptacle 'Small
+  Glass :: Receptacle 'Small
+  Barrel :: Receptacle 'Big
+
+deriving instance Eq Receptacle
+
+deriving instance Show Receptacle
+
+instance Ae.FromJSON (Receptacle 'Small) where
+  parseJSON = Ae.withText "Receptacle 'Small" $ \t -> case t of
+     "Vase" -> return Vase
+     "Glass" -> return Glass
+     _ -> mzero
+
+instance Ae.FromJSON (Receptacle 'Big) where
+  parseJSON = Ae.withText "Receptacle 'Small" $ \t -> case t of
+     "Barrel" -> return Vase
+     _ -> mzero
+
+```
+
+Now, provided that we import `Exinst.Instances.Base` and
+`Exinst.Instances.Aeson`, `Some1 Receptacle` will have `Eq`, `Show` and
+`FromJSON` instances.
+
+
 ## About `Some2`, `Some3` and `Some4`.
 
 Just like `Some1` hides the last singleton type index from fully applied
@@ -324,13 +380,13 @@ the four type indexes yet be able to continue using all of its instances, we can
 write something like this:
 
 ```haskell
-instance (f1 ~ X t4 t3 t2, c (f1 'T1a), c (f1 'T1b)) => Dict1 c f1 where
+instance (c (f1 'T1a), c (f1 'T1b)) => Dict1 c (f1 :: T1 -> *) where
   dict1 = \case { ST1a -> Dict; ST1b -> Dict }
-instance (f2 ~ X t4 t3, Dict1 c (f2 'T2a), Dict1 c (f2 'T2b)) => Dict2 c f2 where
+instance (Dict1 c (f2 'T2a), Dict1 c (f2 'T2b)) => Dict2 c (f2 :: T2 -> k1 -> *) where
   dict2 = \case { ST2a -> dict1; ST2b -> dict1 }
-instance (f3 ~ X t4, Dict2 c (f3 'T3a), Dict2 c (f3 'T3b)) => Dict3 c f3 where
+instance (Dict2 c (f3 'T3a), Dict2 c (f3 'T3b)) => Dict3 c (f3 :: T3 -> k2 -> k1 -> *) where
   dict3 = \case { ST3a -> dict2; ST3b -> dict2 }
-instance (f4 ~ X, Dict3 c (f4 'T4a), Dict3 c (f4 'T4b)) => Dict4 c f4 where
+instance (Dict3 c (f4 'T4a), Dict3 c (f4 'T4b)) => Dict4 c (f4 :: T4 -> k3 -> k2 -> k1 -> *) where
   dict4 = \case { ST4a -> dict3; ST4b -> dict3 }
 ```
 
@@ -339,7 +395,9 @@ position, each of them promoting a term-level representation of a singleton
 type to its type-level representation and forwarding the rest of the work to 
 a “smaller” dict. That is, `dict4` reifies the type of the fourth-to-last
 type-index of `X` and then calls `dict3` to do the same for the third-to-last
-type-index of `X` and so on.
+type-index of `X` and so on. Notice, however, how we didn't need to mention `X`
+in none of the instances above: As we said before, these instances are
+intended to work for any choice of `c`, `f4`, `f3`, `f2` and `f1`.
 
 > TODO: See if instead of having `Some1`, `Some2`, `Some3`, `Some4`, and their
 > respective `Dict1`, `Dict2`, `Dict3` and `Dict4`, etc., we can have a single

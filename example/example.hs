@@ -7,6 +7,7 @@
 {-# LANGUAGE KindSignatures #-}
 {-# LANGUAGE LambdaCase #-}
 {-# LANGUAGE MultiParamTypeClasses #-}
+{-# LANGUAGE PolyKinds#-}
 {-# LANGUAGE StandaloneDeriving #-}
 {-# LANGUAGE TemplateHaskell #-}
 {-# LANGUAGE TypeFamilies #-}
@@ -90,13 +91,13 @@ type Some4X = Some4 X
 --------------------------------------------------------------------------------
 -- Dictionaries used by instances for 'Some1', 'Some2', 'Some3' and 'Some4'.
 
-instance (f1 ~ X t4 t3 t2, c (f1 'T1a), c (f1 'T1b)) => Dict1 c f1 where
+instance (c (f1 'T1a), c (f1 'T1b)) => Dict1 c (f1 :: T1 -> *) where
   dict1 = \case { ST1a -> Dict; ST1b -> Dict }
-instance (f2 ~ X t4 t3, Dict1 c (f2 'T2a), Dict1 c (f2 'T2b)) => Dict2 c f2 where
+instance (Dict1 c (f2 'T2a), Dict1 c (f2 'T2b)) => Dict2 c (f2 :: T2 -> k1 -> *) where
   dict2 = \case { ST2a -> dict1; ST2b -> dict1 }
-instance (f3 ~ X t4, Dict2 c (f3 'T3a), Dict2 c (f3 'T3b)) => Dict3 c f3 where
+instance (Dict2 c (f3 'T3a), Dict2 c (f3 'T3b)) => Dict3 c (f3 :: T3 -> k2 -> k1 -> *) where
   dict3 = \case { ST3a -> dict2; ST3b -> dict2 }
-instance (f4 ~ X, Dict3 c (f4 'T4a), Dict3 c (f4 'T4b)) => Dict4 c f4 where
+instance (Dict3 c (f4 'T4a), Dict3 c (f4 'T4b)) => Dict4 c (f4 :: T4 -> k3 -> k2 -> k1 -> *) where
   dict4 = \case { ST4a -> dict3; ST4b -> dict3 }
 
 --------------------------------------------------------------------------------
