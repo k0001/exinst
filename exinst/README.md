@@ -26,7 +26,7 @@ using `Some1`, `Some2`, `Some3` and `Some4` respectively.
 > term-level representation must be `()`, and whenever you have the term `()`
 > you know that its type must be `()`.
 
-## Motivation 
+## Motivation
 
 As a motivation, let's consider the following example:
 
@@ -186,7 +186,7 @@ Note: this code won't work yet. Keep reading.
 
 ```
 > import Exinst.Singletons (some1)
-> import Exinst.Instances.Base () 
+> import Exinst.Instances.Base ()
 > :t some1 Glass
 :t some1 Glass :: Some1 Receptacle
 > show (some1 Glass)
@@ -206,7 +206,7 @@ that the type index for the type-indexed type we give it as argument is a
 singleton type:
 
 ```haskell
-some1 :: forall (f1 :: k1 -> *) (a1 :: k1). SingI a1 => f1 a1 -> Some1 f1 
+some1 :: forall (f1 :: k1 -> *) (a1 :: k1). SingI a1 => f1 a1 -> Some1 f1
 ```
 
 It is the application of `show` to `some1 Glass` which will fail to compile if
@@ -229,7 +229,7 @@ class Dict1 (c :: * -> Constraint) (f1 :: k1 -> *) where
 What `Dict1` says is that: for a type-indexed type `f1`, given a term-level
 representation of the singleton type that indexes said `f1`, we can obtain a
 witness that the constraint `c` is satisfied by `f1` applied to the singleton
-type. 
+type.
 
 That class seems to be a bit too abstract, but the instances we as users need to
 write for it are quite silly and straightforward. Even *boilerplatey* if you
@@ -334,7 +334,7 @@ Here is the full code needed to have, say, the `Eq`, `Show`, `ToJSON` and
 
 import qualified Data.Aeson as Ae
 import           Data.Constraint (Dict(Dict))
-import qualified Data.Singletons.TH 
+import qualified Data.Singletons.TH
 import           Exinst.Singletons (Dict1(dict1))
 
 -----
@@ -456,18 +456,27 @@ this:
 
 ```haskell
 instance (c (f1 'T1a), c (f1 'T1b)) => Dict1 c (f1 :: T1 -> *) where
-  dict1 = \case { ST1a -> Dict; ST1b -> Dict }
+  dict1 = \x -> case x of { ST1a -> Dict; ST1b -> Dict }
 instance (Dict1 c (f2 'T2a), Dict1 c (f2 'T2b)) => Dict2 c (f2 :: T2 -> k1 -> *) where
-  dict2 = \case { ST2a -> dict1; ST2b -> dict1 }
+  dict2 = \x -> case x of { ST2a -> dict1; ST2b -> dict1 }
 instance (Dict2 c (f3 'T3a), Dict2 c (f3 'T3b)) => Dict3 c (f3 :: T3 -> k2 -> k1 -> *) where
-  dict3 = \case { ST3a -> dict2; ST3b -> dict2 }
+  dict3 = \x -> case x of { ST3a -> dict2; ST3b -> dict2 }
 instance (Dict3 c (f4 'T4a), Dict3 c (f4 'T4b)) => Dict4 c (f4 :: T4 -> k3 -> k2 -> k1 -> *) where
-  dict4 = \case { ST4a -> dict3; ST4b -> dict3 }
+  dict4 = \x -> case x of { ST4a -> dict3; ST4b -> dict3 }
+```
+
+That is, assuming the following `T1`, `T2`, `T3` and `T4`:
+
+```haskell
+data T4 = T4a | T4b
+data T3 = T3a | T3b
+data T2 = T2a | T2b
+data T1 = T1a | T1b
 ```
 
 Effectively, we wrote just one instance per singleton type per type-index
 position, each of them promoting a term-level representation of a singleton
-type to its type-level representation and forwarding the rest of the work to 
+type to its type-level representation and forwarding the rest of the work to
 a “smaller” dict. That is, `dict4` reifies the type of the fourth-to-last
 type-index of `X` and then calls `dict3` to do the same for the third-to-last
 type-index of `X` and so on. Notice, however, how we didn't need to mention `X`
@@ -477,7 +486,7 @@ intended to work for any choice of `c`, `f4`, `f3`, `f2` and `f1`.
 > TODO: See if instead of having `Some1`, `Some2`, `Some3`, `Some4`, and their
 > respective `Dict1`, `Dict2`, `Dict3` and `Dict4`, etc., we can have a single
 > `SomeN` and a single `DictN` working out the number of parameters using
-> type-level natural numbers. 
+> type-level natural numbers.
 
 ## Converting `Some1 (f :: k -> *)` to `f (a :: k)`.
 
@@ -505,7 +514,7 @@ other things, the `Show` instance for `Some1`, which is defined as this:
 
 ```haskell
 -- Internal wrapper so that we don't have to write the string manipulation parts
--- in the 'Show' instance by hand. 
+-- in the 'Show' instance by hand.
 data Some1'Show r1 x = Some1 r1 x deriving (Show)
 
 instance forall (f1 :: k1 -> *)
@@ -541,13 +550,13 @@ generic representations for some GADTs using TH:
 [`instant-generics`](https://hackage.haskell.org/package/instant-generics).
 
 Combining [`instant-generics`](https://hackage.haskell.org/package/instant-generics) (and
-[`instant-aeson`](https://hackage.haskell.org/package/instant-aeson), 
-[`instant-hashable`](https://hackage.haskell.org/package/instant-hashable), 
+[`instant-aeson`](https://hackage.haskell.org/package/instant-aeson),
+[`instant-hashable`](https://hackage.haskell.org/package/instant-hashable),
 [`instant-bytes`](https://hackage.haskell.org/package/instant-bytes) and
 [`instant-deepseq`](https://hackage.haskell.org/package/instant-deepseq))
 with [`exinst-generics`](https://hackage.haskell.org/package/exinst-generics) (and
-[`exinst-aeson`](https://hackage.haskell.org/package/exinst-aeson), 
-[`exinst-hashable`](https://hackage.haskell.org/package/exinst-hashable), 
+[`exinst-aeson`](https://hackage.haskell.org/package/exinst-aeson),
+[`exinst-hashable`](https://hackage.haskell.org/package/exinst-hashable),
 [`exinst-bytes`](https://hackage.haskell.org/package/exinst-bytes) and
 [`exinst-deepseq`](https://hackage.haskell.org/package/exinst-deepseq)),
 you can reduce a lot of the boilerplate associated with working with GADTs, in
