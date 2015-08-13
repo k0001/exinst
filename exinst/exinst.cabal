@@ -19,7 +19,7 @@ library
   other-modules:
       Exinst.Singletons.Internal
   build-depends:
-      base >=4.8 && <4.9
+      base >=4.7 && <4.9
     , constraints >=0.4 && <0.5
     , singletons >=1.1 && <1.2
   ghcjs-options: -Wall -Werror

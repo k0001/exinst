@@ -16,7 +16,7 @@ library
   exposed-modules:
       Exinst.Instances.Bytes
   build-depends:
-      base >=4.8 && <4.9
+      base >=4.7 && <4.9
     , bytes >=0.15 && <0.16
     , constraints >=0.4 && <0.5
     , exinst >=0.1 && <0.2

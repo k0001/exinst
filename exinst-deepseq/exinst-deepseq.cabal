@@ -16,7 +16,7 @@ library
   exposed-modules:
       Exinst.Instances.DeepSeq
   build-depends:
-      base >=4.8 && <4.9
+      base >=4.7 && <4.9
     , deepseq >=1.4 && <1.5
     , constraints >=0.4 && <0.5
     , exinst >=0.1 && <0.2
