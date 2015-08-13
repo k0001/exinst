@@ -445,12 +445,12 @@ last three, and `Some3` hides the last four. They can be used in the same way as
 `Some1`.
 
 Like as most instances for `Some1` require `Dict1` instances to be present for
-their singleton type-index, most instances for `Some2`, `Some3` and `Some4`,
-however, will require that `Dict2`, `Dict3` or `Dict4` instances exist,
-respectively. Writing these instances is very straightforward. Supposing you
-have a type `X :: T4 -> T3 -> T2 -> T1 -> *` and want to existentialize all of
-the four type indexes yet be able to continue using all of its instances, we can
-write something like this:
+their singleton type-index, most instances for `Some2`, `Some3` and `Some4` will
+require that `Dict2`, `Dict3` or `Dict4` instances exist, respectively. Writing
+these instances is very straightforward. Supposing you have a type `X :: T4 ->
+T3 -> T2 -> T1 -> *` and want to existentialize all of the four type indexes yet
+be able to continue using all of its instances, we can write something like
+this:
 
 ```haskell
 instance (c (f1 'T1a), c (f1 'T1b)) => Dict1 c (f1 :: T1 -> *) where
