@@ -408,8 +408,8 @@ False
 > withSome1 (some1 Vase) show
 "Vase"
 > withSome1 (some1 Vase) (== Vase)    -- This will fail, use `fromSome1`
-                                         -- if you know you are expecting
-                                         -- a `Receptacle 'Small`
+                                      -- if you know you are expecting
+                                      -- a `Receptacle 'Small`
 
 > -- Trying the `Eq` instance.
 > some1 Vase == some1 Vase
