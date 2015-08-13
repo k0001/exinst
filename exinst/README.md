@@ -5,10 +5,10 @@
 
 Exinst is a library providing you with tools to automatically derive instances for
 type-indexed types whose type-indexes have been existentialized. Currently it only
-support using [singleton](https://hackage.haskell.org/package/singletons) types as
-type-indexes, but `Typeable` support for `*`-kinded types is on the roadmap.
+support using [`singleton`](https://hackage.haskell.org/package/singletons) types as
+type-indexes, but `Typeable` support for types with kind `*` is on the roadmap.
 
-> TODO: implement support for `*`-kinded types using `Typeable`.
+> TODO: implement support for types with kind `*` using `Typeable`.
 
 In short, what `exinst` currently gives you is: For any type ``t :: k -> *``,
 if `k` is a singleton type and `c (t k) :: Constraint` is satisfied, then you can
@@ -209,7 +209,7 @@ if `Show` instances for `Some1` are derived for free, they are only derived for
 `Some1 (t :: k1 -> *)` where a `Show (t a)` for a specific but statically
 unknown `a` can be found at runtime (mostly, there are other minor requirements too).
 The mechanism through which instances are found at runtime relies on `Dict` from the
-[constraints](https://hackage.haskell.org/package/constraints) library, which
+[`constraints`](https://hackage.haskell.org/package/constraints) library, which
 `exinst` wraps in a `Dict1` typeclass to be instantiated once per singleton
 type.
 
@@ -405,12 +405,20 @@ however, at the time of this writing, at least one library able to derive
 Generic representations for some GADTs using TH:
 [instant-generics](https://hackage.haskell.org/package/instant-generics).
 
-Combining `instant-generic` (and `instant-aeson`, `instant-hashable`,
-`instant-bytes` and `instant-deepseq`), with `exinst` (and `exinst-aeson`,
-`exinst-hashable`, `exinst-bytes` and `exinst-deepseq`), you can reduce a lot of the
-boilerplate associated with working with GADTs, in particular when it comes to the
-serialization and deserialization of them (i.e., `Show` and `Read`, or `ToJSON`
-and `FromJSON`) or puting GADTs in monomorphic containers (i.e., `[]` or `HashMap`),
-which become straightforward things to do once you are able able to both
-generically derive the instances for your GADT and then existentialize away the
-type-index while keeping the underlying instances available.
+Combining [`instant-generics`](https://hackage.haskell.org/package/instant-generics) (and
+[`instant-aeson`](https://hackage.haskell.org/package/instant-aeson), 
+[`instant-hashable`](https://hackage.haskell.org/package/instant-hashable), 
+[`instant-bytes`](https://hackage.haskell.org/package/instant-bytes) and
+[`instant-deepseq`](https://hackage.haskell.org/package/instant-deepseq))
+with [`exinst-generics`](https://hackage.haskell.org/package/exinst-generics) (and
+[`exinst-aeson`](https://hackage.haskell.org/package/exinst-aeson), 
+[`exinst-hashable`](https://hackage.haskell.org/package/exinst-hashable), 
+[`exinst-bytes`](https://hackage.haskell.org/package/exinst-bytes) and
+[`exinst-deepseq`](https://hackage.haskell.org/package/exinst-deepseq)),
+you can reduce a lot of the boilerplate associated with working with GADTs, in
+particular when it comes to the serialization and deserialization of them (i.e.,
+`Show` and `Read`, or `ToJSON` and `FromJSON`) or puting GADTs in monomorphic
+containers (i.e., `[]` or `HashMap`), which become straightforward things to do
+once you are able able to both generically derive the instances for your GADT
+and then existentialize away the type-index while keeping the underlying
+instances available.
