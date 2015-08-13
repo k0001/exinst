@@ -105,10 +105,10 @@ instance (Dict3 c (f4 'T4a), Dict3 c (f4 'T4b)) => Dict4 c (f4 :: T4 -> k3 -> k2
 main :: IO ()
 main = do
    let x0 = Xabba 42
-       x1 = mkSome1 x0
-       x2 = mkSome2 x0
-       x3 = mkSome3 x0
-       x4 = mkSome4 x0
+       x1 = some1 x0
+       x2 = some2 x0
+       x3 = some3 x0
+       x4 = some4 x0
    -- try the Show instances
    print $ x1
    print $ x1
@@ -123,10 +123,10 @@ main = do
    print $ hash x4
    -- try the NFData instances
    print $!! (Xbaba 321)
-   print $!! mkSome1 (Xaaab 634)
-   print $!! mkSome2 (Xabbb 111)
-   print $!! mkSome3 (Xbbaa 215)
-   print $!! mkSome4 (Xbaaa 099)
+   print $!! some1 (Xaaab 634)
+   print $!! some2 (Xabbb 111)
+   print $!! some3 (Xbbaa 215)
+   print $!! some4 (Xbaaa 099)
    -- try the Eq instances
    print $ x0 == x0
    print $ x1 == x1

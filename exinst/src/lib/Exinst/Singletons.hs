@@ -10,7 +10,7 @@
 module Exinst.Singletons
  ( -- * 1 type index
    Some1
- , mkSome1
+ , some1
  , withSome1
  , withSome1I
  , fromSome1
@@ -18,7 +18,7 @@ module Exinst.Singletons
 
    -- * 2 type indexes
  , Some2
- , mkSome2
+ , some2
  , withSome2
  , withSome2I
  , fromSome2
@@ -26,7 +26,7 @@ module Exinst.Singletons
 
    -- * 3 type indexes
  , Some3
- , mkSome3
+ , some3
  , withSome3
  , withSome3I
  , fromSome3
@@ -34,7 +34,7 @@ module Exinst.Singletons
 
    -- * 4 type indexes
  , Some4
- , mkSome4
+ , some4
  , withSome4
  , withSome4I
  , fromSome4
@@ -51,38 +51,38 @@ import Exinst.Singletons.Internal
 
 --------------------------------------------------------------------------------
 
-mkSome1
+some1
   :: forall (f1 :: k1 -> *) a1
   .  SingI a1
   => f1 a1
   -> Some1 f1 -- ^
-mkSome1 = Some1 (sing :: Sing a1)
-{-# INLINE mkSome1 #-}
+some1 = Some1 (sing :: Sing a1)
+{-# INLINE some1 #-}
 
-mkSome2
+some2
   :: forall (f2 :: k2 -> k1 -> *) a2 a1
   .  (SingI a2, SingI a1)
   => f2 a2 a1
   -> Some2 f2 -- ^
-mkSome2 = Some2 (sing :: Sing a2) (sing :: Sing a1)
-{-# INLINE mkSome2 #-}
+some2 = Some2 (sing :: Sing a2) (sing :: Sing a1)
+{-# INLINE some2 #-}
 
-mkSome3
+some3
   :: forall (f3 :: k3 -> k2 -> k1 -> *) a3 a2 a1
   .  (SingI a3, SingI a2, SingI a1)
   => f3 a3 a2 a1
   -> Some3 f3 -- ^
-mkSome3 = Some3 (sing :: Sing a3) (sing :: Sing a2) (sing :: Sing a1)
-{-# INLINE mkSome3 #-}
+some3 = Some3 (sing :: Sing a3) (sing :: Sing a2) (sing :: Sing a1)
+{-# INLINE some3 #-}
 
-mkSome4
+some4
   :: forall (f4 :: k4 -> k3 -> k2 -> k1 -> *) a4 a3 a2 a1
   .  (SingI a4, SingI a3, SingI a2, SingI a1)
   => f4 a4 a3 a2 a1
   -> Some4 f4 -- ^
-mkSome4 = Some4 (sing :: Sing a4) (sing :: Sing a3)
+some4 = Some4 (sing :: Sing a4) (sing :: Sing a3)
                 (sing :: Sing a2) (sing :: Sing a1)
-{-# INLINE mkSome4 #-}
+{-# INLINE some4 #-}
 
 --------------------------------------------------------------------------------
 

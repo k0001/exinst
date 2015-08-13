@@ -185,11 +185,11 @@ did with `ReceptacleOfAnySizeThatCanBeShown` before.
 Note: this code won't work yet. Keep reading.
 
 ```
-> import Exinst.Singletons (mkSome1)
+> import Exinst.Singletons (some1)
 > import Exinst.Instances.Base () 
-> :t mkSome1 Glass
-:t mkSome1 Glass :: Some1 Receptacle
-> show (mkSome1 Glass)
+> :t some1 Glass
+:t some1 Glass :: Some1 Receptacle
+> show (some1 Glass)
 "Some1 Small Glass"
 ```
 
@@ -198,16 +198,16 @@ information, as it permits this string to be `Read` back into a `Some1
 Receptacle` if needed, but displaying just `"Glass"` would be possible too, if
 desired.
 
-The important thing to notice in the example above is that `mkSome1` does not
+The important thing to notice in the example above is that `some1` does not
 require us to satisfy a `Show (Receptacle 'Small)` constraint, it just requires
 that the type index for the type-indexed type we give it as argument is a
 singleton type:
 
 ```haskell
-mkSome1 :: forall (f1 :: k1 -> *) (a1 :: k1). SingI a1 => f1 a1 -> Some1 f1 
+some1 :: forall (f1 :: k1 -> *) (a1 :: k1). SingI a1 => f1 a1 -> Some1 f1 
 ```
 
-It is the application of `show` to `mkSome1 Glass` which will fail to compile if
+It is the application of `show` to `some1 Glass` which will fail to compile if
 there isn't a `Show` instance for `Receptacle 'Small`, complaining that a `Show`
 instance for `Some1 Receptable` can't be found. The reason for this is that even
 if `Show` instances for `Some1` are derived for free, they are only derived for
@@ -397,42 +397,42 @@ and `FromJSON` instances:
 > import Exinst.Instances.Aeson ()
 
 > -- Trying `fromSome1`.
-> fromSome1 (mkSome1 Vase) == Just Vase
+> fromSome1 (some1 Vase) == Just Vase
 True
-> fromSome1 (mkSome1 Vase) == Just Glass
+> fromSome1 (some1 Vase) == Just Glass
 False
-> fromSome1 (mkSome1 Vase) == Just Barrel
+> fromSome1 (some1 Vase) == Just Barrel
 False
 
 > -- Trying `withSome1I`
-> withSome1I (mkSome1 Vase) show
+> withSome1I (some1 Vase) show
 "Vase"
-> withSome1I (mkSome1 Vase) (== Vase)    -- This will fail, use `fromSome1`
+> withSome1I (some1 Vase) (== Vase)    -- This will fail, use `fromSome1`
                                          -- if you know you are expecting
                                          -- a `Receptacle 'Small`
 
 > -- Trying the `Eq` instance.
-> mkSome1 Vase == mkSome1 Vase
+> some1 Vase == some1 Vase
 True
-> mkSome1 Vase == mkSome1 Glass
+> some1 Vase == some1 Glass
 False
-> mkSome1 Vase == mkSome1 Barrel
+> some1 Vase == some1 Barrel
 False
 
 > -- Trying the `Show` instance.
-> show (mkSome1 Vase)
+> show (some1 Vase)
 "Some1 Small Vase"
-> map show [mkSome1 Vase, mkSome1 Glass, mkSome1 Barrel]
+> map show [some1 Vase, some1 Glass, some1 Barrel]
 ["Some1 Small Vase","Some1 Small Glass","Some1 Big Barrel"]
 
 > -- Trying the `ToJSON` and `FromJSON` instances.
-> Ae.encode (mkSome1 Vase)
+> Ae.encode (some1 Vase)
 "[\"Small\",\"Vase\"]"  -- Just like in Show, the ToJSON adds some information
                         -- about the Size type-index. That's why we require
                         -- Size to provide a ToJSON instance too.
-> Ae.decode (Ae.encode (mkSome1 Vase)) == Just (mkSome1 Vase)
+> Ae.decode (Ae.encode (some1 Vase)) == Just (some1 Vase)
 True
-> Ae.decode (Ae.encode (mkSome1 Vase)) == Just (mkSome1 Glass)
+> Ae.decode (Ae.encode (some1 Vase)) == Just (some1 Glass)
 False
 ```
 

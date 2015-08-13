@@ -89,7 +89,7 @@ instance forall (f1 :: k1 -> *)
          case dict1 sa1 :: Dict (Ae.FromJSON (f1 a1)) of
             Dict -> do
                x :: f1 a1 <- Ae.parseJSON v'
-               return (mkSome1 x)
+               return (some1 x)
 
 instance forall (f2 :: k2 -> k1 -> *)
   . ( SingKind ('KProxy :: KProxy k2)
@@ -107,7 +107,7 @@ instance forall (f2 :: k2 -> k1 -> *)
             case dict2 sa2 sa1 :: Dict (Ae.FromJSON (f2 a2 a1)) of
                Dict -> do
                   x :: f2 a2 a1 <- Ae.parseJSON v'
-                  return (mkSome2 x)
+                  return (some2 x)
 
 instance forall (f3 :: k3 -> k2 -> k1 -> *)
   . ( SingKind ('KProxy :: KProxy k3)
@@ -128,7 +128,7 @@ instance forall (f3 :: k3 -> k2 -> k1 -> *)
                case dict3 sa3 sa2 sa1 :: Dict (Ae.FromJSON (f3 a3 a2 a1)) of
                   Dict -> do
                      x :: f3 a3 a2 a1 <- Ae.parseJSON v'
-                     return (mkSome3 x)
+                     return (some3 x)
 
 instance forall (f4 :: k4 -> k3 -> k2 -> k1 -> *)
   . ( SingKind ('KProxy :: KProxy k4)
@@ -152,4 +152,4 @@ instance forall (f4 :: k4 -> k3 -> k2 -> k1 -> *)
                   case dict4 sa4 sa3 sa2 sa1 :: Dict (Ae.FromJSON (f4 a4 a3 a2 a1)) of
                      Dict -> do
                         x :: f4 a4 a3 a2 a1 <- Ae.parseJSON v'
-                        return (mkSome4 x)
+                        return (some4 x)

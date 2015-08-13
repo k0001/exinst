@@ -35,7 +35,7 @@ instance forall (f1 :: k1 -> *)
       withSomeSing rsa1 $ \(sa1 :: Sing (a1 :: k1)) -> withSingI sa1 $
          case dict1 sa1 :: Dict (By.Serial (f1 a1)) of
             Dict -> do x :: f1 a1 <- By.deserialize
-                       return (mkSome1 x)
+                       return (some1 x)
 
 instance forall (f2 :: k2 -> k1 -> *)
   . ( SingKind ('KProxy :: KProxy k2)
@@ -57,7 +57,7 @@ instance forall (f2 :: k2 -> k1 -> *)
          withSomeSing rsa1 $ \(sa1 :: Sing (a1 :: k1)) -> withSingI sa1 $
             case dict2 sa2 sa1 :: Dict (By.Serial (f2 a2 a1)) of
                Dict -> do x :: f2 a2 a1 <- By.deserialize
-                          return (mkSome2 x)
+                          return (some2 x)
 
 instance forall (f3 :: k3 -> k2 -> k1 -> *)
   . ( SingKind ('KProxy :: KProxy k3)
@@ -82,7 +82,7 @@ instance forall (f3 :: k3 -> k2 -> k1 -> *)
             withSomeSing rsa1 $ \(sa1 :: Sing (a1 :: k1)) -> withSingI sa1 $
                case dict3 sa3 sa2 sa1 :: Dict (By.Serial (f3 a3 a2 a1)) of
                   Dict -> do x :: f3 a3 a2 a1 <- By.deserialize
-                             return (mkSome3 x)
+                             return (some3 x)
 
 instance forall (f4 :: k4 -> k3 -> k2 -> k1 -> *)
   . ( SingKind ('KProxy :: KProxy k4)
@@ -111,4 +111,4 @@ instance forall (f4 :: k4 -> k3 -> k2 -> k1 -> *)
                withSomeSing rsa1 $ \(sa1 :: Sing (a1 :: k1)) -> withSingI sa1 $
                   case dict4 sa4 sa3 sa2 sa1 :: Dict (By.Serial (f4 a4 a3 a2 a1)) of
                      Dict -> do x :: f4 a4 a3 a2 a1 <- By.deserialize
-                                return (mkSome4 x)
+                                return (some4 x)
