@@ -404,10 +404,10 @@ False
 > fromSome1 (some1 Vase) == Just Barrel
 False
 
-> -- Trying `withSome1I`
-> withSome1I (some1 Vase) show
+> -- Trying `withSome1`
+> withSome1 (some1 Vase) show
 "Vase"
-> withSome1I (some1 Vase) (== Vase)    -- This will fail, use `fromSome1`
+> withSome1 (some1 Vase) (== Vase)    -- This will fail, use `fromSome1`
                                          -- if you know you are expecting
                                          -- a `Receptacle 'Small`
 
@@ -487,7 +487,7 @@ Using `fromSome1` requires that the singleton type-index implements
 means of `Data.Singletons.TH.singInstance`.
 
 If you don't know, statically, the type of `f (a :: k)`, then you can use
-`withSome1Sing` or `withSome1I` to work with `f (a :: k)` as long as `a` never
+`withSome1Sing` or `withSome1` to work with `f (a :: k)` as long as `a` never
 leaves their scope (don't worry, the compiler will yell at you if you try to do
 that).
 

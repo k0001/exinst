@@ -12,7 +12,7 @@ module Exinst.Singletons
    Some1
  , some1
  , withSome1Sing
- , withSome1I
+ , withSome1
  , fromSome1
  , Dict1(dict1)
 
@@ -20,7 +20,7 @@ module Exinst.Singletons
  , Some2
  , some2
  , withSome2Sing
- , withSome2I
+ , withSome2
  , fromSome2
  , Dict2(dict2)
 
@@ -28,7 +28,7 @@ module Exinst.Singletons
  , Some3
  , some3
  , withSome3Sing
- , withSome3I
+ , withSome3
  , fromSome3
  , Dict3(dict3)
 
@@ -36,7 +36,7 @@ module Exinst.Singletons
  , Some4
  , some4
  , withSome4Sing
- , withSome4I
+ , withSome4
  , fromSome4
  , Dict4(dict4)
  ) where
@@ -86,45 +86,45 @@ some4 = Some4 (sing :: Sing a4) (sing :: Sing a3)
 
 --------------------------------------------------------------------------------
 
-withSome1I
+withSome1
   :: forall (f1 :: k1 -> *) (r :: *)
    . Some1 f1
   -> (forall a1. SingI a1 => f1 a1 -> r)
   -> r -- ^
-withSome1I (Some1 sa1 x) g = withSingI sa1 (g x)
-{-# INLINABLE withSome1I #-}
+withSome1 (Some1 sa1 x) g = withSingI sa1 (g x)
+{-# INLINABLE withSome1 #-}
 
-withSome2I
+withSome2
   :: forall (f2 :: k2 -> k1 -> *) (r :: *)
   .  Some2 f2
   -> (forall a2 a1. (SingI a2, SingI a1) => f2 a2 a1 -> r)
   -> r -- ^
-withSome2I (Some2 sa2 sa1 x) g = withSingI sa2 (withSingI sa1 (g x))
-{-# INLINABLE withSome2I #-}
+withSome2 (Some2 sa2 sa1 x) g = withSingI sa2 (withSingI sa1 (g x))
+{-# INLINABLE withSome2 #-}
 
-withSome3I
+withSome3
   :: forall (f3 :: k3 -> k2 -> k1 -> *) (r :: *)
   .  Some3 f3
   -> (forall a3 a2 a1. (SingI a3, SingI a2, SingI a1) => f3 a3 a2 a1 -> r)
   -> r -- ^
-withSome3I (Some3 sa3 sa2 sa1 x) g =
+withSome3 (Some3 sa3 sa2 sa1 x) g =
   withSingI sa3 (withSingI sa2 (withSingI sa1 (g x)))
-{-# INLINABLE withSome3I #-}
+{-# INLINABLE withSome3 #-}
 
-withSome4I
+withSome4
   :: forall (f4 :: k4 -> k3 -> k2 -> k1 -> *) (r :: *)
   .  Some4 f4
   -> (forall a4 a3 a2 a1
         .  (SingI a4, SingI a3, SingI a2, SingI a1)
         => f4 a4 a3 a2 a1 -> r)
   -> r -- ^
-withSome4I (Some4 sa4 sa3 sa2 sa1 x) g =
+withSome4 (Some4 sa4 sa3 sa2 sa1 x) g =
   withSingI sa4 (withSingI sa3 (withSingI sa2 (withSingI sa1 (g x))))
-{-# INLINABLE withSome4I #-}
+{-# INLINABLE withSome4 #-}
 
 --------------------------------------------------------------------------------
 
--- | Like 'withSome1I', but takes an explicit 'Sing' instead of a 'SingI' instance.
+-- | Like 'withSome1', but takes an explicit 'Sing' instead of a 'SingI' instance.
 withSome1Sing
   :: forall (f1 :: k1 -> *) (r :: *)
    . Some1 f1
@@ -133,7 +133,7 @@ withSome1Sing
 withSome1Sing (Some1 sa1 x) g = g sa1 x
 {-# INLINABLE withSome1Sing #-}
 
--- | Like 'withSome2I', but takes explicit 'Sing's instead of 'SingI' instances.
+-- | Like 'withSome2', but takes explicit 'Sing's instead of 'SingI' instances.
 withSome2Sing
   :: forall (f2 :: k2 -> k1 -> *) (r :: *)
   .  Some2 f2
@@ -142,7 +142,7 @@ withSome2Sing
 withSome2Sing (Some2 sa2 sa1 x) g = g sa2 sa1 x
 {-# INLINABLE withSome2Sing #-}
 
--- | Like 'withSome3I', but takes explicit 'Sing's instead of 'SingI' instances.
+-- | Like 'withSome3', but takes explicit 'Sing's instead of 'SingI' instances.
 withSome3Sing
   :: forall (f3 :: k3 -> k2 -> k1 -> *) (r :: *)
   .  Some3 f3
@@ -151,7 +151,7 @@ withSome3Sing
 withSome3Sing (Some3 sa3 sa2 sa1 x) g = g sa3 sa2 sa1 x
 {-# INLINABLE withSome3Sing #-}
 
--- | Like 'withSome4I', but takes explicit 'Sing's instead of 'SingI' instances.
+-- | Like 'withSome4', but takes explicit 'Sing's instead of 'SingI' instances.
 withSome4Sing
   :: forall (f4 :: k4 -> k3 -> k2 -> k1 -> *) (r :: *)
   .  Some4 f4
