@@ -37,6 +37,7 @@ As a motivation, let's consider the following example:
 {-# LANGUAGE DataKinds #-}
 {-# LANGUAGE KindSignatures #-}
 {-# LANGUAGE FlexibleInstances #-}
+{-# LANGUAGE StandaloneDeriving #-}
 
 data Size = Big | Small
 
@@ -45,12 +46,7 @@ data Receptacle (a :: Size) :: * where
   Glass :: Receptacle 'Small
   Barrel :: Receptacle 'Big
 
-instance Show (Receptacle 'Small) where
-  show Vase  = "Vase"
-  show Glass = "Glass"
-
-instance Show (Receptacle 'Big) where
-  show Barrel = "Barrel"
+deriving instance Show (Receptacle a)
 ```
 
 `Receptacle` can describe three types of receptacles (`Vase`, `Glass` and
@@ -318,27 +314,51 @@ for `Z` is available for the `DemoteRep ('KProxy :: KProxy k)`, that a `Dict1 Z
 > non-singleton types, possibly integrating with 'Data.Constraint.Forall.ForallT'
 > if it made sense to do so.
 
-Here is the full code needed to have, say, the `Eq`, `Show` and `FromJSON`
-instances available for `Some1 Receptacle`:
+Here is the full code needed to have, say, the `Eq`, `Show`, `ToJSON` and
+`FromJSON` instances available for `Some1 Receptacle`:
 
 ```haskell
-{-# LANGUAGE StandaloneDeriving #-}
-{-# LANGUAGE GADTs #-}
+{-# LANGUAGE ConstraintKinds #-}
 {-# LANGUAGE DataKinds #-}
+{-# LANGUAGE FlexibleInstances #-}
+{-# LANGUAGE GADTs #-}
 {-# LANGUAGE KindSignatures #-}
+{-# LANGUAGE MultiParamTypeClasses #-}
+{-# LANGUAGE OverloadedStrings #-}
+{-# LANGUAGE StandaloneDeriving #-}
+{-# LANGUAGE TemplateHaskell #-}
+{-# LANGUAGE TypeFamilies #-}
+{-# LANGUAGE UndecidableInstances #-}
 
 import qualified Data.Aeson as Ae
+import           Data.Constraint (Dict(Dict))
+import qualified Data.Singletons.TH 
+import           Exinst.Singletons (Dict1(dict1))
 
 -----
 
 data Size = Big | Small
   deriving (Eq, Show)
 
+Data.Singletons.TH.genSingletons [''Size]
+Data.Singletons.TH.singDecideInstances [''Size]
+
+instance Ae.ToJSON Size where
+  toJSON = \x -> case x of
+    Small -> Ae.toJSON ("Small" :: String)
+    Big -> Ae.toJSON ("Big" :: String)
+
 instance Ae.FromJSON Size where
   parseJSON = Ae.withText "Size" $ \t -> case t of
      "Big" -> return Big
      "Small" -> return Small
-     _ -> mzero
+     _ -> fail "Unknown"
+
+
+instance (c (f 'Big), c (f 'Small)) => Dict1 c f where
+  dict1 = \x -> case x of
+    SBig -> Dict
+    SSmall -> Dict
 
 -----
 
@@ -347,26 +367,74 @@ data Receptacle (a :: Size) :: * where
   Glass :: Receptacle 'Small
   Barrel :: Receptacle 'Big
 
-deriving instance Eq Receptacle
+deriving instance Eq (Receptacle a)
+deriving instance Show (Receptacle a)
 
-deriving instance Show Receptacle
+instance Ae.ToJSON (Receptacle a) where
+  toJSON = \x -> case x of
+    Vase -> Ae.toJSON ("Vase" :: String)
+    Glass -> Ae.toJSON ("Glass" :: String)
+    Barrel -> Ae.toJSON ("Barrel" :: String)
 
 instance Ae.FromJSON (Receptacle 'Small) where
   parseJSON = Ae.withText "Receptacle 'Small" $ \t -> case t of
      "Vase" -> return Vase
      "Glass" -> return Glass
-     _ -> mzero
+     _ -> fail "Unknown"
 
 instance Ae.FromJSON (Receptacle 'Big) where
-  parseJSON = Ae.withText "Receptacle 'Small" $ \t -> case t of
-     "Barrel" -> return Vase
-     _ -> mzero
-
+  parseJSON = Ae.withText "Receptacle 'Big" $ \t -> case t of
+     "Barrel" -> return Barrel
+     _ -> fail "Unknown"
 ```
 
 Now, provided that we import `Exinst.Instances.Base` and
-`Exinst.Instances.Aeson`, `Some1 Receptacle` will have `Eq`, `Show` and
-`FromJSON` instances.
+`Exinst.Instances.Aeson`, `Some1 Receptacle` will have `Eq`, `Show`, `FromJSON`
+and `FromJSON` instances:
+
+```
+> import Exinst.Instances.Base ()
+> import Exinst.Instances.Aeson ()
+
+> -- Trying `fromSome1`.
+> fromSome1 (mkSome1 Vase) == Just Vase
+True
+> fromSome1 (mkSome1 Vase) == Just Glass
+False
+> fromSome1 (mkSome1 Vase) == Just Barrel
+False
+
+> -- Trying `withSome1I`
+> withSome1I (mkSome1 Vase) show
+"Vase"
+> withSome1I (mkSome1 Vase) (== Vase)    -- This will fail, use `fromSome1`
+                                         -- if you know you are expecting
+                                         -- a `Receptacle 'Small`
+
+> -- Trying the `Eq` instance.
+> mkSome1 Vase == mkSome1 Vase
+True
+> mkSome1 Vase == mkSome1 Glass
+False
+> mkSome1 Vase == mkSome1 Barrel
+False
+
+> -- Trying the `Show` instance.
+> show (mkSome1 Vase)
+"Some1 Small Vase"
+> map show [mkSome1 Vase, mkSome1 Glass, mkSome1 Barrel]
+["Some1 Small Vase","Some1 Small Glass","Some1 Big Barrel"]
+
+> -- Trying the `ToJSON` and `FromJSON` instances.
+> Ae.encode (mkSome1 Vase)
+"[\"Small\",\"Vase\"]"  -- Just like in Show, the ToJSON adds some information
+                        -- about the Size type-index. That's why we require
+                        -- Size to provide a ToJSON instance too.
+> Ae.decode (Ae.encode (mkSome1 Vase)) == Just (mkSome1 Vase)
+True
+> Ae.decode (Ae.encode (mkSome1 Vase)) == Just (mkSome1 Glass)
+False
+```
 
 
 ## About `Some2`, `Some3` and `Some4`.
