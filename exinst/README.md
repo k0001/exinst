@@ -399,11 +399,11 @@ using `Read`.
 
 One of the most appealing applications of `exinst` is to reduce the boilerplate
 associated with manually writing instances for existentialized GADTs. However,
-quite often, writing instances for said GADTs on their own is very cumbersome
+quite often, writing instances for said GADTs on its own is very cumbersome
 due to the lack of generic instance deriving mechanisms for GADTs. There exists,
 however, at the time of this writing, at least one library able to derive
-Generic representations for some GADTs using TH:
-[instant-generics](https://hackage.haskell.org/package/instant-generics).
+generic representations for some GADTs using TH:
+[`instant-generics`](https://hackage.haskell.org/package/instant-generics).
 
 Combining [`instant-generics`](https://hackage.haskell.org/package/instant-generics) (and
 [`instant-aeson`](https://hackage.haskell.org/package/instant-aeson), 
