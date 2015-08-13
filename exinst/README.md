@@ -323,7 +323,7 @@ have a type `X :: T4 -> T3 -> T2 -> T1 -> *` and want to existentialize all of
 the four type indexes yet be able to continue using all of its instances, we can
 write something like this:
 
-```
+```haskell
 instance (f1 ~ X t4 t3 t2, c (f1 'T1a), c (f1 'T1b)) => Dict1 c f1 where
   dict1 = \case { ST1a -> Dict; ST1b -> Dict }
 instance (f2 ~ X t4 t3, Dict1 c (f2 'T2a), Dict1 c (f2 'T2b)) => Dict2 c f2 where
