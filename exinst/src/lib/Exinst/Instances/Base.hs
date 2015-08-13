@@ -34,7 +34,7 @@ instance forall (f1 :: k1 -> *)
     ) => Show (Some1 f1)
   where
     {-# INLINABLE showsPrec #-}
-    showsPrec n = \some1 -> withSome1 some1 $ \sa1 (x :: f1 a1) ->
+    showsPrec n = \some1 -> withSome1Sing some1 $ \sa1 (x :: f1 a1) ->
        case dict1 sa1 :: Dict (Show (f1 a1)) of
           Dict -> showsPrec n (Some1 (fromSing sa1) x)
 
@@ -47,7 +47,7 @@ instance forall (f2 :: k2 -> k1 -> *)
     ) => Show (Some2 f2)
   where
     {-# INLINABLE showsPrec #-}
-    showsPrec n = \some2 -> withSome2 some2 $ \sa2 sa1 (x :: f2 a2 a1) ->
+    showsPrec n = \some2 -> withSome2Sing some2 $ \sa2 sa1 (x :: f2 a2 a1) ->
        case dict2 sa2 sa1 :: Dict (Show (f2 a2 a1)) of
           Dict -> showsPrec n (Some2 (fromSing sa2) (fromSing sa1) x)
 
@@ -62,7 +62,7 @@ instance forall (f3 :: k3 -> k2 -> k1 -> *)
     ) => Show (Some3 f3)
   where
     {-# INLINABLE showsPrec #-}
-    showsPrec n = \some3 -> withSome3 some3 $ \sa3 sa2 sa1 (x :: f3 a3 a2 a1) ->
+    showsPrec n = \some3 -> withSome3Sing some3 $ \sa3 sa2 sa1 (x :: f3 a3 a2 a1) ->
        case dict3 sa3 sa2 sa1 :: Dict (Show (f3 a3 a2 a1)) of
           Dict -> showsPrec n (Some3 (fromSing sa3) (fromSing sa2) (fromSing sa1) x)
 
@@ -79,7 +79,7 @@ instance forall (f4 :: k4 -> k3 -> k2 -> k1 -> *)
     ) => Show (Some4 f4)
   where
     {-# INLINABLE showsPrec #-}
-    showsPrec n = \some4 -> withSome4 some4 $ \sa4 sa3 sa2 sa1 (x :: f4 a4 a3 a2 a1) ->
+    showsPrec n = \some4 -> withSome4Sing some4 $ \sa4 sa3 sa2 sa1 (x :: f4 a4 a3 a2 a1) ->
        case dict4 sa4 sa3 sa2 sa1 :: Dict (Show (f4 a4 a3 a2 a1)) of
           Dict -> showsPrec n (Some4 (fromSing sa4) (fromSing sa3)
                                      (fromSing sa2) (fromSing sa1) x)
@@ -98,8 +98,8 @@ instance forall (f1 :: k1 -> *)
   where
     {-# INLINABLE (==) #-}
     (==) = \some1x some1y -> 
-       withSome1 some1x $ \sa1x (x :: f1 a1x) -> 
-          withSome1 some1y $ \sa1y (y :: f1 a1y) -> 
+       withSome1Sing some1x $ \sa1x (x :: f1 a1x) -> 
+          withSome1Sing some1y $ \sa1y (y :: f1 a1y) -> 
              maybe False id $ do
                 Refl <- testEquality sa1x sa1y
                 case dict1 sa1x :: Dict (Eq (f1 a1x)) of
@@ -115,8 +115,8 @@ instance forall (f2 :: k2 -> k1 -> *)
   where
     {-# INLINABLE (==) #-}
     (==) = \some2x some2y -> 
-       withSome2 some2x $ \sa2x sa1x (x :: f2 a2x a1x) -> 
-          withSome2 some2y $ \sa2y sa1y (y :: f2 a2y a1y) -> 
+       withSome2Sing some2x $ \sa2x sa1x (x :: f2 a2x a1x) -> 
+          withSome2Sing some2y $ \sa2y sa1y (y :: f2 a2y a1y) -> 
              maybe False id $ do
                 Refl <- testEquality sa2x sa2y
                 Refl <- testEquality sa1x sa1y
@@ -135,8 +135,8 @@ instance forall (f3 :: k3 -> k2 -> k1 -> *)
   where
     {-# INLINABLE (==) #-}
     (==) = \some3x some3y -> 
-       withSome3 some3x $ \sa3x sa2x sa1x (x :: f3 a3x a2x a1x) -> 
-          withSome3 some3y $ \sa3y sa2y sa1y (y :: f3 a3y a2y a1y) -> 
+       withSome3Sing some3x $ \sa3x sa2x sa1x (x :: f3 a3x a2x a1x) -> 
+          withSome3Sing some3y $ \sa3y sa2y sa1y (y :: f3 a3y a2y a1y) -> 
              maybe False id $ do
                 Refl <- testEquality sa3x sa3y
                 Refl <- testEquality sa2x sa2y
@@ -158,8 +158,8 @@ instance forall (f4 :: k4 -> k3 -> k2 -> k1 -> *)
   where
     {-# INLINABLE (==) #-}
     (==) = \some4x some4y -> 
-       withSome4 some4x $ \sa4x sa3x sa2x sa1x (x :: f4 a4x a3x a2x a1x) -> 
-          withSome4 some4y $ \sa4y sa3y sa2y sa1y (y :: f4 a4y a3y a2y a1y) -> 
+       withSome4Sing some4x $ \sa4x sa3x sa2x sa1x (x :: f4 a4x a3x a2x a1x) -> 
+          withSome4Sing some4y $ \sa4y sa3y sa2y sa1y (y :: f4 a4y a3y a2y a1y) -> 
              maybe False id $ do
                 Refl <- testEquality sa4x sa4y
                 Refl <- testEquality sa3x sa3y
@@ -181,8 +181,8 @@ instance forall (f1 :: k1 -> *)
   where
     {-# INLINABLE compare #-}
     compare = \some1x some1y -> 
-       withSome1 some1x $ \sa1x (x :: f1 a1x) -> 
-          withSome1 some1y $ \sa1y (y :: f1 a1y) -> 
+       withSome1Sing some1x $ \sa1x (x :: f1 a1x) -> 
+          withSome1Sing some1y $ \sa1y (y :: f1 a1y) -> 
              let termCompare = compare (fromSing sa1x) (fromSing sa1y)
              in maybe termCompare id $ do
                   Refl <- testEquality sa1x sa1y
@@ -202,8 +202,8 @@ instance forall (f2 :: k2 -> k1 -> *)
   where
     {-# INLINABLE compare #-}
     compare = \some2x some2y -> 
-       withSome2 some2x $ \sa2x sa1x (x :: f2 a2x a1x) -> 
-          withSome2 some2y $ \sa2y sa1y (y :: f2 a2y a1y) -> 
+       withSome2Sing some2x $ \sa2x sa1x (x :: f2 a2x a1x) -> 
+          withSome2Sing some2y $ \sa2y sa1y (y :: f2 a2y a1y) -> 
              let termCompare = compare (fromSing sa2x, fromSing sa1x)
                                        (fromSing sa2y, fromSing sa1y)
              in maybe termCompare id $ do
@@ -228,8 +228,8 @@ instance forall (f3 :: k3 -> k2 -> k1 -> *)
   where
     {-# INLINABLE compare #-}
     compare = \some3x some3y -> 
-       withSome3 some3x $ \sa3x sa2x sa1x (x :: f3 a3x a2x a1x) -> 
-          withSome3 some3y $ \sa3y sa2y sa1y (y :: f3 a3y a2y a1y) -> 
+       withSome3Sing some3x $ \sa3x sa2x sa1x (x :: f3 a3x a2x a1x) -> 
+          withSome3Sing some3y $ \sa3y sa2y sa1y (y :: f3 a3y a2y a1y) -> 
              let termCompare = compare
                    (fromSing sa3x, fromSing sa2x, fromSing sa1x)
                    (fromSing sa3y, fromSing sa2y, fromSing sa1y)
@@ -259,8 +259,8 @@ instance forall (f4 :: k4 -> k3 -> k2 -> k1 -> *)
   where
     {-# INLINABLE compare #-}
     compare = \some4x some4y -> 
-       withSome4 some4x $ \sa4x sa3x sa2x sa1x (x :: f4 a4x a3x a2x a1x) -> 
-          withSome4 some4y $ \sa4y sa3y sa2y sa1y (y :: f4 a4y a3y a2y a1y) -> 
+       withSome4Sing some4x $ \sa4x sa3x sa2x sa1x (x :: f4 a4x a3x a2x a1x) -> 
+          withSome4Sing some4y $ \sa4y sa3y sa2y sa1y (y :: f4 a4y a3y a2y a1y) -> 
              let termCompare = compare
                    (fromSing sa4x, fromSing sa3x, fromSing sa2x, fromSing sa1x)
                    (fromSing sa4y, fromSing sa3y, fromSing sa2y, fromSing sa1y)

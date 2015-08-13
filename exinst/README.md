@@ -487,7 +487,7 @@ Using `fromSome1` requires that the singleton type-index implements
 means of `Data.Singletons.TH.singInstance`.
 
 If you don't know, statically, the type of `f (a :: k)`, then you can use
-`withSome1` or `withSome1I` to work with `f (a :: k)` as long as `a` never
+`withSome1Sing` or `withSome1I` to work with `f (a :: k)` as long as `a` never
 leaves their scope (don't worry, the compiler will yell at you if you try to do
 that).
 
@@ -512,7 +512,7 @@ instance forall (f1 :: k1 -> *)
     , Dict1 Show f1
     ) => Show (Some1 f1)
   where
-    showsPrec n = \some1 -> withSome1 some1 $ \sa1 (x :: f1 a1) ->
+    showsPrec n = \some1 -> withSome1Sing some1 $ \sa1 (x :: f1 a1) ->
        case dict1 sa1 :: Dict (Show (f1 a1)) of
           Dict -> showsPrec n (Some1 (fromSing sa1) x)
 ```

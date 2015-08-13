@@ -11,7 +11,7 @@ module Exinst.Singletons
  ( -- * 1 type index
    Some1
  , some1
- , withSome1
+ , withSome1Sing
  , withSome1I
  , fromSome1
  , Dict1(dict1)
@@ -19,7 +19,7 @@ module Exinst.Singletons
    -- * 2 type indexes
  , Some2
  , some2
- , withSome2
+ , withSome2Sing
  , withSome2I
  , fromSome2
  , Dict2(dict2)
@@ -27,7 +27,7 @@ module Exinst.Singletons
    -- * 3 type indexes
  , Some3
  , some3
- , withSome3
+ , withSome3Sing
  , withSome3I
  , fromSome3
  , Dict3(dict3)
@@ -35,7 +35,7 @@ module Exinst.Singletons
    -- * 4 type indexes
  , Some4
  , some4
- , withSome4
+ , withSome4Sing
  , withSome4I
  , fromSome4
  , Dict4(dict4)
@@ -125,41 +125,41 @@ withSome4I (Some4 sa4 sa3 sa2 sa1 x) g =
 --------------------------------------------------------------------------------
 
 -- | Like 'withSome1I', but takes an explicit 'Sing' instead of a 'SingI' instance.
-withSome1
+withSome1Sing
   :: forall (f1 :: k1 -> *) (r :: *)
    . Some1 f1
   -> (forall a1. Sing a1 -> f1 a1 -> r)
   -> r -- ^
-withSome1 (Some1 sa1 x) g = g sa1 x
-{-# INLINABLE withSome1 #-}
+withSome1Sing (Some1 sa1 x) g = g sa1 x
+{-# INLINABLE withSome1Sing #-}
 
 -- | Like 'withSome2I', but takes explicit 'Sing's instead of 'SingI' instances.
-withSome2
+withSome2Sing
   :: forall (f2 :: k2 -> k1 -> *) (r :: *)
   .  Some2 f2
   -> (forall a2 a1. Sing a2 -> Sing a1 -> f2 a2 a1 -> r)
   -> r -- ^
-withSome2 (Some2 sa2 sa1 x) g = g sa2 sa1 x
-{-# INLINABLE withSome2 #-}
+withSome2Sing (Some2 sa2 sa1 x) g = g sa2 sa1 x
+{-# INLINABLE withSome2Sing #-}
 
 -- | Like 'withSome3I', but takes explicit 'Sing's instead of 'SingI' instances.
-withSome3
+withSome3Sing
   :: forall (f3 :: k3 -> k2 -> k1 -> *) (r :: *)
   .  Some3 f3
   -> (forall a3 a2 a1. Sing a3 -> Sing a2 -> Sing a1 -> f3 a3 a2 a1 -> r)
   -> r -- ^
-withSome3 (Some3 sa3 sa2 sa1 x) g = g sa3 sa2 sa1 x
-{-# INLINABLE withSome3 #-}
+withSome3Sing (Some3 sa3 sa2 sa1 x) g = g sa3 sa2 sa1 x
+{-# INLINABLE withSome3Sing #-}
 
 -- | Like 'withSome4I', but takes explicit 'Sing's instead of 'SingI' instances.
-withSome4
+withSome4Sing
   :: forall (f4 :: k4 -> k3 -> k2 -> k1 -> *) (r :: *)
   .  Some4 f4
   -> (forall a4 a3 a2 a1
         . Sing a4 -> Sing a3 -> Sing a2 -> Sing a1 -> f4 a4 a3 a2 a1 -> r)
   -> r -- ^
-withSome4 (Some4 sa4 sa3 sa2 sa1 x) g = g sa4 sa3 sa2 sa1 x
-{-# INLINABLE withSome4 #-}
+withSome4Sing (Some4 sa4 sa3 sa2 sa1 x) g = g sa4 sa3 sa2 sa1 x
+{-# INLINABLE withSome4Sing #-}
 
 --------------------------------------------------------------------------------
 
