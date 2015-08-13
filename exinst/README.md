@@ -554,7 +554,7 @@ Combining [`instant-generics`](https://hackage.haskell.org/package/instant-gener
 [`instant-hashable`](https://hackage.haskell.org/package/instant-hashable),
 [`instant-bytes`](https://hackage.haskell.org/package/instant-bytes) and
 [`instant-deepseq`](https://hackage.haskell.org/package/instant-deepseq))
-with [`exinst-generics`](https://hackage.haskell.org/package/exinst-generics) (and
+with [`exinst`](https://hackage.haskell.org/package/exinst) (and
 [`exinst-aeson`](https://hackage.haskell.org/package/exinst-aeson),
 [`exinst-hashable`](https://hackage.haskell.org/package/exinst-hashable),
 [`exinst-bytes`](https://hackage.haskell.org/package/exinst-bytes) and
