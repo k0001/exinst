@@ -8,8 +8,8 @@ type-indexed types whose type-indexes have been existentialized. Currently it on
 supports using [`singleton`](https://hackage.haskell.org/package/singletons) types as
 type-indexes.
 
-> TODO: implement support for non-singleton-types types with kind `*` using
-> `Typeable`.
+> TODO: Support for non-singleton-types types with kind `*` using `Typeable` should
+> be possible, but I haven't worked on that yet. It's on the roadmap.
 
 In short, what `exinst` currently gives you is: For any type ``t :: k -> *``,
 if `k` is a singleton type and `c (t k) :: Constraint` is satisfied, then you can
