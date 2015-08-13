@@ -38,14 +38,14 @@ data Size = Big | Small
 data Receptacle (a :: Size) :: * where
   Vase :: Receptacle 'Small
   Glass :: Receptacle 'Small
-  Barrell :: Receptacle 'Big
+  Barrel :: Receptacle 'Big
 
 instance Show (Receptacle 'Small) where
   show Vase  = "Vase"
   show Glass = "Glass"
 
 instance Show (Receptacle 'Barrel) where
-  show Barrel = "Vase"
+  show Barrel = "Barrel"
 ```
 
 `Receptacle` can describe three types of receptacles (`Vase`, `Glass` and
@@ -87,7 +87,7 @@ but we can give an explicit `Show` instance that just forwards the work to the
 
 ```haskell
 instance Show `ReceptacleOfAnySizeThatCanBeShown` where
-  show (MkReceptacleOfAnySizeThatCanBeShown a) = show x
+  show (MkReceptacleOfAnySizeThatCanBeShown a) = show a
 ```
 
 That works as intended:
