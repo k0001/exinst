@@ -24,5 +24,5 @@ library
     , constraints >=0.4 && <0.5
     , exinst >=0.1 && <0.2
     , singletons >=1.1 && <1.2
-  ghcjs-options: -Wall -Werror -O3
-  ghc-options: -Wall -Werror -O2
+  ghcjs-options: -Wall -O3
+  ghc-options: -Wall -O2
