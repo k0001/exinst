@@ -239,7 +239,7 @@ it is only by pattern-matching on each of the `Sing Size` constructors that we
 learn about the type level representation of a singleton type, which we then use
 to select the proper `Show` instance among all of those listed in the instance head.
 
-Given this `Dict1` instance, we can proceed to excecute REPL example mentioned before
+Given this `Dict1` instance, we can proceed to excecute the REPL example mentioned before
 and it will work just fine.
 
 However, that `Dict1` instance is still a bit insatisfactory: If we wanted,
@@ -252,8 +252,8 @@ and `f1 :: k1 -> *` completely polymorphic, and instead only talk concretely
 about the singleton type with kind `k1`. This might sound strange at first, as
 `c` and `f1` are the only two type parameters to `Dict1`. But as it often happens
 when working with singleton types, we are not particularly interested in the
-types involved, but in their kinds instead. So, this is the kind of `Dict1`
-instance that you probably want to write:
+types involved, but in their kinds instead. So, this is the `Dict1` instance
+you often want to write:
 
 ```haskell
 instance (c (f1 'Small), c (f1 'Big)) => Dict1 c f1 where
@@ -262,18 +262,16 @@ instance (c (f1 'Small), c (f1 'Big)) => Dict1 c f1 where
     SBig -> Dict
 ```
 
-Now, for any choice of `c` and `f1 :: Size -> *`, if an instance for `c (f1 a)`
-exists for a specific choice of `a`, then, with a term level representation
-for that `a` and the aid of `dict1`, said instance can be looked up at runtime.
+That instance says that for any choice of `c` and `f1 :: Size -> *`, if an
+instance for `c (f1 a)` exists for a specific choice of `a`, then, given a term
+level representation for that `a` and the aid of `dict1`, said instance can be
+looked up at runtime.
 
 Notice that `Some1` itself doesn't have any requirements about `Dict1`, it's the
-various instances for `Some1` who rely on `Dict1`. Perhaps ideally, the `Dict1`
-class should live in the `singletons` package and `Dict1` instances could be
-generated automatically for every new singleton type.
-
-As of this writing, we can find some ready-made instances for `Some1`, `Some2`,
-`Some3` and `Some4` in the following modules, which you need to import so as to
-bring to scope the desired instances at their usage site:
+various instances for `Some1` who rely on `Dict1`. As of this writing, we can
+find some ready-made instances for `Some1`, `Some2`, `Some3` and `Some4` in the
+following modules, which you need to import so as to bring to scope the desired
+instances at their usage site:
 
 * Package `exinst`, module `Exinst.Instances.Base`: Instances for various
   type-classes found in the `base` package: `Eq`, `Ord`, `Show`.
@@ -294,9 +292,9 @@ You are invited to read the instance heads for said instances so as to understan
 what you need to provide in order to get those instances “for free”. As a rule of
 thumb, most instances will require this: If you expect to have an instance for
 `class Y => Z a` satisfied for `Some1 (f :: k -> *)`, then make sure an instance
-for `Z` is available for the 'DemoteRep ('KProxy :: KProxy k)', that a `Dict1 Z
+for `Z` is available for the `DemoteRep ('KProxy :: KProxy k)`, that a `Dict1 Z
 (f :: k -> *)` or more general instance exists, and that the `Y` instance for
-`Some1 (f :: k -> *)` is satisfied too.
+`Some1 (f :: k -> *)` exists too.
 
 > TODO: Have something similar to `Dict1` and friends for working with
 > non-singleton types, possibly integrating with 'Data.Constraint.Forall.ForallT'
