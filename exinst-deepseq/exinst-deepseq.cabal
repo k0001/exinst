@@ -10,6 +10,8 @@ category:            Data
 build-type:          Simple
 cabal-version:       >=1.18
 synopsis:            Derive instances for the `deepseq` library for your existential types.
+homepage:            https://github.com/k0001/exinst
+bug-reports:         https://github.com/k0001/exinst/issues
 
 library
   hs-source-dirs: src/lib
