@@ -16,6 +16,7 @@ existentialize away the `k` parameter with `Some1 t`, and have `c (Some1 t)`
 be automatically satisfied. Currently, up to 4 type indexes can be
 existentialized using `Some1`, `Some2`, `Some3` and `Some4` respectively.
 
+This tutorial asumes some familiarity with singleton types.
 
 ## Motivation 
 
