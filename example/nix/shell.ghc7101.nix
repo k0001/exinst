@@ -13,86 +13,43 @@ let hs = haskell-ng.packages.ghc7101.override {
 
         singletons = haskell-ng.lib.overrideCabal super.singletons (drv: { doCheck = false; });
 
-        instant-aeson = self.callPackage (
-          { mkDerivation, base, stdenv, aeson, instant-generics
-          , tasty, tasty-quickcheck }:
-          mkDerivation {
-            pname = "instant-aeson";
-            version = "0.1";
-            buildDepends = [
-              base aeson instant-generics tasty tasty-quickcheck ];
-            homepage = "https://github.com/k0001/instant-aeson";
-            description = "Generic Aeson instances through instant-generics";
-            license = stdenv.lib.licenses.bsd3;
-            src = fetchFromGitHub {
-                owner = "k0001";
-                repo = "instant-aeson";
-                rev = "30128a29130e37935ae79608ea8bb11d07ec1dab";
-                sha256 = "15j2yrkw7ir6wqgdggi9y9a1pspmp61r3zfgxn5c2yx7dxhzlmg0";
-            };
-          }) {};
-
-        instant-bytes = self.callPackage (
-          { mkDerivation, base, stdenv, bytes, instant-generics
-          , tasty, tasty-quickcheck }:
-          mkDerivation {
-            pname = "instant-bytes";
-            version = "0.1";
-            buildDepends = [
-              base bytes instant-generics tasty tasty-quickcheck ];
-            homepage = "https://github.com/k0001/instant-bytes";
-            description = "Generic Serial instances through instant-generics";
-            license = stdenv.lib.licenses.bsd3;
-            src = fetchFromGitHub {
-                owner = "k0001";
-                repo = "instant-bytes";
-                rev = "f2095946f5879dc8a21efc79c39bb24145ae816c";
-                sha256 = "1sbbnln4g8jmcwla8irvrfy21hk82iw99gl01c7fmis2k1v93b15";
-            };
-          }) {};
-
-        instant-deepseq = self.callPackage (
-          { mkDerivation, base, stdenv, deepseq, instant-generics }:
-          mkDerivation {
-            pname = "instant-deepseq";
-            version = "0.1";
-            buildDepends = [ base deepseq instant-generics ];
-            homepage = "https://github.com/k0001/instant-deepseq";
-            description = "Generic NFData instances through instant-generics";
-            license = stdenv.lib.licenses.bsd3;
-            src = fetchFromGitHub {
-                owner = "k0001";
-                repo = "instant-deepseq";
-                rev = "15a0af31a105f138bcbb6fc76e34b05e38acd9a0";
-                sha256 = "1s16xmmvqg3agh18bf65iy4hpv0l3nvyp1snjw5w0yg8ra457nmx";
-            };
-          }) {};
-
-        instant-hashable = self.callPackage (
-          { mkDerivation, base, stdenv, hashable, instant-generics }:
-          mkDerivation {
-            pname = "instant-hashable";
-            version = "0.1";
-            buildDepends = [ base hashable instant-generics ];
-            homepage = "https://github.com/k0001/instant-hashable";
-            description = "Generic Hashable instances through instant-generics";
-            license = stdenv.lib.licenses.bsd3;
-            src = fetchFromGitHub {
-                owner = "k0001";
-                repo = "instant-hashable";
-                rev = "abdef4021acf1d667dfa1fea1c9f52548501bf8f";
-                sha256 = "025j89k0ph10splw9xx5hwzk311nh7pxq317k90sxsx1ijcgc3q5";
-            };
-          }) {};
-
-        instant-generics = haskell-ng.lib.overrideCabal super.instant-generics (drv: {
-          src = fetchFromGitHub {
-              owner = "k0001";
-              repo = "instant-generics";
-              rev = "3f46e7da4667bcdc0ed637c8141ace4330076862";
-              sha256 = "0h79xlws17cgcc4zwh9z95wscxa57gy9hc48mz7b7j1vipyzx1i5";
-          };
-        });
+        instant-aeson =
+          let src = fetchFromGitHub {
+                       owner = "k0001";
+                       repo = "instant-aeson";
+                       rev = "d49ba0d7e5477e1cac84bd381ee9a3e6ebe101c3";
+                       sha256 = "187n8vmb8cq9jdanb0fd5c92p5yk7l6f29aqx0l823qh8rsh047v";
+                    };
+          in self.callPackage "${src}/nix/default.nix" {};
+  
+        instant-bytes = 
+          let src = fetchFromGitHub {
+                       owner = "k0001";
+                       repo = "instant-bytes";
+                       rev = "7fffcba9d1f4985f3fa8819bbbd6f8c774a66db8";
+                       sha256 = "1r6b4d0b0lqmdn349q738nnddb5ja3yl0ivjibjybh4icg44x30k";
+                    };
+          in self.callPackage "${src}/nix/default.nix" {};
+  
+        instant-deepseq = 
+          let src = fetchFromGitHub {
+                       owner = "k0001";
+                       repo = "instant-deepseq";
+                       rev = "d0cd3340e51574031a6404ea06d31bd917610dc9";
+                       sha256 = "132gi12m65vpr3fcbcphz69qlcs875c8i613ismf1s1p2ml9cibr";
+                    };
+          in self.callPackage "${src}/nix/default.nix" {};
+  
+        instant-hashable = 
+          let src = fetchFromGitHub {
+                       owner = "k0001";
+                       repo = "instant-hashable";
+                       rev = "53446751fd0cdfe757930c8a322f98c077c96945";
+                       sha256 = "0gqsmnm0g4g5j6k6bfn2ykiqv5d4v5dq6jnhbq1kmy99hg27rc0q";
+                    };
+          in self.callPackage "${src}/nix/default.nix" {};
+  
+  
 
       };
    };

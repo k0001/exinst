@@ -8,6 +8,8 @@
 {-# LANGUAGE LambdaCase #-}
 {-# LANGUAGE MultiParamTypeClasses #-}
 {-# LANGUAGE PolyKinds#-}
+{-# LANGUAGE RankNTypes #-}
+{-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE StandaloneDeriving #-}
 {-# LANGUAGE TemplateHaskell #-}
 {-# LANGUAGE TypeFamilies #-}
@@ -261,40 +263,18 @@ instance GI.Representable (X t4 t3 t2 t1) where
 
 instance Show (X t4 t3 t2 t1) where show = GI.gshowDefault
 instance Eq (X t4 t3 t2 t1) where (==) = GI.geqDefault
-instance Hashable (X t4 t3 t2 t1) where hashWithSalt = GI.ghashWithSalt
-instance NFData (X t4 t3 t2 t1) where rnf = GI.grnf
-instance Ae.ToJSON (X t4 t3 t2 t1) where toJSON = GI.gtoJSON
+instance Hashable (X t4 t3 t2 t1) where hashWithSalt = GI.ghashWithSaltDefault
+instance NFData (X t4 t3 t2 t1) where rnf = GI.grnfDefault
+instance Ae.ToJSON (X t4 t3 t2 t1) where toJSON = GI.gtoJSONDefault
 
-instance Ae.FromJSON (X 'T4a 'T3a 'T2a 'T1a) where parseJSON = GI.gparseJSON
-instance Ae.FromJSON (X 'T4a 'T3a 'T2a 'T1b) where parseJSON = GI.gparseJSON
-instance Ae.FromJSON (X 'T4a 'T3a 'T2b 'T1a) where parseJSON = GI.gparseJSON
-instance Ae.FromJSON (X 'T4a 'T3a 'T2b 'T1b) where parseJSON = GI.gparseJSON
-instance Ae.FromJSON (X 'T4a 'T3b 'T2a 'T1a) where parseJSON = GI.gparseJSON
-instance Ae.FromJSON (X 'T4a 'T3b 'T2a 'T1b) where parseJSON = GI.gparseJSON
-instance Ae.FromJSON (X 'T4a 'T3b 'T2b 'T1a) where parseJSON = GI.gparseJSON
-instance Ae.FromJSON (X 'T4a 'T3b 'T2b 'T1b) where parseJSON = GI.gparseJSON
-instance Ae.FromJSON (X 'T4b 'T3a 'T2a 'T1a) where parseJSON = GI.gparseJSON
-instance Ae.FromJSON (X 'T4b 'T3a 'T2a 'T1b) where parseJSON = GI.gparseJSON
-instance Ae.FromJSON (X 'T4b 'T3a 'T2b 'T1a) where parseJSON = GI.gparseJSON
-instance Ae.FromJSON (X 'T4b 'T3a 'T2b 'T1b) where parseJSON = GI.gparseJSON
-instance Ae.FromJSON (X 'T4b 'T3b 'T2a 'T1a) where parseJSON = GI.gparseJSON
-instance Ae.FromJSON (X 'T4b 'T3b 'T2a 'T1b) where parseJSON = GI.gparseJSON
-instance Ae.FromJSON (X 'T4b 'T3b 'T2b 'T1a) where parseJSON = GI.gparseJSON
-instance Ae.FromJSON (X 'T4b 'T3b 'T2b 'T1b) where parseJSON = GI.gparseJSON
+-- Look! 'Dict4' helps us here too!
+instance forall t4 t3 t2 t1. (SingI t4, SingI t3, SingI t2, SingI t1) => Ae.FromJSON (X t4 t3 t2 t1) where
+  parseJSON = case dict4 (sing :: Sing t4) (sing :: Sing t3) (sing :: Sing t2) (sing :: Sing t1) of
+    (Dict :: Dict (GI.RepGFromJSON (X t4 t3 t2 t1))) -> GI.gparseJSONDefault
 
-instance By.Serial (X 'T4a 'T3a 'T2a 'T1a) where { serialize = GI.gserialize; deserialize = GI.gdeserialize }
-instance By.Serial (X 'T4a 'T3a 'T2a 'T1b) where { serialize = GI.gserialize; deserialize = GI.gdeserialize }
-instance By.Serial (X 'T4a 'T3a 'T2b 'T1a) where { serialize = GI.gserialize; deserialize = GI.gdeserialize }
-instance By.Serial (X 'T4a 'T3a 'T2b 'T1b) where { serialize = GI.gserialize; deserialize = GI.gdeserialize }
-instance By.Serial (X 'T4a 'T3b 'T2a 'T1a) where { serialize = GI.gserialize; deserialize = GI.gdeserialize }
-instance By.Serial (X 'T4a 'T3b 'T2a 'T1b) where { serialize = GI.gserialize; deserialize = GI.gdeserialize }
-instance By.Serial (X 'T4a 'T3b 'T2b 'T1a) where { serialize = GI.gserialize; deserialize = GI.gdeserialize }
-instance By.Serial (X 'T4a 'T3b 'T2b 'T1b) where { serialize = GI.gserialize; deserialize = GI.gdeserialize }
-instance By.Serial (X 'T4b 'T3a 'T2a 'T1a) where { serialize = GI.gserialize; deserialize = GI.gdeserialize }
-instance By.Serial (X 'T4b 'T3a 'T2a 'T1b) where { serialize = GI.gserialize; deserialize = GI.gdeserialize }
-instance By.Serial (X 'T4b 'T3a 'T2b 'T1a) where { serialize = GI.gserialize; deserialize = GI.gdeserialize }
-instance By.Serial (X 'T4b 'T3a 'T2b 'T1b) where { serialize = GI.gserialize; deserialize = GI.gdeserialize }
-instance By.Serial (X 'T4b 'T3b 'T2a 'T1a) where { serialize = GI.gserialize; deserialize = GI.gdeserialize }
-instance By.Serial (X 'T4b 'T3b 'T2a 'T1b) where { serialize = GI.gserialize; deserialize = GI.gdeserialize }
-instance By.Serial (X 'T4b 'T3b 'T2b 'T1a) where { serialize = GI.gserialize; deserialize = GI.gdeserialize }
-instance By.Serial (X 'T4b 'T3b 'T2b 'T1b) where { serialize = GI.gserialize; deserialize = GI.gdeserialize }
+-- Look! 'Dict4' helps us here too!
+instance forall t4 t3 t2 t1. (SingI t4, SingI t3, SingI t2, SingI t1) => By.Serial (X t4 t3 t2 t1) where
+  serialize = case dict4 (sing :: Sing t4) (sing :: Sing t3) (sing :: Sing t2) (sing :: Sing t1) of
+    (Dict :: Dict (GI.RepGSerial (X t4 t3 t2 t1))) -> GI.gserializeDefault
+  deserialize = case dict4 (sing :: Sing t4) (sing :: Sing t3) (sing :: Sing t2) (sing :: Sing t1) of
+    (Dict :: Dict (GI.RepGSerial (X t4 t3 t2 t1))) -> GI.gdeserializeDefault
