@@ -207,8 +207,8 @@ there isn't a `Show` instance for `Receptacle 'Small`, complaining that a `Show`
 instance for `Some1 Receptable` can't be found. The reason for this is that even
 if `Show` instances for `Some1` are derived for free, they are only derived for
 `Some1 (t :: k1 -> *)` where a `Show (t a)` for a specific but statically
-unknown `a` can be found at runtime. The mechanism through which instances are 
-found at runtime relies on `Dict` from the
+unknown `a` can be found at runtime (mostly, there are other minor requirements too).
+The mechanism through which instances are found at runtime relies on `Dict` from the
 [constraints](https://hackage.haskell.org/package/constraints) library, which
 `exinst` wraps in a `Dict1` typeclass to be instantiated once per singleton
 type.
