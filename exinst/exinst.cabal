@@ -15,8 +15,9 @@ library
   default-language: Haskell2010
   exposed-modules:
       Exinst.Singletons
-      Exinst.Singletons.Internal
       Exinst.Instances.Base
+  other-modules:
+      Exinst.Singletons.Internal
   build-depends:
       base >=4.8 && <4.9
     , constraints >=0.4 && <0.5

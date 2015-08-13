@@ -198,6 +198,8 @@ information, as it permits this string to be `Read` back into a `Some1
 Receptacle` if needed, but displaying just `"Glass"` would be possible too, if
 desired.
 
+> TODO: Implement said `Read` instance.
+
 The important thing to notice in the example above is that `some1` does not
 require us to satisfy a `Show (Receptacle 'Small)` constraint, it just requires
 that the type index for the type-indexed type we give it as argument is a

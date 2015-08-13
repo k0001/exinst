@@ -25,7 +25,7 @@ instance forall (f1 :: k1 -> *)
     ) => Ae.ToJSON (Some1 f1)
   where
     {-# INLINABLE toJSON #-}
-    toJSON = \some1 -> withSome1Sing some1 $ \sa1 (x :: f1 a1) ->
+    toJSON = \some1x -> withSome1Sing some1x $ \sa1 (x :: f1 a1) ->
        case dict1 sa1 :: Dict (Ae.ToJSON (f1 a1)) of
           Dict -> Ae.toJSON (fromSing sa1, x)
 
@@ -38,7 +38,7 @@ instance forall (f2 :: k2 -> k1 -> *)
     ) => Ae.ToJSON (Some2 f2)
   where
     {-# INLINABLE toJSON #-}
-    toJSON = \some2 -> withSome2Sing some2 $ \sa2 sa1 (x :: f2 a2 a1) ->
+    toJSON = \some2x -> withSome2Sing some2x $ \sa2 sa1 (x :: f2 a2 a1) ->
        case dict2 sa2 sa1 :: Dict (Ae.ToJSON (f2 a2 a1)) of
           Dict -> Ae.toJSON ((fromSing sa2, fromSing sa1), x)
 
@@ -53,7 +53,7 @@ instance forall (f3 :: k3 -> k2 -> k1 -> *)
     ) => Ae.ToJSON (Some3 f3)
   where
     {-# INLINABLE toJSON #-}
-    toJSON = \some3 -> withSome3Sing some3 $ \sa3 sa2 sa1 (x :: f3 a3 a2 a1) ->
+    toJSON = \some3x -> withSome3Sing some3x $ \sa3 sa2 sa1 (x :: f3 a3 a2 a1) ->
        case dict3 sa3 sa2 sa1 :: Dict (Ae.ToJSON (f3 a3 a2 a1)) of
           Dict -> Ae.toJSON ((fromSing sa3, fromSing sa2, fromSing sa1), x)
 
@@ -70,7 +70,7 @@ instance forall (f4 :: k4 -> k3 -> k2 -> k1 -> *)
     ) => Ae.ToJSON (Some4 f4)
   where
     {-# INLINABLE toJSON #-}
-    toJSON = \some4 -> withSome4Sing some4 $ \sa4 sa3 sa2 sa1 (x :: f4 a4 a3 a2 a1) ->
+    toJSON = \some4x -> withSome4Sing some4x $ \sa4 sa3 sa2 sa1 (x :: f4 a4 a3 a2 a1) ->
        case dict4 sa4 sa3 sa2 sa1 :: Dict (Ae.ToJSON (f4 a4 a3 a2 a1)) of
           Dict -> Ae.toJSON ((fromSing sa4, fromSing sa3, fromSing sa2, fromSing sa1), x)
 
