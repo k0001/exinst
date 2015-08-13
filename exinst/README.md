@@ -16,13 +16,14 @@ existentialize away the `k` parameter with `Some1 t`, and have `c (Some1 t)`
 automatically satisfied. Currently, up to 4 type indexes can be existentialized
 using `Some1`, `Some2`, `Some3` and `Some4` respectively.
 
-> NOTE: This tutorial asumes some familiarity with singleton types. A singleton
-> type is, in very rough terms, a type inhabited by a single term, which allows
-> one to go from its term-level representation to its type-level representation
-> and back without much trouble. A bit like the term `()`, which is of type
-> `()`: whenever you have the type `()` you know what that its term-level
-> representation must be `()`, and whenever you have the term `()` you know that
-> its type must be `()`.
+> NOTE: This tutorial asumes some familiarity with singleton types as implemented
+> by the [`singleton`](https://hackage.haskell.org/package/singletons) library.
+> A singleton type is, in very rough terms, a type inhabited by a single term,
+> which allows one to go from its term-level representation to its type-level
+> representation and back without much trouble. A bit like the term `()`, which
+> is of type `()`: whenever you have the type `()` you know what that its
+> term-level representation must be `()`, and whenever you have the term `()`
+> you know that its type must be `()`.
 
 ## Motivation 
 
