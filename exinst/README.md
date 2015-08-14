@@ -30,8 +30,6 @@ using `Some1`, `Some2`, `Some3` and `Some4` respectively.
 
 As a motivation, let's consider the following example:
 
-> TODO: check language extensions needed for the following example.
-
 ```haskell
 {-# LANGUAGE GADTs #-}
 {-# LANGUAGE DataKinds #-}
@@ -52,8 +50,7 @@ deriving instance Show (Receptacle a)
 `Receptacle` can describe three types of receptacles (`Vase`, `Glass` and
 `Barrel`), while at the same time being able to indicate, at the type level,
 whether the size of the receptacle is `Big` or `Small`. Additionally, we've
-provided `Show` instances for `Receptacle` (which could have been derived
-automatically, too).
+provided `Show` instances for `Receptacle`. 
 
 Now, if we want to put `Receptacle`s in a container, for example in `[]`, we can
 do so only as long as the `Receptacle` type is fully applied. That is, we can
