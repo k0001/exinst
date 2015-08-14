@@ -53,7 +53,7 @@ whether the size of the receptacle is `Big` or `Small`. Additionally, we've
 provided `Show` instances for `Receptacle`. 
 
 Now, if we want to put `Receptacle`s in a container, for example in `[]`, we can
-do so only as long as the `Receptacle` type is fully applied. That is, we can
+do so only as long as the `Receptacle` type is fully applied and monomorphic. That is, we can
 have `[Receptacle 'Small]` and `[Receptacle 'Big]`, but we can't have
 `[Receptacle]`. So, if we want to have `Receptacle`s of different sizes in a
 container like `[]`, we need a different solution.
