@@ -55,7 +55,7 @@ provided `Show` instances for `Receptacle`.
 Now, if we want to put `Receptacle`s in a container, for example in `[]`, we can
 do so only as long as the `Receptacle` type is fully applied and monomorphic. That is, we can
 have `[Receptacle 'Small]` and `[Receptacle 'Big]`, but we can't have
-`[Receptacle]`. So, if we want to have `Receptacle`s of different sizes in a
+`[Receptacle]` nor `[forall a. Receptacle a]`. So, if we want to have `Receptacle`s of different sizes in a
 container like `[]`, we need a different solution.
 
 At this point we need to ask ourselves why we need to put `Receptacle`s of
