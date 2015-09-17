@@ -1,7 +1,9 @@
 # Version 0.1.1
 
-* Generalized the `(* -> Constraint)` parameter in `Dict1`, `Dict2`, `Dict3` and
-  `Dict4` to `(k -> Constraint)`.
+* `withSome{1,2,3,4}Sing` brings `SingI` instances to scope.
+
+* Generalized the `(* -> Constraint)` parameter in `Dict{1,2,3,4}`
+  to `(k -> Constraint)`.
 
 
 # Version 0.1
