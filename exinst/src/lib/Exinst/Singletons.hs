@@ -218,14 +218,14 @@ fromSome4 = \(Some4 sa4' sa3' sa2' sa1' x) -> do
 
 --------------------------------------------------------------------------------
 
-class Dict1 (c :: * -> Constraint) (f1 :: k1 -> *) where
+class Dict1 (c :: k0 -> Constraint) (f1 :: k1 -> k0) where
   dict1 :: Sing a1 -> Dict (c (f1 a1))
 
-class Dict2 (c :: * -> Constraint) (f2 :: k2 -> k1 -> *) where
+class Dict2 (c :: k0 -> Constraint) (f2 :: k2 -> k1 -> k0) where
   dict2 :: Sing a2 -> Sing a1 -> Dict (c (f2 a2 a1))
 
-class Dict3 (c :: * -> Constraint) (f3 :: k3 -> k2 -> k1 -> *) where
+class Dict3 (c :: k0 -> Constraint) (f3 :: k3 -> k2 -> k1 -> k0) where
   dict3 :: Sing a3 -> Sing a2 -> Sing a1 -> Dict (c (f3 a3 a2 a1))
 
-class Dict4 (c :: * -> Constraint) (f4 :: k4 -> k3 -> k2 -> k1 -> *) where
+class Dict4 (c :: k0 -> Constraint) (f4 :: k4 -> k3 -> k2 -> k1 -> k0) where
   dict4 :: Sing a4 -> Sing a3 -> Sing a2 -> Sing a1 -> Dict (c (f4 a4 a3 a2 a1))
