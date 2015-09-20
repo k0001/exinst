@@ -1,5 +1,5 @@
 name:                exinst-aeson
-version:             0.1
+version:             0.1.0.1
 author:              Renzo Carbonara
 maintainer:          renzoλcarbonara.com.ar
 copyright:           Renzo Carbonara 2015
@@ -19,10 +19,10 @@ library
   exposed-modules:
       Exinst.Instances.Aeson
   build-depends:
-      aeson >=0.8 && <0.10
+      aeson >=0.8 && <0.11
     , base >=4.7 && <4.9
     , constraints >=0.4 && <0.5
     , exinst >=0.1 && <0.2
-    , singletons >=1.1 && <1.2
+    , singletons >=1.1 && <2.1
   ghcjs-options: -Wall -O3
   ghc-options: -Wall -O2
