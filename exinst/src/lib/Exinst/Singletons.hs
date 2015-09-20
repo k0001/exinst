@@ -45,7 +45,7 @@ module Exinst.Singletons
 import Data.Constraint
 import Data.Singletons
 import Data.Singletons.Decide
-import Data.Singletons.Types
+import Data.Type.Equality
 import Prelude
 
 import Exinst.Singletons.Internal

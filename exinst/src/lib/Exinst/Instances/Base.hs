@@ -16,7 +16,7 @@ module Exinst.Instances.Base () where
 import           Data.Constraint
 import           Data.Singletons
 import           Data.Singletons.Decide
-import           Data.Singletons.Types
+import           Data.Type.Equality
 import           Exinst.Singletons
 import           Prelude
 
@@ -101,9 +101,9 @@ instance forall (f1 :: k1 -> *)
     ) => Eq (Some1 f1)
   where
     {-# INLINABLE (==) #-}
-    (==) = \som1x som1y -> 
-       withSome1Sing som1x $ \sa1x (x :: f1 a1x) -> 
-          withSome1Sing som1y $ \sa1y (y :: f1 a1y) -> 
+    (==) = \som1x som1y ->
+       withSome1Sing som1x $ \sa1x (x :: f1 a1x) ->
+          withSome1Sing som1y $ \sa1y (y :: f1 a1y) ->
              maybe False id $ do
                 Refl <- testEquality sa1x sa1y
                 case dict1 sa1x :: Dict (Eq (f1 a1x)) of
@@ -118,9 +118,9 @@ instance forall (f2 :: k2 -> k1 -> *)
     ) => Eq (Some2 f2)
   where
     {-# INLINABLE (==) #-}
-    (==) = \som2x som2y -> 
-       withSome2Sing som2x $ \sa2x sa1x (x :: f2 a2x a1x) -> 
-          withSome2Sing som2y $ \sa2y sa1y (y :: f2 a2y a1y) -> 
+    (==) = \som2x som2y ->
+       withSome2Sing som2x $ \sa2x sa1x (x :: f2 a2x a1x) ->
+          withSome2Sing som2y $ \sa2y sa1y (y :: f2 a2y a1y) ->
              maybe False id $ do
                 Refl <- testEquality sa2x sa2y
                 Refl <- testEquality sa1x sa1y
@@ -138,9 +138,9 @@ instance forall (f3 :: k3 -> k2 -> k1 -> *)
     ) => Eq (Some3 f3)
   where
     {-# INLINABLE (==) #-}
-    (==) = \som3x som3y -> 
-       withSome3Sing som3x $ \sa3x sa2x sa1x (x :: f3 a3x a2x a1x) -> 
-          withSome3Sing som3y $ \sa3y sa2y sa1y (y :: f3 a3y a2y a1y) -> 
+    (==) = \som3x som3y ->
+       withSome3Sing som3x $ \sa3x sa2x sa1x (x :: f3 a3x a2x a1x) ->
+          withSome3Sing som3y $ \sa3y sa2y sa1y (y :: f3 a3y a2y a1y) ->
              maybe False id $ do
                 Refl <- testEquality sa3x sa3y
                 Refl <- testEquality sa2x sa2y
@@ -161,9 +161,9 @@ instance forall (f4 :: k4 -> k3 -> k2 -> k1 -> *)
     ) => Eq (Some4 f4)
   where
     {-# INLINABLE (==) #-}
-    (==) = \som4x som4y -> 
-       withSome4Sing som4x $ \sa4x sa3x sa2x sa1x (x :: f4 a4x a3x a2x a1x) -> 
-          withSome4Sing som4y $ \sa4y sa3y sa2y sa1y (y :: f4 a4y a3y a2y a1y) -> 
+    (==) = \som4x som4y ->
+       withSome4Sing som4x $ \sa4x sa3x sa2x sa1x (x :: f4 a4x a3x a2x a1x) ->
+          withSome4Sing som4y $ \sa4y sa3y sa2y sa1y (y :: f4 a4y a3y a2y a1y) ->
              maybe False id $ do
                 Refl <- testEquality sa4x sa4y
                 Refl <- testEquality sa3x sa3y
@@ -184,9 +184,9 @@ instance forall (f1 :: k1 -> *)
     ) => Ord (Some1 f1)
   where
     {-# INLINABLE compare #-}
-    compare = \som1x som1y -> 
-       withSome1Sing som1x $ \sa1x (x :: f1 a1x) -> 
-          withSome1Sing som1y $ \sa1y (y :: f1 a1y) -> 
+    compare = \som1x som1y ->
+       withSome1Sing som1x $ \sa1x (x :: f1 a1x) ->
+          withSome1Sing som1y $ \sa1y (y :: f1 a1y) ->
              let termCompare = compare (fromSing sa1x) (fromSing sa1y)
              in maybe termCompare id $ do
                   Refl <- testEquality sa1x sa1y
@@ -205,9 +205,9 @@ instance forall (f2 :: k2 -> k1 -> *)
     ) => Ord (Some2 f2)
   where
     {-# INLINABLE compare #-}
-    compare = \som2x som2y -> 
-       withSome2Sing som2x $ \sa2x sa1x (x :: f2 a2x a1x) -> 
-          withSome2Sing som2y $ \sa2y sa1y (y :: f2 a2y a1y) -> 
+    compare = \som2x som2y ->
+       withSome2Sing som2x $ \sa2x sa1x (x :: f2 a2x a1x) ->
+          withSome2Sing som2y $ \sa2y sa1y (y :: f2 a2y a1y) ->
              let termCompare = compare (fromSing sa2x, fromSing sa1x)
                                        (fromSing sa2y, fromSing sa1y)
              in maybe termCompare id $ do
@@ -231,9 +231,9 @@ instance forall (f3 :: k3 -> k2 -> k1 -> *)
     ) => Ord (Some3 f3)
   where
     {-# INLINABLE compare #-}
-    compare = \som3x som3y -> 
-       withSome3Sing som3x $ \sa3x sa2x sa1x (x :: f3 a3x a2x a1x) -> 
-          withSome3Sing som3y $ \sa3y sa2y sa1y (y :: f3 a3y a2y a1y) -> 
+    compare = \som3x som3y ->
+       withSome3Sing som3x $ \sa3x sa2x sa1x (x :: f3 a3x a2x a1x) ->
+          withSome3Sing som3y $ \sa3y sa2y sa1y (y :: f3 a3y a2y a1y) ->
              let termCompare = compare
                    (fromSing sa3x, fromSing sa2x, fromSing sa1x)
                    (fromSing sa3y, fromSing sa2y, fromSing sa1y)
@@ -262,9 +262,9 @@ instance forall (f4 :: k4 -> k3 -> k2 -> k1 -> *)
     ) => Ord (Some4 f4)
   where
     {-# INLINABLE compare #-}
-    compare = \som4x som4y -> 
-       withSome4Sing som4x $ \sa4x sa3x sa2x sa1x (x :: f4 a4x a3x a2x a1x) -> 
-          withSome4Sing som4y $ \sa4y sa3y sa2y sa1y (y :: f4 a4y a3y a2y a1y) -> 
+    compare = \som4x som4y ->
+       withSome4Sing som4x $ \sa4x sa3x sa2x sa1x (x :: f4 a4x a3x a2x a1x) ->
+          withSome4Sing som4y $ \sa4y sa3y sa2y sa1y (y :: f4 a4y a3y a2y a1y) ->
              let termCompare = compare
                    (fromSing sa4x, fromSing sa3x, fromSing sa2x, fromSing sa1x)
                    (fromSing sa4y, fromSing sa3y, fromSing sa2y, fromSing sa1y)
@@ -275,4 +275,3 @@ instance forall (f4 :: k4 -> k3 -> k2 -> k1 -> *)
                   Refl <- testEquality sa1x sa1y
                   case dict4 sa4x sa3x sa2x sa1x :: Dict (Ord (f4 a4x a3x a2x a1x)) of
                      Dict -> Just (compare x y)
-

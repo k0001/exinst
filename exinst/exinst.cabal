@@ -12,7 +12,7 @@ cabal-version:       >=1.18
 synopsis:            Derive instances for your existential types.
 homepage:            https://github.com/k0001/exinst
 bug-reports:         https://github.com/k0001/exinst/issues
-                     
+
 
 library
   hs-source-dirs: src/lib
@@ -25,6 +25,6 @@ library
   build-depends:
       base >=4.7 && <4.9
     , constraints >=0.4 && <0.5
-    , singletons >=1.1 && <1.2
+    , singletons >=1.1 && <2.1
   ghcjs-options: -Wall -O3
   ghc-options: -Wall -O2
