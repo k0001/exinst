@@ -6,19 +6,21 @@
 
 {-# OPTIONS_GHC -fno-warn-orphans #-}
 
--- | This module exports 'Show', 'Eq' and 'Ord' instances for 'Some1',
--- 'Some2', 'Some3' and 'Some4' from "Exinst.Singletons", provided situable
+-- | This module exports 'Show', 'Eq' and 'Ord' instances for 'Exinst.Some1',
+-- 'Exinst.Some2', 'Exinst.Some3' and 'Exinst.Some4' from "Exinst.Singletons", provided situable
 -- 'Dict1', 'Dict2', 'Dict3' and 'Dict4' instances are available.
 --
 -- See the README file for more general documentation: https://hackage.haskell.org/package/exinst#readme
 module Exinst.Instances.Base () where
 
-import           Data.Constraint
-import           Data.Singletons
-import           Data.Singletons.Decide
-import           Data.Type.Equality
-import           Exinst.Singletons
-import           Prelude
+import Data.Constraint
+import Data.Singletons
+import Data.Singletons.Decide
+import Data.Type.Equality
+import Exinst.Singletons
+  hiding (Some1(..), Some2(..), Some3(..), Some4(..))
+import qualified Exinst.Singletons as Exinst
+import Prelude
 
 --------------------------------------------------------------------------------
 
@@ -35,7 +37,7 @@ instance forall (f1 :: k1 -> *)
   . ( SingKind ('KProxy :: KProxy k1)
     , Show (DemoteRep ('KProxy :: KProxy k1))
     , Dict1 Show f1
-    ) => Show (Some1 f1)
+    ) => Show (Exinst.Some1 f1)
   where
     {-# INLINABLE showsPrec #-}
     showsPrec n = \some1x -> withSome1Sing some1x $ \sa1 (x :: f1 a1) ->
@@ -48,7 +50,7 @@ instance forall (f2 :: k2 -> k1 -> *)
     , Show (DemoteRep ('KProxy :: KProxy k2))
     , Show (DemoteRep ('KProxy :: KProxy k1))
     , Dict2 Show f2
-    ) => Show (Some2 f2)
+    ) => Show (Exinst.Some2 f2)
   where
     {-# INLINABLE showsPrec #-}
     showsPrec n = \some2x -> withSome2Sing some2x $ \sa2 sa1 (x :: f2 a2 a1) ->
@@ -63,7 +65,7 @@ instance forall (f3 :: k3 -> k2 -> k1 -> *)
     , Show (DemoteRep ('KProxy :: KProxy k2))
     , Show (DemoteRep ('KProxy :: KProxy k1))
     , Dict3 Show f3
-    ) => Show (Some3 f3)
+    ) => Show (Exinst.Some3 f3)
   where
     {-# INLINABLE showsPrec #-}
     showsPrec n = \some3x -> withSome3Sing some3x $ \sa3 sa2 sa1 (x :: f3 a3 a2 a1) ->
@@ -80,7 +82,7 @@ instance forall (f4 :: k4 -> k3 -> k2 -> k1 -> *)
     , Show (DemoteRep ('KProxy :: KProxy k2))
     , Show (DemoteRep ('KProxy :: KProxy k1))
     , Dict4 Show f4
-    ) => Show (Some4 f4)
+    ) => Show (Exinst.Some4 f4)
   where
     {-# INLINABLE showsPrec #-}
     showsPrec n = \some4x -> withSome4Sing some4x $ \sa4 sa3 sa2 sa1 (x :: f4 a4 a3 a2 a1) ->
@@ -98,7 +100,7 @@ instance forall (f1 :: k1 -> *)
   . ( SingKind ('KProxy :: KProxy k1)
     , SDecide ('KProxy :: KProxy k1)
     , Dict1 Eq f1
-    ) => Eq (Some1 f1)
+    ) => Eq (Exinst.Some1 f1)
   where
     {-# INLINABLE (==) #-}
     (==) = \som1x som1y ->
@@ -115,7 +117,7 @@ instance forall (f2 :: k2 -> k1 -> *)
     , SDecide ('KProxy :: KProxy k2)
     , SDecide ('KProxy :: KProxy k1)
     , Dict2 Eq f2
-    ) => Eq (Some2 f2)
+    ) => Eq (Exinst.Some2 f2)
   where
     {-# INLINABLE (==) #-}
     (==) = \som2x som2y ->
@@ -135,7 +137,7 @@ instance forall (f3 :: k3 -> k2 -> k1 -> *)
     , SDecide ('KProxy :: KProxy k2)
     , SDecide ('KProxy :: KProxy k1)
     , Dict3 Eq f3
-    ) => Eq (Some3 f3)
+    ) => Eq (Exinst.Some3 f3)
   where
     {-# INLINABLE (==) #-}
     (==) = \som3x som3y ->
@@ -158,7 +160,7 @@ instance forall (f4 :: k4 -> k3 -> k2 -> k1 -> *)
     , SDecide ('KProxy :: KProxy k2)
     , SDecide ('KProxy :: KProxy k1)
     , Dict4 Eq f4
-    ) => Eq (Some4 f4)
+    ) => Eq (Exinst.Some4 f4)
   where
     {-# INLINABLE (==) #-}
     (==) = \som4x som4y ->
@@ -180,8 +182,8 @@ instance forall (f1 :: k1 -> *)
     , SDecide ('KProxy :: KProxy k1)
     , Ord (DemoteRep ('KProxy :: KProxy k1))
     , Dict1 Ord f1
-    , Eq (Some1 f1)
-    ) => Ord (Some1 f1)
+    , Eq (Exinst.Some1 f1)
+    ) => Ord (Exinst.Some1 f1)
   where
     {-# INLINABLE compare #-}
     compare = \som1x som1y ->
@@ -201,8 +203,8 @@ instance forall (f2 :: k2 -> k1 -> *)
     , Ord (DemoteRep ('KProxy :: KProxy k2))
     , Ord (DemoteRep ('KProxy :: KProxy k1))
     , Dict2 Ord f2
-    , Eq (Some2 f2)
-    ) => Ord (Some2 f2)
+    , Eq (Exinst.Some2 f2)
+    ) => Ord (Exinst.Some2 f2)
   where
     {-# INLINABLE compare #-}
     compare = \som2x som2y ->
@@ -227,8 +229,8 @@ instance forall (f3 :: k3 -> k2 -> k1 -> *)
     , Ord (DemoteRep ('KProxy :: KProxy k2))
     , Ord (DemoteRep ('KProxy :: KProxy k1))
     , Dict3 Ord f3
-    , Eq (Some3 f3)
-    ) => Ord (Some3 f3)
+    , Eq (Exinst.Some3 f3)
+    ) => Ord (Exinst.Some3 f3)
   where
     {-# INLINABLE compare #-}
     compare = \som3x som3y ->
@@ -258,8 +260,8 @@ instance forall (f4 :: k4 -> k3 -> k2 -> k1 -> *)
     , Ord (DemoteRep ('KProxy :: KProxy k2))
     , Ord (DemoteRep ('KProxy :: KProxy k1))
     , Dict4 Ord f4
-    , Eq (Some4 f4)
-    ) => Ord (Some4 f4)
+    , Eq (Exinst.Some4 f4)
+    ) => Ord (Exinst.Some4 f4)
   where
     {-# INLINABLE compare #-}
     compare = \som4x som4y ->

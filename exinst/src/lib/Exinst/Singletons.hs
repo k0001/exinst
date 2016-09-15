@@ -10,7 +10,7 @@
 -- | See the README file for documentation: https://hackage.haskell.org/package/exinst#readme
 module Exinst.Singletons
  ( -- * 1 type index
-   Some1
+   Some1(Some1)
  , some1
  , withSome1Sing
  , withSome1
@@ -18,7 +18,7 @@ module Exinst.Singletons
  , Dict1(dict1)
 
    -- * 2 type indexes
- , Some2
+ , Some2(Some2)
  , some2
  , withSome2Sing
  , withSome2
@@ -26,7 +26,7 @@ module Exinst.Singletons
  , Dict2(dict2)
 
    -- * 3 type indexes
- , Some3
+ , Some3(Some3)
  , some3
  , withSome3Sing
  , withSome3
@@ -34,12 +34,15 @@ module Exinst.Singletons
  , Dict3(dict3)
 
    -- * 4 type indexes
- , Some4
+ , Some4(Some4)
  , some4
  , withSome4Sing
  , withSome4
  , fromSome4
  , Dict4(dict4)
+
+   -- * Re-exports
+ , Dict(Dict)
  ) where
 
 import Data.Constraint
@@ -48,7 +51,19 @@ import Data.Singletons.Decide
 import Data.Type.Equality
 import Prelude
 
-import Exinst.Singletons.Internal
+--------------------------------------------------------------------------------
+
+data Some1 (f1 :: k1 -> *) = forall a1.
+  Some1 !(Sing a1) !(f1 a1)
+
+data Some2 (f2 :: k2 -> k1 -> *) = forall a2 a1.
+  Some2 !(Sing a2) !(Sing a1) !(f2 a2 a1)
+
+data Some3 (f3 :: k3 -> k2 -> k1 -> *) = forall a3 a2 a1.
+  Some3 !(Sing a3) !(Sing a2) !(Sing a1) !(f3 a3 a2 a1)
+
+data Some4 (f4 :: k4 -> k3 -> k2 -> k1 -> *) = forall a4 a3 a2 a1.
+  Some4 !(Sing a4) !(Sing a3) !(Sing a2) !(Sing a1) !(f4 a4 a3 a2 a1)
 
 --------------------------------------------------------------------------------
 

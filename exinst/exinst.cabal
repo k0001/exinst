@@ -1,8 +1,8 @@
 name:                exinst
-version:             0.1.1
+version:             0.1.2
 author:              Renzo Carbonara
 maintainer:          renzoλcarbonara.com.ar
-copyright:           Renzo Carbonara 2015
+copyright:           Renzo Carbonara 2015-2016
 license:             BSD3
 license-file:        LICENSE.txt
 extra-source-files:  README.md CHANGELOG.md
@@ -20,11 +20,9 @@ library
   exposed-modules:
       Exinst.Singletons
       Exinst.Instances.Base
-  other-modules:
-      Exinst.Singletons.Internal
   build-depends:
-      base >=4.7 && <4.9
-    , constraints >=0.4 && <0.5
-    , singletons >=1.1 && <2.1
+      base >=4.7 && <5.0
+    , constraints >=0.4 && <0.9
+    , singletons >=1.1 && <2.2
   ghcjs-options: -Wall -O3
   ghc-options: -Wall -O2

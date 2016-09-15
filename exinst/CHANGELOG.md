@@ -1,3 +1,14 @@
+# Version 0.1.2
+
+* Export the `Some{1,2,3,4}` constructors.
+
+* Make all the fields in `Some{1,2,3,4}` strict.
+
+* Relax upper bound on `base`, `singletons`, `constraints`.
+
+* Re-export `Dict(Dict)` from `constraints`.
+
+
 # Version 0.1.1
 
 * Relax upper bound on `singletons` dependency.

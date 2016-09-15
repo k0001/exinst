@@ -1,3 +1,8 @@
+# Version 0.1.0.2
+
+* Relax upper bound on `aeson`, `base`, `singletons`, `constraints`.
+
+
 # Version 0.1.0.1
 
 * Relax upper bound on `singletons` dependency.
