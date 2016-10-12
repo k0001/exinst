@@ -1,4 +1,4 @@
-{ mkDerivation, base, bytes, constraints, exinst, singletons_2_1
+{ mkDerivation, base, bytes, constraints, exinst, singletons
 , stdenv
 }:
 mkDerivation {
@@ -6,7 +6,7 @@ mkDerivation {
   version = "0.1.0.2";
   src = ./.;
   libraryHaskellDepends = [
-    base bytes constraints exinst singletons_2_1
+    base bytes constraints exinst singletons
   ];
   homepage = "https://github.com/k0001/exinst";
   description = "Derive instances for the `bytes` library for your existential types";

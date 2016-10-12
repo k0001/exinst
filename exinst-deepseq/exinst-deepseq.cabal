@@ -1,5 +1,5 @@
 name:                exinst-deepseq
-version:             0.1.0.1
+version:             0.2
 author:              Renzo Carbonara
 maintainer:          renzoλcarbonara.com.ar
 copyright:           Renzo Carbonara 2015-2016
@@ -19,9 +19,9 @@ library
   exposed-modules:
       Exinst.Instances.DeepSeq
   build-depends:
-      base >=4.7 && <5.0
+      base >=4.9 && <5.0
     , deepseq >=1.4 && <1.5
     , constraints >=0.4 && <0.9
-    , exinst >=0.1 && <0.2
+    , exinst >=0.2 && <0.3
   ghcjs-options: -Wall -O3
   ghc-options: -Wall -O2

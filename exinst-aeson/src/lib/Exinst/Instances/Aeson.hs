@@ -22,8 +22,8 @@ import           Prelude
 --------------------------------------------------------------------------------
 
 instance forall (f1 :: k1 -> *)
-  . ( SingKind ('KProxy :: KProxy k1)
-    , Ae.ToJSON (DemoteRep ('KProxy :: KProxy k1))
+  . ( SingKind k1
+    , Ae.ToJSON (DemoteRep k1)
     , Dict1 Ae.ToJSON f1
     ) => Ae.ToJSON (Some1 f1)
   where
@@ -33,10 +33,10 @@ instance forall (f1 :: k1 -> *)
           Dict -> Ae.toJSON (fromSing sa1, x)
 
 instance forall (f2 :: k2 -> k1 -> *)
-  . ( SingKind ('KProxy :: KProxy k2)
-    , SingKind ('KProxy :: KProxy k1)
-    , Ae.ToJSON (DemoteRep ('KProxy :: KProxy k2))
-    , Ae.ToJSON (DemoteRep ('KProxy :: KProxy k1))
+  . ( SingKind k2
+    , SingKind k1
+    , Ae.ToJSON (DemoteRep k2)
+    , Ae.ToJSON (DemoteRep k1)
     , Dict2 Ae.ToJSON f2
     ) => Ae.ToJSON (Some2 f2)
   where
@@ -46,12 +46,12 @@ instance forall (f2 :: k2 -> k1 -> *)
           Dict -> Ae.toJSON ((fromSing sa2, fromSing sa1), x)
 
 instance forall (f3 :: k3 -> k2 -> k1 -> *)
-  . ( SingKind ('KProxy :: KProxy k3)
-    , SingKind ('KProxy :: KProxy k2)
-    , SingKind ('KProxy :: KProxy k1)
-    , Ae.ToJSON (DemoteRep ('KProxy :: KProxy k3))
-    , Ae.ToJSON (DemoteRep ('KProxy :: KProxy k2))
-    , Ae.ToJSON (DemoteRep ('KProxy :: KProxy k1))
+  . ( SingKind k3
+    , SingKind k2
+    , SingKind k1
+    , Ae.ToJSON (DemoteRep k3)
+    , Ae.ToJSON (DemoteRep k2)
+    , Ae.ToJSON (DemoteRep k1)
     , Dict3 Ae.ToJSON f3
     ) => Ae.ToJSON (Some3 f3)
   where
@@ -61,14 +61,14 @@ instance forall (f3 :: k3 -> k2 -> k1 -> *)
           Dict -> Ae.toJSON ((fromSing sa3, fromSing sa2, fromSing sa1), x)
 
 instance forall (f4 :: k4 -> k3 -> k2 -> k1 -> *)
-  . ( SingKind ('KProxy :: KProxy k4)
-    , SingKind ('KProxy :: KProxy k3)
-    , SingKind ('KProxy :: KProxy k2)
-    , SingKind ('KProxy :: KProxy k1)
-    , Ae.ToJSON (DemoteRep ('KProxy :: KProxy k4))
-    , Ae.ToJSON (DemoteRep ('KProxy :: KProxy k3))
-    , Ae.ToJSON (DemoteRep ('KProxy :: KProxy k2))
-    , Ae.ToJSON (DemoteRep ('KProxy :: KProxy k1))
+  . ( SingKind k4
+    , SingKind k3
+    , SingKind k2
+    , SingKind k1
+    , Ae.ToJSON (DemoteRep k4)
+    , Ae.ToJSON (DemoteRep k3)
+    , Ae.ToJSON (DemoteRep k2)
+    , Ae.ToJSON (DemoteRep k1)
     , Dict4 Ae.ToJSON f4
     ) => Ae.ToJSON (Some4 f4)
   where
@@ -80,8 +80,8 @@ instance forall (f4 :: k4 -> k3 -> k2 -> k1 -> *)
 --------------------------------------------------------------------------------
 
 instance forall (f1 :: k1 -> *)
-  . ( SingKind ('KProxy :: KProxy k1)
-    , Ae.FromJSON (DemoteRep ('KProxy :: KProxy k1))
+  . ( SingKind k1
+    , Ae.FromJSON (DemoteRep k1)
     , Dict1 Ae.FromJSON f1
     ) => Ae.FromJSON (Some1 f1)
   where
@@ -95,12 +95,12 @@ instance forall (f1 :: k1 -> *)
                return (some1 x)
 
 instance forall (f2 :: k2 -> k1 -> *)
-  . ( SingKind ('KProxy :: KProxy k2)
-    , SingKind ('KProxy :: KProxy k1)
-    , Ae.FromJSON (DemoteRep ('KProxy :: KProxy k2))
-    , Ae.FromJSON (DemoteRep ('KProxy :: KProxy k1))
+  . ( SingKind k2
+    , SingKind k1
+    , Ae.FromJSON (DemoteRep k2)
+    , Ae.FromJSON (DemoteRep k1)
     , Dict2 Ae.FromJSON f2
-    ) => Ae.FromJSON (Some2 f2) 
+    ) => Ae.FromJSON (Some2 f2)
   where
     {-# INLINABLE parseJSON #-}
     parseJSON = \v -> do
@@ -113,14 +113,14 @@ instance forall (f2 :: k2 -> k1 -> *)
                   return (some2 x)
 
 instance forall (f3 :: k3 -> k2 -> k1 -> *)
-  . ( SingKind ('KProxy :: KProxy k3)
-    , SingKind ('KProxy :: KProxy k2)
-    , SingKind ('KProxy :: KProxy k1)
-    , Ae.FromJSON (DemoteRep ('KProxy :: KProxy k3))
-    , Ae.FromJSON (DemoteRep ('KProxy :: KProxy k2))
-    , Ae.FromJSON (DemoteRep ('KProxy :: KProxy k1))
+  . ( SingKind k3
+    , SingKind k2
+    , SingKind k1
+    , Ae.FromJSON (DemoteRep k3)
+    , Ae.FromJSON (DemoteRep k2)
+    , Ae.FromJSON (DemoteRep k1)
     , Dict3 Ae.FromJSON f3
-    ) => Ae.FromJSON (Some3 f3) 
+    ) => Ae.FromJSON (Some3 f3)
   where
     {-# INLINABLE parseJSON #-}
     parseJSON = \v -> do
@@ -134,14 +134,14 @@ instance forall (f3 :: k3 -> k2 -> k1 -> *)
                      return (some3 x)
 
 instance forall (f4 :: k4 -> k3 -> k2 -> k1 -> *)
-  . ( SingKind ('KProxy :: KProxy k4)
-    , SingKind ('KProxy :: KProxy k3)
-    , SingKind ('KProxy :: KProxy k2)
-    , SingKind ('KProxy :: KProxy k1)
-    , Ae.FromJSON (DemoteRep ('KProxy :: KProxy k4))
-    , Ae.FromJSON (DemoteRep ('KProxy :: KProxy k3))
-    , Ae.FromJSON (DemoteRep ('KProxy :: KProxy k2))
-    , Ae.FromJSON (DemoteRep ('KProxy :: KProxy k1))
+  . ( SingKind k4
+    , SingKind k3
+    , SingKind k2
+    , SingKind k1
+    , Ae.FromJSON (DemoteRep k4)
+    , Ae.FromJSON (DemoteRep k3)
+    , Ae.FromJSON (DemoteRep k2)
+    , Ae.FromJSON (DemoteRep k1)
     , Dict4 Ae.FromJSON f4
     ) => Ae.FromJSON (Some4 f4)
   where

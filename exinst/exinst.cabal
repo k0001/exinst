@@ -1,5 +1,5 @@
 name:                exinst
-version:             0.1.2
+version:             0.2
 author:              Renzo Carbonara
 maintainer:          renzoλcarbonara.com.ar
 copyright:           Renzo Carbonara 2015-2016
@@ -21,8 +21,8 @@ library
       Exinst.Singletons
       Exinst.Instances.Base
   build-depends:
-      base >=4.7 && <5.0
+      base >=4.9 && <5.0
     , constraints >=0.4 && <0.9
-    , singletons >=1.1 && <2.2
+    , singletons >=2.2 && <2.3
   ghcjs-options: -Wall -O3
   ghc-options: -Wall -O2

@@ -1,3 +1,8 @@
+# Version 0.2
+
+* Depend on `singletons-2.2`, which means `KProxy` is gone.
+
+
 # Version 0.1.2
 
 * Export the `Some{1,2,3,4}` constructors.
