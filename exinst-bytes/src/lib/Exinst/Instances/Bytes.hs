@@ -22,8 +22,8 @@ import           Prelude
 --------------------------------------------------------------------------------
 
 instance forall (f1 :: k1 -> *)
-  . ( SingKind ('KProxy :: KProxy k1)
-    , By.Serial (DemoteRep ('KProxy :: KProxy k1))
+  . ( SingKind k1
+    , By.Serial (DemoteRep k1)
     , Dict1 By.Serial f1
     ) => By.Serial (Some1 f1)
   where
@@ -41,10 +41,10 @@ instance forall (f1 :: k1 -> *)
                        return (some1 x)
 
 instance forall (f2 :: k2 -> k1 -> *)
-  . ( SingKind ('KProxy :: KProxy k2)
-    , SingKind ('KProxy :: KProxy k1)
-    , By.Serial (DemoteRep ('KProxy :: KProxy k2))
-    , By.Serial (DemoteRep ('KProxy :: KProxy k1))
+  . ( SingKind k2
+    , SingKind k1
+    , By.Serial (DemoteRep k2)
+    , By.Serial (DemoteRep k1)
     , Dict2 By.Serial f2
     ) => By.Serial (Some2 f2)
   where
@@ -63,12 +63,12 @@ instance forall (f2 :: k2 -> k1 -> *)
                           return (some2 x)
 
 instance forall (f3 :: k3 -> k2 -> k1 -> *)
-  . ( SingKind ('KProxy :: KProxy k3)
-    , SingKind ('KProxy :: KProxy k2)
-    , SingKind ('KProxy :: KProxy k1)
-    , By.Serial (DemoteRep ('KProxy :: KProxy k3))
-    , By.Serial (DemoteRep ('KProxy :: KProxy k2))
-    , By.Serial (DemoteRep ('KProxy :: KProxy k1))
+  . ( SingKind k3
+    , SingKind k2
+    , SingKind k1
+    , By.Serial (DemoteRep k3)
+    , By.Serial (DemoteRep k2)
+    , By.Serial (DemoteRep k1)
     , Dict3 By.Serial f3
     ) => By.Serial (Some3 f3)
   where
@@ -88,16 +88,16 @@ instance forall (f3 :: k3 -> k2 -> k1 -> *)
                              return (some3 x)
 
 instance forall (f4 :: k4 -> k3 -> k2 -> k1 -> *)
-  . ( SingKind ('KProxy :: KProxy k4)
-    , SingKind ('KProxy :: KProxy k3)
-    , SingKind ('KProxy :: KProxy k2)
-    , SingKind ('KProxy :: KProxy k1)
-    , By.Serial (DemoteRep ('KProxy :: KProxy k4))
-    , By.Serial (DemoteRep ('KProxy :: KProxy k3))
-    , By.Serial (DemoteRep ('KProxy :: KProxy k2))
-    , By.Serial (DemoteRep ('KProxy :: KProxy k1))
+  . ( SingKind k4
+    , SingKind k3
+    , SingKind k2
+    , SingKind k1
+    , By.Serial (DemoteRep k4)
+    , By.Serial (DemoteRep k3)
+    , By.Serial (DemoteRep k2)
+    , By.Serial (DemoteRep k1)
     , Dict4 By.Serial f4
-    ) => By.Serial (Some4 f4) 
+    ) => By.Serial (Some4 f4)
   where
     {-# INLINABLE serialize #-}
     serialize = \some4x -> withSome4Sing some4x $ \sa4 sa3 sa2 sa1 (x :: f4 a4 a3 a2 a1) ->

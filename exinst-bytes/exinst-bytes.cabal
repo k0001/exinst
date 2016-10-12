@@ -1,5 +1,5 @@
 name:                exinst-bytes
-version:             0.1.0.2
+version:             0.1.0.3
 author:              Renzo Carbonara
 maintainer:          renzoλcarbonara.com.ar
 copyright:           Renzo Carbonara 2015-2016
@@ -23,6 +23,6 @@ library
     , bytes >=0.15 && <0.16
     , constraints >=0.4 && <0.9
     , exinst >=0.1 && <0.2
-    , singletons >=1.1 && <2.2
+    , singletons >=2.2 && <2.3
   ghcjs-options: -Wall -O3
   ghc-options: -Wall -O2
