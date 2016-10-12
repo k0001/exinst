@@ -13,33 +13,41 @@ module Exinst.Singletons
  ( -- * 1 type index
    Some1(Some1)
  , some1
- , withSome1Sing
- , withSome1
  , fromSome1
+ , _Some1
+ , withSome1
+ , withSome1Sing
+ , some1SingRep
  , Dict1(dict1)
 
    -- * 2 type indexes
  , Some2(Some2)
  , some2
- , withSome2Sing
- , withSome2
  , fromSome2
+ , _Some2
+ , withSome2
+ , withSome2Sing
+ , some2SingRep
  , Dict2(dict2)
 
    -- * 3 type indexes
  , Some3(Some3)
  , some3
- , withSome3Sing
- , withSome3
  , fromSome3
+ , _Some3
+ , withSome3
+ , withSome3Sing
+ , some3SingRep
  , Dict3(dict3)
 
    -- * 4 type indexes
  , Some4(Some4)
  , some4
- , withSome4Sing
- , withSome4
  , fromSome4
+ , _Some4
+ , withSome4
+ , withSome4Sing
+ , some4SingRep
  , Dict4(dict4)
 
    -- * Re-exports
@@ -277,6 +285,38 @@ _Some4
   => Prism' (Some4 f4) (f4 a4 a3 a2 a1)
 _Some4 = prism' some4 fromSome4
 {-# INLINE _Some4 #-}
+
+--------------------------------------------------------------------------------
+
+some1SingRep
+  :: SingKind k1
+  => Some1 (f1 :: k1 -> Type)
+  -> DemoteRep k1 -- ^
+some1SingRep = \(Some1 sa1 _) -> fromSing sa1
+{-# INLINE some1SingRep #-}
+
+some2SingRep
+  :: (SingKind k2, SingKind k1)
+  => Some2 (f2 :: k2 -> k1 -> Type)
+  -> (DemoteRep k2, DemoteRep k1) -- ^
+some2SingRep = \(Some2 sa2 sa1 _) -> (fromSing sa2, fromSing sa1)
+{-# INLINE some2SingRep #-}
+
+some3SingRep
+  :: (SingKind k3, SingKind k2, SingKind k1)
+  => Some3 (f3 :: k3 -> k2 -> k1 -> Type)
+  -> (DemoteRep k3, DemoteRep k2, DemoteRep k1) -- ^
+some3SingRep = \(Some3 sa3 sa2 sa1 _) ->
+  (fromSing sa3, fromSing sa2, fromSing sa1)
+{-# INLINE some3SingRep #-}
+
+some4SingRep
+  :: (SingKind k4, SingKind k3, SingKind k2, SingKind k1)
+  => Some4 (f4 :: k4 -> k3 -> k2 -> k1 -> Type)
+  -> (DemoteRep k4, DemoteRep k3, DemoteRep k2, DemoteRep k1) -- ^
+some4SingRep = \(Some4 sa4 sa3 sa2 sa1 _) ->
+  (fromSing sa4, fromSing sa3, fromSing sa2, fromSing sa1)
+{-# INLINE some4SingRep #-}
 
 --------------------------------------------------------------------------------
 
