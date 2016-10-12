@@ -1,4 +1,8 @@
+{-# LANGUAGE ConstraintKinds #-}
 {-# LANGUAGE DataKinds #-}
+{-# LANGUAGE FlexibleInstances #-}
+{-# LANGUAGE LambdaCase #-}
+{-# LANGUAGE MultiParamTypeClasses #-}
 {-# LANGUAGE PolyKinds #-}
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE TypeFamilies #-}
@@ -17,6 +21,7 @@ module Exinst.Instances.Base () where
 import Data.Constraint
 import Data.Kind (Type)
 import Data.Singletons
+import Data.Singletons.Prelude.Bool (Sing(STrue,SFalse))
 import Data.Singletons.Decide
 import Data.Type.Equality
 import Exinst.Singletons
@@ -269,3 +274,12 @@ instance forall (f4 :: k4 -> k3 -> k2 -> k1 -> Type)
                   Refl <- testEquality sa1x sa1y
                   case dict4 sa4x sa3x sa2x sa1x :: Dict (Ord (f4 a4x a3x a2x a1x)) of
                      Dict -> Just (compare x y)
+
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+-- Out of the box 'Dict1' instances for some @base@ types
+
+instance (c (f 'True), c (f 'False)) => Dict1 c (f :: Bool -> k0) where
+  dict1 = \case
+    STrue -> Dict
+    SFalse -> Dict

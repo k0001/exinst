@@ -4,6 +4,8 @@
 
 * Add `_Some{1,2,3,4}` prisms.
 
+* Add `Dict` instance for `Bool`.
+
 
 # Version 0.1.2
 
