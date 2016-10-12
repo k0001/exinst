@@ -28,8 +28,8 @@ salt0 = 6700417
 --------------------------------------------------------------------------------
 
 instance forall (f1 :: k1 -> *)
-  . ( SingKind ('KProxy :: KProxy k1)
-    , Hashable (DemoteRep ('KProxy :: KProxy k1))
+  . ( SingKind k1
+    , Hashable (DemoteRep k1)
     , Dict1 Hashable f1
     ) => Hashable (Some1 f1)
   where
@@ -41,10 +41,10 @@ instance forall (f1 :: k1 -> *)
                        `hashWithSalt` x
 
 instance forall (f2 :: k2 -> k1 -> *)
-  . ( SingKind ('KProxy :: KProxy k2)
-    , SingKind ('KProxy :: KProxy k1)
-    , Hashable (DemoteRep ('KProxy :: KProxy k2))
-    , Hashable (DemoteRep ('KProxy :: KProxy k1))
+  . ( SingKind k2
+    , SingKind k1
+    , Hashable (DemoteRep k2)
+    , Hashable (DemoteRep k1)
     , Dict2 Hashable f2
     ) => Hashable (Some2 f2)
   where
@@ -57,12 +57,12 @@ instance forall (f2 :: k2 -> k1 -> *)
                        `hashWithSalt` x
 
 instance forall (f3 :: k3 -> k2 -> k1 -> *)
-  . ( SingKind ('KProxy :: KProxy k3)
-    , SingKind ('KProxy :: KProxy k2)
-    , SingKind ('KProxy :: KProxy k1)
-    , Hashable (DemoteRep ('KProxy :: KProxy k3))
-    , Hashable (DemoteRep ('KProxy :: KProxy k2))
-    , Hashable (DemoteRep ('KProxy :: KProxy k1))
+  . ( SingKind k3
+    , SingKind k2
+    , SingKind k1
+    , Hashable (DemoteRep k3)
+    , Hashable (DemoteRep k2)
+    , Hashable (DemoteRep k1)
     , Dict3 Hashable f3
     ) => Hashable (Some3 f3)
   where
@@ -76,14 +76,14 @@ instance forall (f3 :: k3 -> k2 -> k1 -> *)
                        `hashWithSalt` x
 
 instance forall (f4 :: k4 -> k3 -> k2 -> k1 -> *)
-  . ( SingKind ('KProxy :: KProxy k4)
-    , SingKind ('KProxy :: KProxy k3)
-    , SingKind ('KProxy :: KProxy k2)
-    , SingKind ('KProxy :: KProxy k1)
-    , Hashable (DemoteRep ('KProxy :: KProxy k4))
-    , Hashable (DemoteRep ('KProxy :: KProxy k3))
-    , Hashable (DemoteRep ('KProxy :: KProxy k2))
-    , Hashable (DemoteRep ('KProxy :: KProxy k1))
+  . ( SingKind k4
+    , SingKind k3
+    , SingKind k2
+    , SingKind k1
+    , Hashable (DemoteRep k4)
+    , Hashable (DemoteRep k3)
+    , Hashable (DemoteRep k2)
+    , Hashable (DemoteRep k1)
     , Dict4 Hashable f4
     ) => Hashable (Some4 f4)
   where
