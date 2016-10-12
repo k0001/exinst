@@ -8,6 +8,8 @@
 
 * Add `some{1,2,3,4}SingRep`.
 
+* Thanks to Sandy Maguire for having contributed to this release.
+
 
 # Version 0.1.2
 
