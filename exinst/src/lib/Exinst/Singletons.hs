@@ -48,6 +48,7 @@ module Exinst.Singletons
 
 import Data.Constraint
 import Data.Kind (Type)
+import Data.Profunctor (dimap, Choice(right'))
 import Data.Singletons
 import Data.Singletons.Decide
 import Data.Type.Equality
@@ -198,7 +199,7 @@ fromSome1 = \(Some1 sa1' x) -> do
 fromSome2
    :: forall (f2 :: k2 -> k1 -> Type) a2 a1
     . ( SingI a2, SDecide k2
-      , SingI a1, SDecide k1)
+      , SingI a1, SDecide k1 )
    => Some2 f2
    -> Maybe (f2 a2 a1) -- ^
 fromSome2 = \(Some2 sa2' sa1' x) -> do
@@ -211,7 +212,7 @@ fromSome3
    :: forall (f3 :: k3 -> k2 -> k1 -> Type) a3 a2 a1
     . ( SingI a3, SDecide k3
       , SingI a2, SDecide k2
-      , SingI a1, SDecide k1)
+      , SingI a1, SDecide k1 )
    => Some3 f3
    -> Maybe (f3 a3 a2 a1) -- ^
 fromSome3 = \(Some3 sa3' sa2' sa1' x) -> do
@@ -226,7 +227,7 @@ fromSome4
     . ( SingI a4, SDecide k4
       , SingI a3, SDecide k3
       , SingI a2, SDecide k2
-      , SingI a1, SDecide k1)
+      , SingI a1, SDecide k1 )
    => Some4 f4
    -> Maybe (f4 a4 a3 a2 a1) -- ^
 fromSome4 = \(Some4 sa4' sa3' sa2' sa1' x) -> do
@@ -239,14 +240,74 @@ fromSome4 = \(Some4 sa4' sa3' sa2' sa1' x) -> do
 
 --------------------------------------------------------------------------------
 
+-- A @lens@-compatible 'Prism'' for constructing and deconstructing a 'Some1'.
+_Some1
+  :: forall (f1 :: k1 -> Type) a1
+  .  (SingI a1, SDecide k1)
+  => Prism' (Some1 f1) (f1 a1)
+_Some1 = prism' some1 fromSome1
+{-# INLINE _Some1 #-}
+
+-- A @lens@-compatible 'Prism'' for constructing and deconstructing a 'Some2'.
+_Some2
+  :: forall (f2 :: k2 -> k1 -> Type) a2 a1
+  .  ( SingI a2, SDecide k2
+     , SingI a1, SDecide k1 )
+  => Prism' (Some2 f2) (f2 a2 a1)
+_Some2 = prism' some2 fromSome2
+{-# INLINE _Some2 #-}
+
+-- A @lens@-compatible 'Prism'' for constructing and deconstructing a 'Some3'.
+_Some3
+  :: forall (f3 :: k3 -> k2 -> k1 -> Type) a3 a2 a1
+  .  ( SingI a3, SDecide k3
+     , SingI a2, SDecide k2
+     , SingI a1, SDecide k1 )
+  => Prism' (Some3 f3) (f3 a3 a2 a1)
+_Some3 = prism' some3 fromSome3
+{-# INLINE _Some3 #-}
+
+-- A @lens@-compatible 'Prism'' for constructing and deconstructing a 'Some4'.
+_Some4
+  :: forall (f4 :: k4 -> k3 -> k2 -> k1 -> Type) a4 a3 a2 a1
+  .  ( SingI a4, SDecide k4
+     , SingI a3, SDecide k3
+     , SingI a2, SDecide k2
+     , SingI a1, SDecide k1 )
+  => Prism' (Some4 f4) (f4 a4 a3 a2 a1)
+_Some4 = prism' some4 fromSome4
+{-# INLINE _Some4 #-}
+
+--------------------------------------------------------------------------------
+
 class Dict1 (c :: k0 -> Constraint) (f1 :: k1 -> k0) where
+  -- | Runtime lookup of the @c (f1 a1)@ instance.
   dict1 :: Sing a1 -> Dict (c (f1 a1))
 
 class Dict2 (c :: k0 -> Constraint) (f2 :: k2 -> k1 -> k0) where
+  -- Runtime lookup of the @c (f2 a2 a1)@ instance.
   dict2 :: Sing a2 -> Sing a1 -> Dict (c (f2 a2 a1))
 
 class Dict3 (c :: k0 -> Constraint) (f3 :: k3 -> k2 -> k1 -> k0) where
+  -- Runtime lookup of the @c (f3 a3 a2 a1)@ instance.
   dict3 :: Sing a3 -> Sing a2 -> Sing a1 -> Dict (c (f3 a3 a2 a1))
 
 class Dict4 (c :: k0 -> Constraint) (f4 :: k4 -> k3 -> k2 -> k1 -> k0) where
+  -- Runtime lookup of the @c (f4 a4 a3 a2 a1)@ instance.
   dict4 :: Sing a4 -> Sing a3 -> Sing a2 -> Sing a1 -> Dict (c (f4 a4 a3 a2 a1))
+
+--------------------------------------------------------------------------------
+-- Miscelaneous @lens@-compatible stuff.
+
+type Prism s t a b
+  = forall p f. (Choice p, Applicative f) => p a (f b) -> p s (f t)
+
+type Prism' s a = Prism s s a a
+
+prism :: (b -> t) -> (s -> Either t a) -> Prism s t a b
+prism bt seta = dimap seta (either pure (fmap bt)) . right'
+{-# INLINE prism #-}
+
+prism' :: (b -> s) -> (s -> Maybe a) -> Prism s s a b
+prism' bs sma = prism bs (\s -> maybe (Left s) Right (sma s))
+{-# INLINE prism' #-}

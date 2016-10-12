@@ -2,6 +2,8 @@
 
 * Depend on `singletons-2.2`, which means `KProxy` is gone.
 
+* Add `_Some{1,2,3,4}` prisms.
+
 
 # Version 0.1.2
 
