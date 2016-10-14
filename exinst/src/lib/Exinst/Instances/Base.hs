@@ -7,6 +7,7 @@
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE TypeFamilies #-}
 {-# LANGUAGE TypeInType #-}
+{-# LANGUAGE TypeOperators #-}
 {-# LANGUAGE UndecidableInstances #-}
 
 {-# OPTIONS_GHC -fno-warn-orphans #-}
@@ -18,9 +19,12 @@
 -- See the README file for more general documentation: https://hackage.haskell.org/package/exinst#readme
 module Exinst.Instances.Base () where
 
-import Data.Constraint
+import Data.Constraint ((:-), (\\))
+import Data.Constraint.Forall (ForallF, instF)
 import Data.Kind (Type)
 import Data.Singletons
+import Data.Singletons.Prelude.Either (Sing(SLeft,SRight))
+import Data.Singletons.Prelude.Maybe (Sing(SNothing,SJust))
 import Data.Singletons.Prelude.Bool (Sing(STrue,SFalse))
 import Data.Singletons.Decide
 import Data.Type.Equality
@@ -283,3 +287,24 @@ instance (c (f 'True), c (f 'False)) => Dict1 c (f :: Bool -> k0) where
   dict1 = \case
     STrue -> Dict
     SFalse -> Dict
+
+instance
+  forall k1 k0 c f.
+  ( ForallF c f
+  ) => Dict1 c (f :: Maybe k1 -> k0) where
+  dict1 = \case
+    SNothing ->
+       Dict \\ (instF :: ForallF c f :- c (f 'Nothing))
+    SJust (_ :: Sing (a1 :: k1)) ->
+       Dict \\ (instF :: ForallF c f :- c (f ('Just (a1 :: k1))))
+
+instance
+  forall k2 k1 k0 c f.
+  ( ForallF c f
+  ) => Dict1 c (f :: Either k2 k1 -> k0) where
+  dict1 = \case
+    SLeft (_ :: Sing (a2 :: k2)) ->
+       Dict \\ (instF :: ForallF c f :- c (f ('Left (a2 :: k2))))
+    SRight (_ :: Sing (a1 :: k1)) ->
+       Dict \\ (instF :: ForallF c f :- c (f ('Right (a1 :: k1))))
+
