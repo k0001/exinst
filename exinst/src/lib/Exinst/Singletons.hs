@@ -50,6 +50,9 @@ module Exinst.Singletons
  , some4SingRep
  , Dict4(dict4)
 
+   -- * Miscellaneous
+ , Dict0(dict0)
+
    -- * Re-exports
  , Dict(Dict)
  ) where
@@ -319,6 +322,13 @@ some4SingRep = \(Some4 sa4 sa3 sa2 sa1 _) ->
 {-# INLINE some4SingRep #-}
 
 --------------------------------------------------------------------------------
+
+-- | 'Dict0' is a bit different from 'Dict1', 'Dict2', etc. in that it looks up
+-- an instance for the singleton type itself, and not for some other type
+-- indexed by said singleton type.
+class Dict0 (c :: k0 -> Constraint) where
+  -- | Runtime lookup of the @c a0@ instance.
+  dict0 :: Sing a0 -> Dict (c a0)
 
 class Dict1 (c :: k0 -> Constraint) (f1 :: k1 -> k0) where
   -- | Runtime lookup of the @c (f1 a1)@ instance.
