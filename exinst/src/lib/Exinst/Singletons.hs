@@ -320,6 +320,10 @@ some4SingRep = \(Some4 sa4 sa3 sa2 sa1 _) ->
 
 --------------------------------------------------------------------------------
 
+class Dict0 k (c :: k -> Constraint) where
+  -- | Runtime lookup of the @c a1@ instance.
+  dict0 :: Sing (a1 :: k) -> Dict (c a1)
+
 class Dict1 (c :: k0 -> Constraint) (f1 :: k1 -> k0) where
   -- | Runtime lookup of the @c (f1 a1)@ instance.
   dict1 :: Sing a1 -> Dict (c (f1 a1))
