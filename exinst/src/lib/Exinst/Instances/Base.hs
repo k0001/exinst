@@ -277,9 +277,12 @@ instance forall (f4 :: k4 -> k3 -> k2 -> k1 -> Type)
 
 --------------------------------------------------------------------------------
 --------------------------------------------------------------------------------
--- Out of the box 'Dict1' instances for some @base@ types
+-- Out of the box 'DictX' instances for some @base@ types
+
+instance (c 'True, c 'False) => Dict0 (c :: Bool -> Constraint) where
+  {-# INLINABLE dict0 #-}
+  dict0 = \case { STrue -> Dict; SFalse -> Dict }
 
 instance (c (f 'True), c (f 'False)) => Dict1 c (f :: Bool -> k0) where
-  dict1 = \case
-    STrue -> Dict
-    SFalse -> Dict
+  {-# INLINABLE dict1 #-}
+  dict1 = \case { STrue -> Dict; SFalse -> Dict }

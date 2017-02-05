@@ -4,6 +4,8 @@
 
 * Re-export `Constraint` from `base`.
 
+* Add `Dict0` instance for `Bool`.
+
 
 # Version 0.2
 
@@ -11,7 +13,7 @@
 
 * Add `_Some{1,2,3,4}` prisms.
 
-* Add `Dict` instance for `Bool`.
+* Add `Dict1` instance for `Bool`.
 
 * Add `some{1,2,3,4}SingRep`.
 
