@@ -2,6 +2,8 @@
 
 * Add `Dict0`.
 
+* Re-export `Constraint` from `base`.
+
 
 # Version 0.2
 

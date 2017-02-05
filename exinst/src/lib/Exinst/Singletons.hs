@@ -54,6 +54,7 @@ module Exinst.Singletons
  , Dict0(dict0)
 
    -- * Re-exports
+ , Constraint
  , Dict(Dict)
  ) where
 
