@@ -429,7 +429,7 @@ type family Eithers4' (xs :: [(k4, (k3, (k2, k1)))]) (f :: k4 -> k3 -> k2 -> k1 
   Eithers4' ( '( x4, '(x3, '(x2, x1))) ': '[]) f = f x4 x3 x2 x1
   Eithers4' ( '( x4, '(x3, '(x2, x1))) ': xs)  f = Either (f x4 x3 x2 x1) (Eithers4' xs f)
 
--- | We use nested 2-tuples instead of 3-tuples because it's easier to implement.
+-- | We use nested 2-tuples instead of 4-tuples because it's easier to implement.
 type family Cartesian4 (xs4 :: [k4]) (xs3 :: [k3]) (xs2 :: [k2]) (xs1 :: [k1]) :: [(k4,(k3,(k2,k1)))] where
   Cartesian4 '[] xs3 xs2 xs1 = '[]
   Cartesian4 (x4 ': xs4) xs3 xs2 xs1 =
