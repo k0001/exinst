@@ -6,6 +6,9 @@
 
 * Add `Dict0` instance for `Bool`.
 
+* Add `GHC.Generics.Generic` support for `Some1`. This only works for
+  indexes with `PEnum` and `PBounded` instances.
+
 
 # Version 0.2
 

@@ -6,6 +6,7 @@
 {-# LANGUAGE PolyKinds #-}
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE TypeFamilies #-}
+{-# LANGUAGE TypeOperators #-}
 {-# LANGUAGE TypeInType #-}
 {-# LANGUAGE UndecidableInstances #-}
 
@@ -21,12 +22,14 @@ module Exinst.Instances.Base () where
 import Data.Constraint
 import Data.Kind (Type)
 import Data.Singletons
+import Data.Singletons.Prelude.Enum (PEnum(EnumFromTo), PBounded(MinBound, MaxBound))
 import Data.Singletons.Prelude.Bool (Sing(STrue,SFalse))
 import Data.Singletons.Decide
 import Data.Type.Equality
 import Exinst.Singletons
   hiding (Some1(..), Some2(..), Some3(..), Some4(..))
 import qualified Exinst.Singletons as Exinst
+import qualified GHC.Generics as G
 import Prelude
 
 --------------------------------------------------------------------------------
@@ -276,6 +279,52 @@ instance forall (f4 :: k4 -> k3 -> k2 -> k1 -> Type)
                      Dict -> Just (compare x y)
 
 --------------------------------------------------------------------------------
+-- Generic
+
+type Eithers1 k (f :: k -> Type) =
+  Eithers1' (EnumFromTo (MinBound :: k) (MaxBound :: k)) f
+
+-- | TODO: Make this logarithmic.
+type family Eithers1' (xs :: [k]) (f :: k -> Type) :: Type where
+  Eithers1' (x ': '[]) f = f x
+  Eithers1' (x ': xs)  f = Either (f x) (Eithers1' xs f)
+
+instance forall k1 (f1 :: k1 -> Type)
+  . ( SingKind k1
+    , PEnum ('Proxy :: Proxy k1)
+    , PBounded ('Proxy :: Proxy k1)
+    , Dict1 G.Generic f1
+    , Dict1 (Inj (Eithers1 k1 f1)) f1
+    , G.Generic (DemoteRep k1)
+    ) => G.Generic (Exinst.Some1 f1)
+  where
+    type Rep (Exinst.Some1 (f1 :: k1 -> Type)) =
+      G.Rep (DemoteRep k1, Eithers1 k1 f1)
+    {-# INLINABLE from #-}
+    from = \some1x -> withSome1Sing some1x $ \(sa1 :: Sing a1) (x :: f1 a1) ->
+      case dict1 sa1 :: Dict (G.Generic (f1 a1)) of
+        Dict -> case dict1 sa1 :: Dict (Inj (Eithers1 k1 f1) (f1 a1)) of
+          Dict -> G.from (fromSing sa1, inj x)
+    {-# INLINABLE to #-}
+    to = \(G.M1 (G.M1 (G.M1 (G.K1 da1) G.:*: G.M1 (G.K1 ex)))) ->
+      withSomeSing da1 $ \(sa1 :: Sing (a1 :: k1)) ->
+        case dict1 sa1 :: Dict (Inj (Eithers1 k1 f1) (f1 a1)) of
+          Dict -> case prj ex of
+            Just (x :: f1 a1) -> Exinst.Some1 sa1 x
+            Nothing -> error "Generic Some1: Malformed Rep"
+
+
+{- Example using the class above:
+
+data family Foo :: Bool -> Type
+data instance Foo 'True  = A | B deriving (Show, G.Generic)
+data instance Foo 'False = C | D deriving (Show, G.Generic)
+
+s1foo :: Exinst.Some1 Foo
+s1foo = G.to (G.from (some1 A))
+-}
+
+--------------------------------------------------------------------------------
 --------------------------------------------------------------------------------
 -- Out of the box 'DictX' instances for some @base@ types
 
@@ -286,3 +335,28 @@ instance (c 'True, c 'False) => Dict0 (c :: Bool -> Constraint) where
 instance (c (f 'True), c (f 'False)) => Dict1 c (f :: Bool -> k0) where
   {-# INLINABLE dict1 #-}
   dict1 = \case { STrue -> Dict; SFalse -> Dict }
+
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+-- Misc
+
+class Inj b a where
+  inj :: a -> b
+  prj :: b -> Maybe a
+instance Inj a a where
+  {-# INLINE inj #-}
+  inj = id
+  {-# INLINE prj #-}
+  prj = Just
+instance Inj (Either a b) a where
+  {-# INLINE inj #-}
+  inj = Left
+  {-# INLINE prj #-}
+  prj = either Just (const Nothing)
+-- | TODO: Make this logarithmic.
+instance {-# OVERLAPPABLE #-} Inj x a => Inj (Either b x) a where
+  {-# INLINE inj #-}
+  inj = Right . inj
+  {-# INLINE prj #-}
+  prj = either (const Nothing) prj
+
