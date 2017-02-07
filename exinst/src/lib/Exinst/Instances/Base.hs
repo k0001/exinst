@@ -10,6 +10,8 @@
 {-# LANGUAGE TypeInType #-}
 {-# LANGUAGE UndecidableInstances #-}
 
+{-# LANGUAGE DeriveGeneric #-}
+
 {-# OPTIONS_GHC -fno-warn-orphans #-}
 
 -- | This module exports 'Show', 'Eq' and 'Ord' instances for 'Exinst.Some1',
@@ -24,6 +26,8 @@ import Data.Kind (Type)
 import Data.Singletons
 import Data.Singletons.Prelude.Enum (PEnum(EnumFromTo), PBounded(MinBound, MaxBound))
 import Data.Singletons.Prelude.Bool (Sing(STrue,SFalse))
+import qualified Data.Singletons.Prelude.List as List
+import Data.Singletons.Prelude.Tuple (Tuple2Sym1)
 import Data.Singletons.Decide
 import Data.Type.Equality
 import Exinst.Singletons
@@ -281,60 +285,283 @@ instance forall (f4 :: k4 -> k3 -> k2 -> k1 -> Type)
 --------------------------------------------------------------------------------
 -- Generic
 
-type Eithers1 k (f :: k -> Type) =
-  Eithers1' (EnumFromTo (MinBound :: k) (MaxBound :: k)) f
+type Eithers1 (f :: k1 -> Type) =
+  Eithers1' (EnumFromTo (MinBound :: k1) (MaxBound :: k1)) f
 
--- | TODO: Make this logarithmic.
-type family Eithers1' (xs :: [k]) (f :: k -> Type) :: Type where
+-- | TODO: Mak1e this logarithmic.
+type family Eithers1' (xs :: [k1]) (f :: k1 -> Type) :: Type where
   Eithers1' (x ': '[]) f = f x
   Eithers1' (x ': xs)  f = Either (f x) (Eithers1' xs f)
 
-instance forall k1 (f1 :: k1 -> Type)
+instance forall k1 (f :: k1 -> Type)
   . ( SingKind k1
     , PEnum ('Proxy :: Proxy k1)
     , PBounded ('Proxy :: Proxy k1)
-    , Dict1 G.Generic f1
-    , Dict1 (Inj (Eithers1 k1 f1)) f1
     , G.Generic (DemoteRep k1)
-    ) => G.Generic (Exinst.Some1 f1)
+    , Dict1 G.Generic f
+    , Dict1 (Inj (Eithers1 f)) f
+    ) => G.Generic (Exinst.Some1 f)
   where
-    type Rep (Exinst.Some1 (f1 :: k1 -> Type)) =
-      G.Rep (DemoteRep k1, Eithers1 k1 f1)
+    type Rep (Exinst.Some1 (f :: k1 -> Type)) =
+      G.Rep (DemoteRep k1, Eithers1 f)
     {-# INLINABLE from #-}
-    from = \some1x -> withSome1Sing some1x $ \(sa1 :: Sing a1) (x :: f1 a1) ->
-      case dict1 sa1 :: Dict (G.Generic (f1 a1)) of
-        Dict -> case dict1 sa1 :: Dict (Inj (Eithers1 k1 f1) (f1 a1)) of
+    from = \s1x -> withSome1Sing s1x $ \sa1 (x :: f a1) ->
+      case dict1 sa1 :: Dict (G.Generic (f a1)) of
+        Dict -> case dict1 sa1 :: Dict (Inj (Eithers1 f) (f a1)) of
           Dict -> G.from (fromSing sa1, inj x)
     {-# INLINABLE to #-}
     to = \(G.M1 (G.M1 (G.M1 (G.K1 da1) G.:*: G.M1 (G.K1 ex)))) ->
       withSomeSing da1 $ \(sa1 :: Sing (a1 :: k1)) ->
-        case dict1 sa1 :: Dict (Inj (Eithers1 k1 f1) (f1 a1)) of
+        case dict1 sa1 :: Dict (Inj (Eithers1 f) (f a1)) of
           Dict -> case prj ex of
-            Just (x :: f1 a1) -> Exinst.Some1 sa1 x
+            Just x -> Exinst.Some1 sa1 (x :: f a1)
             Nothing -> error "Generic Some1: Malformed Rep"
 
+---
+type Eithers2 (f :: k2 -> k1 -> Type) =
+  Eithers2' (Cartesian2 (EnumFromTo (MinBound :: k2) (MaxBound :: k2))
+                        (EnumFromTo (MinBound :: k1) (MaxBound :: k1))) f
+
+-- | TODO: Mak1e this logarithmic.
+type family Eithers2' (xs :: [(k2, k1)]) (f :: k2 -> k1 -> Type) :: Type where
+  Eithers2' ( '(x2, x1) ': '[]) f = f x2 x1
+  Eithers2' ( '(x2, x1) ': xs)  f = Either (f x2 x1) (Eithers2' xs f)
+
+type family Cartesian2 (xs2 :: [k2]) (xs1 :: [k1]) :: [(k2,k1)] where
+  Cartesian2 '[] xs1 = '[]
+  Cartesian2 (x2 ': xs2) xs1 =
+    List.Concat [List.Map (Tuple2Sym1 x2) xs1, Cartesian2 xs2 xs1]
+
+
+instance forall k2 k1 (f :: k2 -> k1 -> Type)
+  . ( SingKind k2
+    , SingKind k1
+    , PEnum ('Proxy :: Proxy k2)
+    , PEnum ('Proxy :: Proxy k1)
+    , PBounded ('Proxy :: Proxy k2)
+    , PBounded ('Proxy :: Proxy k1)
+    , G.Generic (DemoteRep k2)
+    , G.Generic (DemoteRep k1)
+    , Dict2 G.Generic f
+    , Dict2 (Inj (Eithers2 f)) f
+    ) => G.Generic (Exinst.Some2 f)
+  where
+    type Rep (Exinst.Some2 (f :: k2 -> k1 -> Type)) =
+      G.Rep ((DemoteRep k2, DemoteRep k1), Eithers2 f)
+    {-# INLINABLE from #-}
+    from = \s2x -> withSome2Sing s2x $ \sa2 sa1 (x :: f a2 a1) ->
+      case dict2 sa2 sa1 :: Dict (G.Generic (f a2 a1)) of
+        Dict -> case dict2 sa2 sa1 :: Dict (Inj (Eithers2 f) (f a2 a1)) of
+          Dict -> G.from ((fromSing sa2, fromSing sa1), inj x)
+    {-# INLINABLE to #-}
+    to = \(G.M1 (G.M1 (G.M1 (G.K1 (da2, da1)) G.:*: G.M1 (G.K1 ex)))) ->
+      withSomeSing da2 $ \(sa2 :: Sing (a2 :: k2)) ->
+        withSomeSing da1 $ \(sa1 :: Sing (a1 :: k1)) ->
+          case dict2 sa2 sa1 :: Dict (Inj (Eithers2 f) (f a2 a1)) of
+            Dict -> case prj ex of
+              Just x -> Exinst.Some2 sa2 sa1 (x :: f a2 a1)
+              Nothing -> error "Generic Some2: Malformed Rep"
+
+
+---
+type Eithers3 (f :: k3 -> k2 -> k1 -> Type) =
+  Eithers3' (Cartesian3 (EnumFromTo (MinBound :: k3) (MaxBound :: k3))
+                        (EnumFromTo (MinBound :: k2) (MaxBound :: k2))
+                        (EnumFromTo (MinBound :: k1) (MaxBound :: k1))) f
+
+-- | TODO: Mak1e this logarithmic.
+type family Eithers3' (xs :: [(k3, (k2, k1))]) (f :: k3 -> k2 -> k1 -> Type) :: Type where
+  Eithers3' ( '(x3, '(x2, x1)) ': '[]) f = f x3 x2 x1
+  Eithers3' ( '(x3, '(x2, x1)) ': xs)  f = Either (f x3 x2 x1) (Eithers3' xs f)
+
+-- | We use nested 2-tuples instead of 3-tuples because it's easier to implement.
+type family Cartesian3 (xs3 :: [k3]) (xs2 :: [k2]) (xs1 :: [k1]) :: [(k3,(k2,k1))] where
+  Cartesian3 '[] xs2 xs1 = '[]
+  Cartesian3 (x3 ': xs3) xs2 xs1 =
+    List.Concat [ List.Map (Tuple2Sym1 x3) (Cartesian2 xs2 xs1)
+                , Cartesian3 xs3 xs2 xs1 ]
+
+
+instance forall k3 k2 k1 (f :: k3 -> k2 -> k1 -> Type)
+  . ( SingKind k3
+    , SingKind k2
+    , SingKind k1
+    , PEnum ('Proxy :: Proxy k3)
+    , PEnum ('Proxy :: Proxy k2)
+    , PEnum ('Proxy :: Proxy k1)
+    , PBounded ('Proxy :: Proxy k3)
+    , PBounded ('Proxy :: Proxy k2)
+    , PBounded ('Proxy :: Proxy k1)
+    , G.Generic (DemoteRep k3)
+    , G.Generic (DemoteRep k2)
+    , G.Generic (DemoteRep k1)
+    , Dict3 G.Generic f
+    , Dict3 (Inj (Eithers3 f)) f
+    ) => G.Generic (Exinst.Some3 f)
+  where
+    type Rep (Exinst.Some3 (f :: k3 -> k2 -> k1 -> Type)) =
+      G.Rep ((DemoteRep k3, DemoteRep k2, DemoteRep k1), Eithers3 f)
+    {-# INLINABLE from #-}
+    from = \s3x -> withSome3Sing s3x $ \sa3 sa2 sa1 (x :: f a3 a2 a1) ->
+      case dict3 sa3 sa2 sa1 :: Dict (G.Generic (f a3 a2 a1)) of
+        Dict -> case dict3 sa3 sa2 sa1 :: Dict (Inj (Eithers3 f) (f a3 a2 a1)) of
+          Dict -> G.from ((fromSing sa3, fromSing sa2, fromSing sa1), inj x)
+    {-# INLINABLE to #-}
+    to = \(G.M1 (G.M1 (G.M1 (G.K1 (da3, da2, da1)) G.:*: G.M1 (G.K1 ex)))) ->
+      withSomeSing da3 $ \(sa3 :: Sing (a3 :: k3)) ->
+        withSomeSing da2 $ \(sa2 :: Sing (a2 :: k2)) ->
+          withSomeSing da1 $ \(sa1 :: Sing (a1 :: k1)) ->
+            case dict3 sa3 sa2 sa1 :: Dict (Inj (Eithers3 f) (f a3 a2 a1)) of
+              Dict -> case prj ex of
+                Just x -> Exinst.Some3 sa3 sa2 sa1 (x :: f a3 a2 a1)
+                Nothing -> error "Generic Some3: Malformed Rep"
+
+
+---
+type Eithers4 (f :: k4 -> k3 -> k2 -> k1 -> Type) =
+  Eithers4' (Cartesian4 (EnumFromTo (MinBound :: k4) (MaxBound :: k4))
+                        (EnumFromTo (MinBound :: k3) (MaxBound :: k3))
+                        (EnumFromTo (MinBound :: k2) (MaxBound :: k2))
+                        (EnumFromTo (MinBound :: k1) (MaxBound :: k1))) f
+
+-- | TODO: Mak1e this logarithmic.
+type family Eithers4' (xs :: [(k4, (k3, (k2, k1)))]) (f :: k4 -> k3 -> k2 -> k1 -> Type) :: Type where
+  Eithers4' ( '( x4, '(x3, '(x2, x1))) ': '[]) f = f x4 x3 x2 x1
+  Eithers4' ( '( x4, '(x3, '(x2, x1))) ': xs)  f = Either (f x4 x3 x2 x1) (Eithers4' xs f)
+
+-- | We use nested 2-tuples instead of 3-tuples because it's easier to implement.
+type family Cartesian4 (xs4 :: [k4]) (xs3 :: [k3]) (xs2 :: [k2]) (xs1 :: [k1]) :: [(k4,(k3,(k2,k1)))] where
+  Cartesian4 '[] xs3 xs2 xs1 = '[]
+  Cartesian4 (x4 ': xs4) xs3 xs2 xs1 =
+    List.Concat [ List.Map (Tuple2Sym1 x4) (Cartesian3 xs3 xs2 xs1)
+                , Cartesian4 xs4 xs3 xs2 xs1 ]
+
+
+instance forall k3 k2 k1 (f :: k4 -> k3 -> k2 -> k1 -> Type)
+  . ( SingKind k4
+    , SingKind k3
+    , SingKind k2
+    , SingKind k1
+    , PEnum ('Proxy :: Proxy k4)
+    , PEnum ('Proxy :: Proxy k3)
+    , PEnum ('Proxy :: Proxy k2)
+    , PEnum ('Proxy :: Proxy k1)
+    , PBounded ('Proxy :: Proxy k4)
+    , PBounded ('Proxy :: Proxy k3)
+    , PBounded ('Proxy :: Proxy k2)
+    , PBounded ('Proxy :: Proxy k1)
+    , G.Generic (DemoteRep k4)
+    , G.Generic (DemoteRep k3)
+    , G.Generic (DemoteRep k2)
+    , G.Generic (DemoteRep k1)
+    , Dict4 G.Generic f
+    , Dict4 (Inj (Eithers4 f)) f
+    ) => G.Generic (Exinst.Some4 f)
+  where
+    type Rep (Exinst.Some4 (f :: k4 -> k3 -> k2 -> k1 -> Type)) =
+      G.Rep ((DemoteRep k4, DemoteRep k3, DemoteRep k2, DemoteRep k1), Eithers4 f)
+    {-# INLINABLE from #-}
+    from = \s4x -> withSome4Sing s4x $ \sa4 sa3 sa2 sa1 (x :: f a4 a3 a2 a1) ->
+      case dict4 sa4 sa3 sa2 sa1 :: Dict (G.Generic (f a4 a3 a2 a1)) of
+        Dict -> case dict4 sa4 sa3 sa2 sa1 :: Dict (Inj (Eithers4 f) (f a4 a3 a2 a1)) of
+          Dict -> G.from ((fromSing sa4, fromSing sa3, fromSing sa2, fromSing sa1), inj x)
+    {-# INLINABLE to #-}
+    to = \(G.M1 (G.M1 (G.M1 (G.K1 (da4, da3, da2, da1)) G.:*: G.M1 (G.K1 ex)))) ->
+      withSomeSing da4 $ \(sa4 :: Sing (a4 :: k4)) ->
+        withSomeSing da3 $ \(sa3 :: Sing (a3 :: k3)) ->
+          withSomeSing da2 $ \(sa2 :: Sing (a2 :: k2)) ->
+            withSomeSing da1 $ \(sa1 :: Sing (a1 :: k1)) ->
+              case dict4 sa4 sa3 sa2 sa1 :: Dict (Inj (Eithers4 f) (f a4 a3 a2 a1)) of
+                Dict -> case prj ex of
+                  Just x -> Exinst.Some4 sa4 sa3 sa2 sa1 (x :: f a4 a3 a2 a1)
+                  Nothing -> error "Generic Some4: Malformed Rep"
 
 {- Example using the class above:
-
-data family Foo :: Bool -> Type
-data instance Foo 'True  = A | B deriving (Show, G.Generic)
-data instance Foo 'False = C | D deriving (Show, G.Generic)
-
-s1foo :: Exinst.Some1 Foo
-s1foo = G.to (G.from (some1 A))
 -}
+
+data family Foo1 :: Bool -> Type
+data instance Foo1 'False = F deriving (Show, G.Generic)
+data instance Foo1 'True = T deriving (Show, G.Generic)
+
+sfoo1 :: Exinst.Some1 Foo1 -> Exinst.Some1 Foo1
+sfoo1 = G.to . G.from
+
+data family Foo2 :: Bool -> Bool -> Type
+data instance Foo2 'False 'False = FF deriving (Show, G.Generic)
+data instance Foo2 'False 'True = FT deriving (Show, G.Generic)
+data instance Foo2 'True 'False = TF deriving (Show, G.Generic)
+data instance Foo2 'True 'True = TT deriving (Show, G.Generic)
+
+sfoo2 :: Exinst.Some2 Foo2 -> Exinst.Some2 Foo2
+sfoo2 = G.to . G.from
+
+data family Foo3 :: Bool -> Bool -> Bool -> Type
+data instance Foo3 'False 'False 'False = FFF deriving (Show, G.Generic)
+data instance Foo3 'False 'False 'True = FFT deriving (Show, G.Generic)
+data instance Foo3 'False 'True 'False = FTF deriving (Show, G.Generic)
+data instance Foo3 'False 'True 'True = FTT deriving (Show, G.Generic)
+data instance Foo3 'True 'False 'False = TFF deriving (Show, G.Generic)
+data instance Foo3 'True 'False 'True = TFT deriving (Show, G.Generic)
+data instance Foo3 'True 'True 'False = TTF deriving (Show, G.Generic)
+data instance Foo3 'True 'True 'True = TTT deriving (Show, G.Generic)
+
+sfoo3 :: Exinst.Some3 Foo3 -> Exinst.Some3 Foo3
+sfoo3 = G.to . G.from
+
+data family Foo4 :: Bool -> Bool -> Bool -> Bool -> Type
+data instance Foo4 'False 'False 'False 'False = FFFF deriving (Show, G.Generic)
+data instance Foo4 'False 'False 'False 'True = FFFT deriving (Show, G.Generic)
+data instance Foo4 'False 'False 'True 'False = FFTF deriving (Show, G.Generic)
+data instance Foo4 'False 'False 'True 'True = FFTT deriving (Show, G.Generic)
+data instance Foo4 'False 'True 'False 'False = FTFF deriving (Show, G.Generic)
+data instance Foo4 'False 'True 'False 'True = FTFT deriving (Show, G.Generic)
+data instance Foo4 'False 'True 'True 'False = FTTF deriving (Show, G.Generic)
+data instance Foo4 'False 'True 'True 'True = FTTT deriving (Show, G.Generic)
+data instance Foo4 'True 'False 'False 'False = TFFF deriving (Show, G.Generic)
+data instance Foo4 'True 'False 'False 'True = TFFT deriving (Show, G.Generic)
+data instance Foo4 'True 'False 'True 'False = TFTF deriving (Show, G.Generic)
+data instance Foo4 'True 'False 'True 'True = TFTT deriving (Show, G.Generic)
+data instance Foo4 'True 'True 'False 'False = TTFF deriving (Show, G.Generic)
+data instance Foo4 'True 'True 'False 'True = TTFT deriving (Show, G.Generic)
+data instance Foo4 'True 'True 'True 'False = TTTF deriving (Show, G.Generic)
+data instance Foo4 'True 'True 'True 'True = TTTT deriving (Show, G.Generic)
+
+sfoo4 :: Exinst.Some4 Foo4 -> Exinst.Some4 Foo4
+sfoo4 = G.to . G.from
 
 --------------------------------------------------------------------------------
 --------------------------------------------------------------------------------
 -- Out of the box 'DictX' instances for some @base@ types
 
-instance (c 'True, c 'False) => Dict0 (c :: Bool -> Constraint) where
+instance
+  (c 'False, c 'True
+  ) => Dict0 (c :: Bool -> Constraint) where
   {-# INLINABLE dict0 #-}
-  dict0 = \case { STrue -> Dict; SFalse -> Dict }
+  dict0 = \case { SFalse -> Dict; STrue -> Dict }
 
-instance (c (f 'True), c (f 'False)) => Dict1 c (f :: Bool -> k0) where
+instance
+  ( c (f 'False), c (f 'True)
+  ) => Dict1 c (f :: Bool -> k0) where
   {-# INLINABLE dict1 #-}
-  dict1 = \case { STrue -> Dict; SFalse -> Dict }
+  dict1 = \case { SFalse -> Dict; STrue -> Dict }
+
+instance
+  ( Dict1 c (f 'False), Dict1 c (f 'True)
+  ) => Dict2 c (f :: Bool -> k1 -> k0) where
+  {-# INLINABLE dict2 #-}
+  dict2 = \x -> case x of { SFalse -> dict1; STrue -> dict1 }
+
+instance
+  ( Dict2 c (f 'False), Dict2 c (f 'True)
+  ) => Dict3 c (f :: Bool -> k2 -> k1 -> k0) where
+  {-# INLINABLE dict3 #-}
+  dict3 = \x -> case x of { SFalse -> dict2; STrue -> dict2 }
+
+instance
+  ( Dict3 c (f 'False), Dict3 c (f 'True)
+  ) => Dict4 c (f :: Bool -> k3 -> k2 -> k1 -> k0) where
+  {-# INLINABLE dict4 #-}
+  dict4 = \x -> case x of { SFalse -> dict3; STrue -> dict3 }
 
 --------------------------------------------------------------------------------
 --------------------------------------------------------------------------------
