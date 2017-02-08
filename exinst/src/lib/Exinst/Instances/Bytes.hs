@@ -14,10 +14,11 @@
 module Exinst.Instances.Bytes () where
 
 import qualified Data.Bytes.Serial as By
-import           Data.Constraint
-import           Data.Singletons
-import           Exinst
-import           Prelude
+import Data.Constraint
+import Data.Singletons
+import Prelude
+
+import Exinst.Internal
 
 --------------------------------------------------------------------------------
 

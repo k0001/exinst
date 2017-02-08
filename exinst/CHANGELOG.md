@@ -2,6 +2,9 @@
 
 * BREAKING: Renamed module `Exinst.Singletons` to  `Exinst`.
 
+* BREAKING: The `Exinst.Instances.Base` module is gone. The `base` instances are
+  now exported from `Exinst`.
+
 * Add `Dict0`.
 
 * Re-export `Constraint` from `base`.
@@ -24,10 +27,19 @@
   them.
 
 * Added `Bytes.Serial.Serial` instances for `Some{1,2,3,4}` in
-  `Exinst.Instances.Bytes`. These instances and their dependency on
-  `bytes` can be toggled with the `bytes` Cabal flag. These instances used to
-  exist in now-deprecated the `exinst-bytes` package, and are compatible with
-  them.
+  `Exinst.Instances.Bytes`. These instances and their dependency on `bytes` can
+  be toggled with the `bytes` Cabal flag. These instances used to exist in
+  now-deprecated the `exinst-bytes` package, and are compatible with them.
+
+* Added `Control.DeepSeq.NFData` instances for `Some{1,2,3,4}` in
+  `Exinst.Instances.DeepSeq`. These instances and their dependency on `deepseq`
+  can be toggled with the `deepseq` Cabal flag. These instances used to exist in
+  now-deprecated the `exinst-deepseq` package, and are compatible with them.
+
+* Added `Data.Hashable.Hashable` instances for `Some{1,2,3,4}` in
+  `Exinst.Instances.DeepSeq`. These instances and their dependency on `hashable`
+  can be toggled with the `hashable` Cabal flag. These instances used to exist
+  in now-deprecated the `exinst-hashable` package, and are compatible with them.
 
 
 # Version 0.2

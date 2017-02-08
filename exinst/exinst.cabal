@@ -2,7 +2,7 @@ name:                exinst
 version:             0.2
 author:              Renzo Carbonara
 maintainer:          renzoλcarbonara.com.ar
-copyright:           Renzo Carbonara 2015-2016
+copyright:           Renzo Carbonara 2015-2017
 license:             BSD3
 license-file:        LICENSE.txt
 extra-source-files:  README.md CHANGELOG.md
@@ -19,6 +19,8 @@ library
   default-language: Haskell2010
   exposed-modules:
       Exinst
+  other-modules:
+      Exinst.Internal
       Exinst.Instances.Base
   build-depends:
       base >=4.9
@@ -34,6 +36,12 @@ library
   if flag(bytes)
     build-depends: bytes >=0.15 && <0.16
     other-modules: Exinst.Instances.Bytes
+  if flag(deepseq)
+    build-depends: deepseq
+    other-modules: Exinst.Instances.DeepSeq
+  if flag(hashable)
+    build-depends: hashable
+    other-modules: Exinst.Instances.Hashable
   if flag(quickcheck)
     build-depends: QuickCheck
     other-modules: Exinst.Instances.QuickCheck
@@ -49,7 +57,9 @@ test-suite tests
    , base
    , bytes
    , constraints
+   , deepseq
    , generic-random <0.4
+   , hashable
    , profunctors
    , QuickCheck
    , singletons
@@ -64,6 +74,14 @@ flag aeson
   manual: True
 flag bytes
   description: Provide instances for @bytes@
+  default: True
+  manual: True
+flag deepseq
+  description: Provide instances for @deepseq@
+  default: True
+  manual: True
+flag hashable
+  description: Provide instances for @hashable@
   default: True
   manual: True
 flag quickcheck

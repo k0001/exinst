@@ -28,11 +28,12 @@ import qualified Data.Singletons.Prelude.List as List
 import Data.Singletons.Prelude.Tuple (Tuple2Sym1)
 import Data.Singletons.Decide
 import Data.Type.Equality
-import Exinst
-  hiding (Some1(..), Some2(..), Some3(..), Some4(..))
-import qualified Exinst
 import qualified GHC.Generics as G
 import Prelude
+
+import Exinst.Internal
+  hiding (Some1(..), Some2(..), Some3(..), Some4(..))
+import qualified Exinst.Internal as Exinst
 
 --------------------------------------------------------------------------------
 

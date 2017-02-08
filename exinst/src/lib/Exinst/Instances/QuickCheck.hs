@@ -11,10 +11,12 @@
 -- See the README file for more general documentation: https://hackage.haskell.org/package/exinst#readme
 module Exinst.Instances.QuickCheck () where
 
+import Data.Constraint
 import Data.Kind (Type)
-import qualified Test.QuickCheck as QC
 import Data.Singletons (SingKind, Sing, DemoteRep, withSomeSing)
-import Exinst
+import qualified Test.QuickCheck as QC
+
+import Exinst.Internal
 
 --------------------------------------------------------------------------------
 
