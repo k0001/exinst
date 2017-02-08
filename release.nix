@@ -11,11 +11,7 @@ let
 pkgs = import nixpkgs {};
 
 hsPackageSetConfig = self: super: {
-  exinst = self.callPackage (import ./exinst/default.nix) {};
-  exinst-aeson = self.callPackage (import ./exinst-aeson/default.nix) {};
-  exinst-bytes = self.callPackage (import ./exinst-bytes/default.nix) {};
-  exinst-deepseq = self.callPackage (import ./exinst-deepseq/default.nix) {};
-  exinst-hashable = self.callPackage (import ./exinst-hashable/default.nix) {};
+  exinst = self.callPackage (import ./default.nix) {};
 };
 
 ghc802 = pkgs.haskell.packages.ghc801.override {
@@ -27,21 +23,12 @@ constituents = pkgs.releaseTools.aggregate {
   meta.description = "Release-critical builds";
   constituents = [
     ghc802.exinst
-    ghc802.exinst-aeson
-    ghc802.exinst-bytes
-    ghc802.exinst-deepseq
-    ghc802.exinst-hashable
   ];
 };
 
 in {
   inherit constituents;
-  inherit (ghc802)
-    exinst
-    exinst-aeson
-    exinst-bytes
-    exinst-deepseq
-    exinst-hashable;
+  inherit (ghc802) exinst;
 }
 
 
