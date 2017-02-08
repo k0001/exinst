@@ -1,6 +1,1 @@
-exinst-aeson/dist/
-exinst-bytes/dist/
-exinst-deepseq/dist/
-exinst-hashable/dist/
-exinst/dist/
-
+dist/
