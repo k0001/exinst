@@ -9,6 +9,11 @@
 * Add `GHC.Generics.Generic` support for `Some{1,2,3,4}`. This only works for
   indexes with `PEnum` and `PBounded` instances.
 
+* Added tests.
+
+* Added `Test.QuickCheck.Arbitrary` instances for `Some{1,2,3,4}` in
+  `Exinst.Instances.QuickCheck`.
+
 
 # Version 0.2
 

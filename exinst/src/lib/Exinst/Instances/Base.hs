@@ -10,8 +10,6 @@
 {-# LANGUAGE TypeInType #-}
 {-# LANGUAGE UndecidableInstances #-}
 
-{-# LANGUAGE DeriveGeneric #-}
-
 {-# OPTIONS_GHC -fno-warn-orphans #-}
 
 -- | This module exports 'Show', 'Eq' and 'Ord' instances for 'Exinst.Some1',
@@ -475,59 +473,6 @@ instance forall k3 k2 k1 (f :: k4 -> k3 -> k2 -> k1 -> Type)
                 Dict -> case prj ex of
                   Just x -> Exinst.Some4 sa4 sa3 sa2 sa1 (x :: f a4 a3 a2 a1)
                   Nothing -> error "Generic Some4: Malformed Rep"
-
-{- Example using the class above:
--}
-
-data family Foo1 :: Bool -> Type
-data instance Foo1 'False = F deriving (Show, G.Generic)
-data instance Foo1 'True = T deriving (Show, G.Generic)
-
-sfoo1 :: Exinst.Some1 Foo1 -> Exinst.Some1 Foo1
-sfoo1 = G.to . G.from
-
-data family Foo2 :: Bool -> Bool -> Type
-data instance Foo2 'False 'False = FF deriving (Show, G.Generic)
-data instance Foo2 'False 'True = FT deriving (Show, G.Generic)
-data instance Foo2 'True 'False = TF deriving (Show, G.Generic)
-data instance Foo2 'True 'True = TT deriving (Show, G.Generic)
-
-sfoo2 :: Exinst.Some2 Foo2 -> Exinst.Some2 Foo2
-sfoo2 = G.to . G.from
-
-data family Foo3 :: Bool -> Bool -> Bool -> Type
-data instance Foo3 'False 'False 'False = FFF deriving (Show, G.Generic)
-data instance Foo3 'False 'False 'True = FFT deriving (Show, G.Generic)
-data instance Foo3 'False 'True 'False = FTF deriving (Show, G.Generic)
-data instance Foo3 'False 'True 'True = FTT deriving (Show, G.Generic)
-data instance Foo3 'True 'False 'False = TFF deriving (Show, G.Generic)
-data instance Foo3 'True 'False 'True = TFT deriving (Show, G.Generic)
-data instance Foo3 'True 'True 'False = TTF deriving (Show, G.Generic)
-data instance Foo3 'True 'True 'True = TTT deriving (Show, G.Generic)
-
-sfoo3 :: Exinst.Some3 Foo3 -> Exinst.Some3 Foo3
-sfoo3 = G.to . G.from
-
-data family Foo4 :: Bool -> Bool -> Bool -> Bool -> Type
-data instance Foo4 'False 'False 'False 'False = FFFF deriving (Show, G.Generic)
-data instance Foo4 'False 'False 'False 'True = FFFT deriving (Show, G.Generic)
-data instance Foo4 'False 'False 'True 'False = FFTF deriving (Show, G.Generic)
-data instance Foo4 'False 'False 'True 'True = FFTT deriving (Show, G.Generic)
-data instance Foo4 'False 'True 'False 'False = FTFF deriving (Show, G.Generic)
-data instance Foo4 'False 'True 'False 'True = FTFT deriving (Show, G.Generic)
-data instance Foo4 'False 'True 'True 'False = FTTF deriving (Show, G.Generic)
-data instance Foo4 'False 'True 'True 'True = FTTT deriving (Show, G.Generic)
-data instance Foo4 'True 'False 'False 'False = TFFF deriving (Show, G.Generic)
-data instance Foo4 'True 'False 'False 'True = TFFT deriving (Show, G.Generic)
-data instance Foo4 'True 'False 'True 'False = TFTF deriving (Show, G.Generic)
-data instance Foo4 'True 'False 'True 'True = TFTT deriving (Show, G.Generic)
-data instance Foo4 'True 'True 'False 'False = TTFF deriving (Show, G.Generic)
-data instance Foo4 'True 'True 'False 'True = TTFT deriving (Show, G.Generic)
-data instance Foo4 'True 'True 'True 'False = TTTF deriving (Show, G.Generic)
-data instance Foo4 'True 'True 'True 'True = TTTT deriving (Show, G.Generic)
-
-sfoo4 :: Exinst.Some4 Foo4 -> Exinst.Some4 Foo4
-sfoo4 = G.to . G.from
 
 --------------------------------------------------------------------------------
 --------------------------------------------------------------------------------
