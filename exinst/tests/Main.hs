@@ -23,7 +23,7 @@ import qualified Test.Tasty.QuickCheck as QC
 
 import Data.Singletons (SingKind, Sing, DemoteRep, withSomeSing)
 
-import Exinst.Singletons
+import Exinst
 import Exinst.Instances.Aeson ()
 import Exinst.Instances.Bytes ()
 import Exinst.Instances.Base ()

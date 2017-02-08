@@ -5,7 +5,7 @@
 {-# OPTIONS_GHC -fno-warn-orphans #-}
 
 -- | This module exports 'QC.arbitrary' instances for 'Exinst.Some1', 'Some2',
--- 'Some3' and 'Some4' from "Exinst.Singletons", provided situable 'Dict1',
+-- 'Some3' and 'Some4' from "Exinst", provided situable 'Dict1',
 -- 'Dict2', 'Dict3' and 'Dict4' instances are available.
 --
 -- See the README file for more general documentation: https://hackage.haskell.org/package/exinst#readme
@@ -14,7 +14,7 @@ module Exinst.Instances.QuickCheck () where
 import Data.Kind (Type)
 import qualified Test.QuickCheck as QC
 import Data.Singletons (SingKind, Sing, DemoteRep, withSomeSing)
-import Exinst.Singletons
+import Exinst
 
 --------------------------------------------------------------------------------
 

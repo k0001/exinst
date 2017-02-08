@@ -182,7 +182,7 @@ did with `ReceptacleOfAnySizeThatCanBeShown` before.
 Note: this code won't work yet. Keep reading.
 
 ```
-> import Exinst.Singletons (some1)
+> import Exinst (some1)
 > import Exinst.Instances.Base ()
 > :t some1 Glass
 :t some1 Glass :: Some1 Receptacle
@@ -218,7 +218,7 @@ The mechanism through which instances are found at runtime relies on `Dict` from
 type.
 
 ```haskell
--- The Exinst.Singletons.Dict1 class
+-- The Exinst.Dict1 class
 class Dict1 (c :: * -> Constraint) (f1 :: k1 -> *) where
   dict1 :: Sing (a1 :: k1) -> Dict (c (f1 a1))
 ```
@@ -332,7 +332,7 @@ Here is the full code needed to have, say, the `Eq`, `Show`, `ToJSON` and
 import qualified Data.Aeson as Ae
 import           Data.Constraint (Dict(Dict))
 import qualified Data.Singletons.TH
-import           Exinst.Singletons (Dict1(dict1))
+import           Exinst (Dict1(dict1))
 
 -----
 

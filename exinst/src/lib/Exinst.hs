@@ -9,7 +9,7 @@
 {-# LANGUAGE TypeInType #-}
 
 -- | See the README file for documentation: https://hackage.haskell.org/package/exinst#readme
-module Exinst.Singletons
+module Exinst
  ( -- * 1 type index
    Some1(Some1)
  , some1

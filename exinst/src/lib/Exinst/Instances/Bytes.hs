@@ -6,7 +6,7 @@
 {-# OPTIONS_GHC -fno-warn-orphans #-}
 
 -- | This module exports 'By.Serial' instances for 'Some1', 'Some2', 'Some3'
--- and 'Some4' from "Exinst.Singletons", provided situable 'Dict1', 'Dict2',
+-- and 'Some4' from "Exinst", provided situable 'Dict1', 'Dict2',
 -- 'Dict3' and 'Dict4' instances are available.
 --
 -- See the README file in the @exinst@ package for more general documentation:
@@ -16,7 +16,7 @@ module Exinst.Instances.Bytes () where
 import qualified Data.Bytes.Serial as By
 import           Data.Constraint
 import           Data.Singletons
-import           Exinst.Singletons
+import           Exinst
 import           Prelude
 
 --------------------------------------------------------------------------------

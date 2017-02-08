@@ -18,7 +18,7 @@ library
   hs-source-dirs: src/lib
   default-language: Haskell2010
   exposed-modules:
-      Exinst.Singletons
+      Exinst
       Exinst.Instances.Base
   build-depends:
       base >=4.9

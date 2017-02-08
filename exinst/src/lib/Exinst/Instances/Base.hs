@@ -13,7 +13,7 @@
 {-# OPTIONS_GHC -fno-warn-orphans #-}
 
 -- | This module exports 'Show', 'Eq' and 'Ord' instances for 'Exinst.Some1',
--- 'Exinst.Some2', 'Exinst.Some3' and 'Exinst.Some4' from "Exinst.Singletons", provided situable
+-- 'Exinst.Some2', 'Exinst.Some3' and 'Exinst.Some4' from "Exinst", provided situable
 -- 'Dict1', 'Dict2', 'Dict3' and 'Dict4' instances are available.
 --
 -- See the README file for more general documentation: https://hackage.haskell.org/package/exinst#readme
@@ -28,9 +28,9 @@ import qualified Data.Singletons.Prelude.List as List
 import Data.Singletons.Prelude.Tuple (Tuple2Sym1)
 import Data.Singletons.Decide
 import Data.Type.Equality
-import Exinst.Singletons
+import Exinst
   hiding (Some1(..), Some2(..), Some3(..), Some4(..))
-import qualified Exinst.Singletons as Exinst
+import qualified Exinst
 import qualified GHC.Generics as G
 import Prelude
 

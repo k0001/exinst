@@ -1,5 +1,7 @@
 # Version HEAD
 
+* BREAKING: Renamed module `Exinst.Singletons` to  `Exinst`.
+
 * Add `Dict0`.
 
 * Re-export `Constraint` from `base`.
