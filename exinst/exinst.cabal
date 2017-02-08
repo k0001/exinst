@@ -31,6 +31,9 @@ library
   if flag(aeson)
     build-depends: aeson
     other-modules: Exinst.Instances.Aeson
+  if flag(bytes)
+    build-depends: bytes >=0.15 && <0.16
+    other-modules: Exinst.Instances.Bytes
   if flag(quickcheck)
     build-depends: QuickCheck
     other-modules: Exinst.Instances.QuickCheck
@@ -44,6 +47,7 @@ test-suite tests
   build-depends:
      aeson
    , base
+   , bytes
    , constraints
    , generic-random <0.4
    , profunctors
@@ -56,6 +60,10 @@ test-suite tests
 
 flag aeson
   description: Provide instances for @aeson@
+  default: True
+  manual: True
+flag bytes
+  description: Provide instances for @bytes@
   default: True
   manual: True
 flag quickcheck
