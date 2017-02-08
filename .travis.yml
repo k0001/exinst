@@ -1,2 +1,2 @@
 language: nix
-script: nix-build release.nix -A constituents
+script: nix-build release.nix -A exinst

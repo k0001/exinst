@@ -18,17 +18,6 @@ ghc802 = pkgs.haskell.packages.ghc801.override {
   packageSetConfig = hsPackageSetConfig;
 };
 
-constituents = pkgs.releaseTools.aggregate {
-  name = "exinst-constituents";
-  meta.description = "Release-critical builds";
-  constituents = [
-    ghc802.exinst
-  ];
-};
-
-in {
-  inherit constituents;
-  inherit (ghc802) exinst;
-}
+in { inherit (ghc802) exinst; }
 
 
