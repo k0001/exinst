@@ -28,6 +28,9 @@ library
   ghcjs-options: -Wall -O3
   ghc-options: -Wall -O2
 
+  if flag(aeson)
+    build-depends: aeson
+    other-modules: Exinst.Instances.Aeson
   if flag(quickcheck)
     build-depends: QuickCheck
     other-modules: Exinst.Instances.QuickCheck
@@ -39,7 +42,8 @@ test-suite tests
   hs-source-dirs: tests src/lib
   main-is: Main.hs
   build-depends:
-     base
+     aeson
+   , base
    , constraints
    , generic-random <0.4
    , profunctors
@@ -50,6 +54,10 @@ test-suite tests
    , tasty-quickcheck
 
 
+flag aeson
+  description: Provide instances for @aeson@
+  default: True
+  manual: True
 flag quickcheck
   description: Provide instances for @QuickCheck@
   default: True

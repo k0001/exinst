@@ -12,8 +12,14 @@
 * Added tests.
 
 * Added `Test.QuickCheck.Arbitrary` instances for `Some{1,2,3,4}` in
-  `Exinst.Instances.QuickCheck`.
+  `Exinst.Instances.QuickCheck`. These instances and their dependency on
+  `QuickCheck` can be toggled with the `quickcheck` Cabal flag.
 
+* Added `Data.Aeson.{FromJSON,ToJSON}`  instances for `Some{1,2,3,4}` in
+  `Exinst.Instances.Aeson`. These instances and their dependency on
+  `aeson` can be toggled with the `aeson` Cabal flag. These instances used to
+  exist in now-deprecated the `exinst-aeson` package, and are compatible with
+  them.
 
 # Version 0.2
 
