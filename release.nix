@@ -14,10 +14,8 @@ hsPackageSetConfig = self: super: {
   exinst = self.callPackage (import ./default.nix) {};
 };
 
-ghc802 = pkgs.haskell.packages.ghc801.override {
+ghc802 = pkgs.haskell.packages.ghc802.override {
   packageSetConfig = hsPackageSetConfig;
 };
 
 in { inherit (ghc802) exinst; }
-
-

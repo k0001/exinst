@@ -58,9 +58,11 @@ test-suite tests
    , bytes
    , constraints
    , deepseq
-   , generic-random <0.4
    , exinst
+   , generic-random <0.4
    , hashable
+   , profunctors
+   , QuickCheck
    , singletons
    , tasty
    , tasty-hunit
