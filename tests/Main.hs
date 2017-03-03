@@ -16,7 +16,7 @@ import qualified Data.Bytes.Serial as Bytes
 import Data.Hashable (Hashable(hash))
 import Data.Kind (Type)
 import Data.Proxy (Proxy)
-import Generic.Random.Generic (genericArbitrary)
+import Generic.Random.Generic (genericArbitrary, uniform)
 import qualified GHC.Generics as G
 import qualified Test.Tasty as Tasty
 import qualified Test.Tasty.Runners as Tasty
@@ -146,37 +146,37 @@ data instance Foo4 'True 'True 'True 'True = TTTT1 | TTTT2 Int deriving (Eq, Sho
 --------------------------------------------------------------------------------
 -- Arbitrary instances
 
-instance QC.Arbitrary (Foo1 'False) where arbitrary = genericArbitrary
-instance QC.Arbitrary (Foo1 'True) where arbitrary = genericArbitrary
+instance QC.Arbitrary (Foo1 'False) where arbitrary = genericArbitrary uniform
+instance QC.Arbitrary (Foo1 'True) where arbitrary = genericArbitrary uniform
 
-instance QC.Arbitrary (Foo2 'False 'False) where arbitrary = genericArbitrary
-instance QC.Arbitrary (Foo2 'False 'True) where arbitrary = genericArbitrary
-instance QC.Arbitrary (Foo2 'True 'False) where arbitrary = genericArbitrary
-instance QC.Arbitrary (Foo2 'True 'True) where arbitrary = genericArbitrary
+instance QC.Arbitrary (Foo2 'False 'False) where arbitrary = genericArbitrary uniform
+instance QC.Arbitrary (Foo2 'False 'True) where arbitrary = genericArbitrary uniform
+instance QC.Arbitrary (Foo2 'True 'False) where arbitrary = genericArbitrary uniform
+instance QC.Arbitrary (Foo2 'True 'True) where arbitrary = genericArbitrary uniform
 
-instance QC.Arbitrary (Foo3 'False 'False 'False) where arbitrary = genericArbitrary
-instance QC.Arbitrary (Foo3 'False 'False 'True) where arbitrary = genericArbitrary
-instance QC.Arbitrary (Foo3 'False 'True 'False) where arbitrary = genericArbitrary
-instance QC.Arbitrary (Foo3 'False 'True 'True) where arbitrary = genericArbitrary
-instance QC.Arbitrary (Foo3 'True 'False 'False) where arbitrary = genericArbitrary
-instance QC.Arbitrary (Foo3 'True 'False 'True) where arbitrary = genericArbitrary
-instance QC.Arbitrary (Foo3 'True 'True 'False) where arbitrary = genericArbitrary
-instance QC.Arbitrary (Foo3 'True 'True 'True) where arbitrary = genericArbitrary
+instance QC.Arbitrary (Foo3 'False 'False 'False) where arbitrary = genericArbitrary uniform
+instance QC.Arbitrary (Foo3 'False 'False 'True) where arbitrary = genericArbitrary uniform
+instance QC.Arbitrary (Foo3 'False 'True 'False) where arbitrary = genericArbitrary uniform
+instance QC.Arbitrary (Foo3 'False 'True 'True) where arbitrary = genericArbitrary uniform
+instance QC.Arbitrary (Foo3 'True 'False 'False) where arbitrary = genericArbitrary uniform
+instance QC.Arbitrary (Foo3 'True 'False 'True) where arbitrary = genericArbitrary uniform
+instance QC.Arbitrary (Foo3 'True 'True 'False) where arbitrary = genericArbitrary uniform
+instance QC.Arbitrary (Foo3 'True 'True 'True) where arbitrary = genericArbitrary uniform
 
-instance QC.Arbitrary (Foo4 'False 'False 'False 'False) where arbitrary = genericArbitrary
-instance QC.Arbitrary (Foo4 'False 'False 'False 'True) where arbitrary = genericArbitrary
-instance QC.Arbitrary (Foo4 'False 'False 'True 'False) where arbitrary = genericArbitrary
-instance QC.Arbitrary (Foo4 'False 'False 'True 'True) where arbitrary = genericArbitrary
-instance QC.Arbitrary (Foo4 'False 'True 'False 'False) where arbitrary = genericArbitrary
-instance QC.Arbitrary (Foo4 'False 'True 'False 'True) where arbitrary = genericArbitrary
-instance QC.Arbitrary (Foo4 'False 'True 'True 'False) where arbitrary = genericArbitrary
-instance QC.Arbitrary (Foo4 'False 'True 'True 'True) where arbitrary = genericArbitrary
-instance QC.Arbitrary (Foo4 'True 'False 'False 'False) where arbitrary = genericArbitrary
-instance QC.Arbitrary (Foo4 'True 'False 'False 'True) where arbitrary = genericArbitrary
-instance QC.Arbitrary (Foo4 'True 'False 'True 'False) where arbitrary = genericArbitrary
-instance QC.Arbitrary (Foo4 'True 'False 'True 'True) where arbitrary = genericArbitrary
-instance QC.Arbitrary (Foo4 'True 'True 'False 'False) where arbitrary = genericArbitrary
-instance QC.Arbitrary (Foo4 'True 'True 'False 'True) where arbitrary = genericArbitrary
-instance QC.Arbitrary (Foo4 'True 'True 'True 'False) where arbitrary = genericArbitrary
-instance QC.Arbitrary (Foo4 'True 'True 'True 'True) where arbitrary = genericArbitrary
+instance QC.Arbitrary (Foo4 'False 'False 'False 'False) where arbitrary = genericArbitrary uniform
+instance QC.Arbitrary (Foo4 'False 'False 'False 'True) where arbitrary = genericArbitrary uniform
+instance QC.Arbitrary (Foo4 'False 'False 'True 'False) where arbitrary = genericArbitrary uniform
+instance QC.Arbitrary (Foo4 'False 'False 'True 'True) where arbitrary = genericArbitrary uniform
+instance QC.Arbitrary (Foo4 'False 'True 'False 'False) where arbitrary = genericArbitrary uniform
+instance QC.Arbitrary (Foo4 'False 'True 'False 'True) where arbitrary = genericArbitrary uniform
+instance QC.Arbitrary (Foo4 'False 'True 'True 'False) where arbitrary = genericArbitrary uniform
+instance QC.Arbitrary (Foo4 'False 'True 'True 'True) where arbitrary = genericArbitrary uniform
+instance QC.Arbitrary (Foo4 'True 'False 'False 'False) where arbitrary = genericArbitrary uniform
+instance QC.Arbitrary (Foo4 'True 'False 'False 'True) where arbitrary = genericArbitrary uniform
+instance QC.Arbitrary (Foo4 'True 'False 'True 'False) where arbitrary = genericArbitrary uniform
+instance QC.Arbitrary (Foo4 'True 'False 'True 'True) where arbitrary = genericArbitrary uniform
+instance QC.Arbitrary (Foo4 'True 'True 'False 'False) where arbitrary = genericArbitrary uniform
+instance QC.Arbitrary (Foo4 'True 'True 'False 'True) where arbitrary = genericArbitrary uniform
+instance QC.Arbitrary (Foo4 'True 'True 'True 'False) where arbitrary = genericArbitrary uniform
+instance QC.Arbitrary (Foo4 'True 'True 'True 'True) where arbitrary = genericArbitrary uniform
 
