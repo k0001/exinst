@@ -284,24 +284,20 @@ various instances for `Some1` who rely on `Dict1`. `Dict1` has nothing to do
 with `Some1`, nor with the choice of `f` nor with the choice of `c`; it is only
 related to the singleton type used as a type-index for `f`.
 
-As of this writing, we can find some ready-made instances for `Some1`, `Some2`,
-`Some3` and `Some4` in the following modules, which you need to import so as to
-bring to scope the desired instances at their usage site:
+The `Exinst` module exports ready-made instances for `Some1`, `Some2`, `Some3`
+and `Some4` (they can be enabled with some cabal flags).
 
-* Package `exinst`, module `Exinst.Instances.Base`: Instances for various
-  type-classes found in the `base` package: `Eq`, `Ord`, `Show`.
+* `Eq`, `Ord`, `Show` from the `base` package.
 
-* Package `exinst-aeson`, module `Exinst.Instances.Aeson`: Instances for
-  `FromJSON` and `ToJSON` from the `aeson` package.
+* `FromJSON` and `ToJSON` from the `aeson` package.
 
-* Package `exinst-bytes`, module `Exinst.Instances.Bytes`: Instances for
-  `Serial` from the `bytes` package.
+* `Serial` from the `bytes` package.
 
-* Package `exinst-hashable`, module `Exinst.Instances.Hashable`: Instances for
-  `Hashable` from the `hashable` package.
+* `Hashable` from the `hashable` package.
 
-* Package `exinst-deepseq`, module `Exinst.Instances.DeepSeq`: Instances for
-  `NFData` from the `deepseq` package.
+* `NFData` from the `deepseq` package.
+
+* `Arbitrary` from the `QuickCheck` package.
 
 You are invited to read the instance heads for said instances so as to understand
 what you need to provide in order to get those instances “for free”. As a rule of
@@ -310,10 +306,6 @@ thumb, most instances will require this: If you expect to have an instance for
 for `Z` is available for the `DemoteRep ('KProxy :: KProxy k)`, that a `Dict1 Z
 (f :: k -> *)` or more general instance exists, and that the `Y` instance for
 `Some1 (f :: k -> *)` exists too.
-
-> TODO: Have something similar to `Dict1` and friends for working with
-> non-singleton types, possibly integrating with 'Data.Constraint.Forall.ForallT'
-> if it made sense to do so.
 
 Here is the full code needed to have, say, the `Eq`, `Show`, `ToJSON` and
 `FromJSON` instances available for `Some1 Receptacle`:
@@ -538,30 +530,3 @@ in the hope that it can be later recovered and reified to the type level when
 using `Read`.
 
 
-# Related work on Generic instances for GADTs
-
-One of the most appealing applications of `exinst` is to reduce the boilerplate
-associated with manually writing instances for existentialized GADTs. However,
-quite often, writing instances for said GADTs on its own is very cumbersome
-due to the lack of generic instance deriving mechanisms for GADTs. There exists,
-however, at the time of this writing, at least one library able to derive
-generic representations for some GADTs using TH:
-[`instant-generics`](https://hackage.haskell.org/package/instant-generics).
-
-Combining [`instant-generics`](https://hackage.haskell.org/package/instant-generics) (and
-[`instant-aeson`](https://hackage.haskell.org/package/instant-aeson),
-[`instant-hashable`](https://hackage.haskell.org/package/instant-hashable),
-[`instant-bytes`](https://hackage.haskell.org/package/instant-bytes) and
-[`instant-deepseq`](https://hackage.haskell.org/package/instant-deepseq))
-with [`exinst`](https://hackage.haskell.org/package/exinst) (and
-[`exinst-aeson`](https://hackage.haskell.org/package/exinst-aeson),
-[`exinst-hashable`](https://hackage.haskell.org/package/exinst-hashable),
-[`exinst-bytes`](https://hackage.haskell.org/package/exinst-bytes) and
-[`exinst-deepseq`](https://hackage.haskell.org/package/exinst-deepseq)),
-you can reduce a lot of the boilerplate associated with working with GADTs, in
-particular when it comes to the serialization and deserialization of them (i.e.,
-`Show` and `Read`, or `ToJSON` and `FromJSON`) or puting GADTs in monomorphic
-containers (i.e., `[]` or `HashMap`), which become straightforward things to do
-once you are able able to both generically derive the instances for your GADT
-and then existentialize away the type-index while keeping the underlying
-instances available.

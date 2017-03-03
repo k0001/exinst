@@ -1,5 +1,5 @@
 name:                exinst
-version:             0.2
+version:             0.3
 author:              Renzo Carbonara
 maintainer:          renzoλcarbonara.com.ar
 copyright:           Renzo Carbonara 2015-2017
@@ -23,7 +23,7 @@ library
       Exinst.Internal
       Exinst.Instances.Base
   build-depends:
-      base >=4.9
+      base >=4.9 && <5.0
     , constraints >=0.4
     , profunctors >=5.0
     , singletons >=2.2

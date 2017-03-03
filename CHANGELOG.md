@@ -1,4 +1,4 @@
-# Version HEAD
+# Version 0.3
 
 * BREAKING: Renamed module `Exinst.Singletons` to  `Exinst`.
 

@@ -4,7 +4,7 @@
 }:
 mkDerivation {
   pname = "exinst";
-  version = "0.2";
+  version = "0.3";
   src = ./.;
   libraryHaskellDepends = [
     aeson base bytes constraints deepseq hashable profunctors
