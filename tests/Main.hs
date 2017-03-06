@@ -16,7 +16,6 @@ import qualified Data.Bytes.Serial as Bytes
 import Data.Hashable (Hashable(hash))
 import Data.Kind (Type)
 import Data.Proxy (Proxy)
-import Generic.Random.Generic (genericArbitrary, uniform)
 import qualified GHC.Generics as G
 import qualified Test.Tasty as Tasty
 import qualified Test.Tasty.Runners as Tasty
@@ -146,37 +145,66 @@ data instance Foo4 'True 'True 'True 'True = TTTT1 | TTTT2 Int deriving (Eq, Sho
 --------------------------------------------------------------------------------
 -- Arbitrary instances
 
-instance QC.Arbitrary (Foo1 'False) where arbitrary = genericArbitrary uniform
-instance QC.Arbitrary (Foo1 'True) where arbitrary = genericArbitrary uniform
+instance QC.Arbitrary (Foo1 'False) where
+  arbitrary = QC.oneof [ pure F1, F2 <$> QC.arbitrary ]
+instance QC.Arbitrary (Foo1 'True) where
+  arbitrary = QC.oneof [ pure T1, T2 <$> QC.arbitrary ]
 
-instance QC.Arbitrary (Foo2 'False 'False) where arbitrary = genericArbitrary uniform
-instance QC.Arbitrary (Foo2 'False 'True) where arbitrary = genericArbitrary uniform
-instance QC.Arbitrary (Foo2 'True 'False) where arbitrary = genericArbitrary uniform
-instance QC.Arbitrary (Foo2 'True 'True) where arbitrary = genericArbitrary uniform
+instance QC.Arbitrary (Foo2 'False 'False) where
+  arbitrary = QC.oneof [ pure FF1, FF2 <$> QC.arbitrary ]
+instance QC.Arbitrary (Foo2 'False 'True) where
+  arbitrary = QC.oneof [ pure FT1, FT2 <$> QC.arbitrary ]
+instance QC.Arbitrary (Foo2 'True 'False) where
+  arbitrary = QC.oneof [ pure TF1, TF2 <$> QC.arbitrary ]
+instance QC.Arbitrary (Foo2 'True 'True) where
+  arbitrary = QC.oneof [ pure TT1, TT2 <$> QC.arbitrary ]
 
-instance QC.Arbitrary (Foo3 'False 'False 'False) where arbitrary = genericArbitrary uniform
-instance QC.Arbitrary (Foo3 'False 'False 'True) where arbitrary = genericArbitrary uniform
-instance QC.Arbitrary (Foo3 'False 'True 'False) where arbitrary = genericArbitrary uniform
-instance QC.Arbitrary (Foo3 'False 'True 'True) where arbitrary = genericArbitrary uniform
-instance QC.Arbitrary (Foo3 'True 'False 'False) where arbitrary = genericArbitrary uniform
-instance QC.Arbitrary (Foo3 'True 'False 'True) where arbitrary = genericArbitrary uniform
-instance QC.Arbitrary (Foo3 'True 'True 'False) where arbitrary = genericArbitrary uniform
-instance QC.Arbitrary (Foo3 'True 'True 'True) where arbitrary = genericArbitrary uniform
+instance QC.Arbitrary (Foo3 'False 'False 'False) where
+  arbitrary = QC.oneof [ pure FFF1, FFF2 <$> QC.arbitrary ]
+instance QC.Arbitrary (Foo3 'False 'False 'True) where
+  arbitrary = QC.oneof [ pure FFT1, FFT2 <$> QC.arbitrary ]
+instance QC.Arbitrary (Foo3 'False 'True 'False) where
+  arbitrary = QC.oneof [ pure FTF1, FTF2 <$> QC.arbitrary ]
+instance QC.Arbitrary (Foo3 'False 'True 'True) where
+  arbitrary = QC.oneof [ pure FTT1, FTT2 <$> QC.arbitrary ]
+instance QC.Arbitrary (Foo3 'True 'False 'False) where
+  arbitrary = QC.oneof [ pure TFF1, TFF2 <$> QC.arbitrary ]
+instance QC.Arbitrary (Foo3 'True 'False 'True) where
+  arbitrary = QC.oneof [ pure TFT1, TFT2 <$> QC.arbitrary ]
+instance QC.Arbitrary (Foo3 'True 'True 'False) where
+  arbitrary = QC.oneof [ pure TTF1, TTF2 <$> QC.arbitrary ]
+instance QC.Arbitrary (Foo3 'True 'True 'True) where
+  arbitrary = QC.oneof [ pure TTT1, TTT2 <$> QC.arbitrary ]
 
-instance QC.Arbitrary (Foo4 'False 'False 'False 'False) where arbitrary = genericArbitrary uniform
-instance QC.Arbitrary (Foo4 'False 'False 'False 'True) where arbitrary = genericArbitrary uniform
-instance QC.Arbitrary (Foo4 'False 'False 'True 'False) where arbitrary = genericArbitrary uniform
-instance QC.Arbitrary (Foo4 'False 'False 'True 'True) where arbitrary = genericArbitrary uniform
-instance QC.Arbitrary (Foo4 'False 'True 'False 'False) where arbitrary = genericArbitrary uniform
-instance QC.Arbitrary (Foo4 'False 'True 'False 'True) where arbitrary = genericArbitrary uniform
-instance QC.Arbitrary (Foo4 'False 'True 'True 'False) where arbitrary = genericArbitrary uniform
-instance QC.Arbitrary (Foo4 'False 'True 'True 'True) where arbitrary = genericArbitrary uniform
-instance QC.Arbitrary (Foo4 'True 'False 'False 'False) where arbitrary = genericArbitrary uniform
-instance QC.Arbitrary (Foo4 'True 'False 'False 'True) where arbitrary = genericArbitrary uniform
-instance QC.Arbitrary (Foo4 'True 'False 'True 'False) where arbitrary = genericArbitrary uniform
-instance QC.Arbitrary (Foo4 'True 'False 'True 'True) where arbitrary = genericArbitrary uniform
-instance QC.Arbitrary (Foo4 'True 'True 'False 'False) where arbitrary = genericArbitrary uniform
-instance QC.Arbitrary (Foo4 'True 'True 'False 'True) where arbitrary = genericArbitrary uniform
-instance QC.Arbitrary (Foo4 'True 'True 'True 'False) where arbitrary = genericArbitrary uniform
-instance QC.Arbitrary (Foo4 'True 'True 'True 'True) where arbitrary = genericArbitrary uniform
-
+instance QC.Arbitrary (Foo4 'False 'False 'False 'False) where
+  arbitrary = QC.oneof [ pure FFFF1, FFFF2 <$> QC.arbitrary ]
+instance QC.Arbitrary (Foo4 'False 'False 'False 'True) where
+  arbitrary = QC.oneof [ pure FFFT1, FFFT2 <$> QC.arbitrary ]
+instance QC.Arbitrary (Foo4 'False 'False 'True 'False) where
+  arbitrary = QC.oneof [ pure FFTF1, FFTF2 <$> QC.arbitrary ]
+instance QC.Arbitrary (Foo4 'False 'False 'True 'True) where
+  arbitrary = QC.oneof [ pure FFTT1, FFTT2 <$> QC.arbitrary ]
+instance QC.Arbitrary (Foo4 'False 'True 'False 'False) where
+  arbitrary = QC.oneof [ pure FTFF1, FTFF2 <$> QC.arbitrary ]
+instance QC.Arbitrary (Foo4 'False 'True 'False 'True) where
+  arbitrary = QC.oneof [ pure FTFT1, FTFT2 <$> QC.arbitrary ]
+instance QC.Arbitrary (Foo4 'False 'True 'True 'False) where
+  arbitrary = QC.oneof [ pure FTTF1, FTTF2 <$> QC.arbitrary ]
+instance QC.Arbitrary (Foo4 'False 'True 'True 'True) where
+  arbitrary = QC.oneof [ pure FTTT1, FTTT2 <$> QC.arbitrary ]
+instance QC.Arbitrary (Foo4 'True 'False 'False 'False) where
+  arbitrary = QC.oneof [ pure TFFF1, TFFF2 <$> QC.arbitrary ]
+instance QC.Arbitrary (Foo4 'True 'False 'False 'True) where
+  arbitrary = QC.oneof [ pure TFFT1, TFFT2 <$> QC.arbitrary ]
+instance QC.Arbitrary (Foo4 'True 'False 'True 'False) where
+  arbitrary = QC.oneof [ pure TFTF1, TFTF2 <$> QC.arbitrary ]
+instance QC.Arbitrary (Foo4 'True 'False 'True 'True) where
+  arbitrary = QC.oneof [ pure TFTT1, TFTT2 <$> QC.arbitrary ]
+instance QC.Arbitrary (Foo4 'True 'True 'False 'False) where
+  arbitrary = QC.oneof [ pure TTFF1, TTFF2 <$> QC.arbitrary ]
+instance QC.Arbitrary (Foo4 'True 'True 'False 'True) where
+  arbitrary = QC.oneof [ pure TTFT1, TTFT2 <$> QC.arbitrary ]
+instance QC.Arbitrary (Foo4 'True 'True 'True 'False) where
+  arbitrary = QC.oneof [ pure TTTF1, TTTF2 <$> QC.arbitrary ]
+instance QC.Arbitrary (Foo4 'True 'True 'True 'True) where
+  arbitrary = QC.oneof [ pure TTTT1, TTTT2 <$> QC.arbitrary ]

@@ -59,7 +59,6 @@ test-suite tests
    , constraints
    , deepseq
    , exinst
-   , generic-random >=0.4
    , hashable
    , profunctors
    , QuickCheck
