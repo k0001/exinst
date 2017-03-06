@@ -1,3 +1,8 @@
+# Version HEAD
+
+* Removed dependency on `generic-random`.
+
+
 # Version 0.3
 
 * BREAKING: Renamed module `Exinst.Singletons` to  `Exinst`.

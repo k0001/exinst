@@ -1,5 +1,5 @@
 { mkDerivation, aeson, base, bytes, constraints, deepseq
-, generic-random, hashable, profunctors, QuickCheck, singletons
+, hashable, profunctors, QuickCheck, singletons
 , stdenv, tasty, tasty-hunit, tasty-quickcheck
 }:
 mkDerivation {
@@ -11,7 +11,7 @@ mkDerivation {
     QuickCheck singletons
   ];
   testHaskellDepends = [
-    aeson base bytes constraints deepseq generic-random hashable
+    aeson base bytes constraints deepseq hashable
     profunctors QuickCheck singletons tasty tasty-hunit
     tasty-quickcheck
   ];
