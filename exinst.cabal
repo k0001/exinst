@@ -34,7 +34,7 @@ library
     build-depends: aeson
     other-modules: Exinst.Instances.Aeson
   if flag(bytes)
-    build-depends: bytes >=0.15 && <0.16
+    build-depends: bytes >=0.15, binary, cereal
     other-modules: Exinst.Instances.Bytes
   if flag(deepseq)
     build-depends: deepseq
@@ -55,7 +55,10 @@ test-suite tests
   build-depends:
      aeson
    , base
+   , binary
    , bytes
+   , bytestring
+   , cereal
    , constraints
    , deepseq
    , exinst
@@ -73,7 +76,7 @@ flag aeson
   default: True
   manual: True
 flag bytes
-  description: Provide instances for @bytes@
+  description: Provide instances for @bytes@, @binary@ and @cereal@.
   default: True
   manual: True
 flag deepseq

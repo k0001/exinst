@@ -10,9 +10,12 @@ module Main where
 
 import Control.DeepSeq (NFData(rnf))
 import qualified Data.Aeson as Aeson
+import qualified Data.Binary as Bin
+import qualified Data.ByteString.Lazy as BSL
 import qualified Data.Bytes.Get as Bytes
 import qualified Data.Bytes.Put as Bytes
 import qualified Data.Bytes.Serial as Bytes
+import qualified Data.Serialize as Cer
 import Data.Hashable (Hashable(hash))
 import Data.Kind (Type)
 import Data.Proxy (Proxy)
@@ -42,13 +45,16 @@ tt =
   [ tt_id "Identity through GHC's Generic" id_generic
   , tt_id "Identity through Aeson's FromJSON/ToJSON" id_aeson
   , tt_id "Identity through Bytes's Serial" id_bytes
+  , tt_id "Identity from Cereal's Serialize to Binary's Binary" id_cereal_to_binary
+  , tt_id "Identity from Binary's Binary to Cereal's Serialize" id_binary_to_cereal
   , tt_nfdata
   ]
 
 tt_id
   :: String
   -> (forall a.
-        ( G.Generic a, Aeson.FromJSON a, Aeson.ToJSON a, Bytes.Serial a
+        ( G.Generic a, Aeson.FromJSON a, Aeson.ToJSON a
+        , Bytes.Serial a, Bin.Binary a, Cer.Serialize a
         ) => a -> Maybe a
      ) -- ^ It's easier to put all the constraints here.
   -> Tasty.TestTree
@@ -97,10 +103,21 @@ id_aeson = Aeson.decode . Aeson.encode
 
 id_bytes :: Bytes.Serial a => a -> Maybe a
 id_bytes = \a ->
-  let bs = Bytes.runPutS (Bytes.serialize a)
-  in case Bytes.runGetS Bytes.deserialize bs of
-       Left _ -> Nothing
-       Right a' -> Just a'
+  case Bytes.runGetS Bytes.deserialize (Bytes.runPutS (Bytes.serialize a)) of
+     Left _ -> Nothing
+     Right a' -> Just a'
+
+id_cereal_to_binary :: (Bin.Binary a, Cer.Serialize a) => a -> Maybe a
+id_cereal_to_binary = \a ->
+   case Bin.decodeOrFail (Cer.encodeLazy a) of
+      Right (z,_,a') | BSL.null z -> Just a'
+      _ -> Nothing
+
+id_binary_to_cereal :: (Bin.Binary a, Cer.Serialize a) => a -> Maybe a
+id_binary_to_cereal = \a ->
+  case Cer.decodeLazy (Bin.encode a) of
+     Right a' -> Just a'
+     Left _ -> Nothing
 
 --------------------------------------------------------------------------------
 

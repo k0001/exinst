@@ -4,6 +4,10 @@
 
 * Correctly deal with cabal flags for `deepseq` and `hashable`.
 
+* Add `binary`'s `Data.Binary.Binary` and `cereal`'s `Data.Serialize.Serialize`
+  instances for `Some{1,2,3,4}`. These instances are compatible with each other
+  and rely on the `Data.Bytes.Serial` instances.
+
 
 # Version 0.3
 

@@ -14,6 +14,8 @@
 module Exinst.Instances.Bytes () where
 
 import qualified Data.Bytes.Serial as By
+import qualified Data.Binary as Bin
+import qualified Data.Serialize as Cer
 import Data.Constraint
 import Data.Singletons
 import Prelude
@@ -116,3 +118,58 @@ instance forall (f4 :: k4 -> k3 -> k2 -> k1 -> *)
                   case dict4 sa4 sa3 sa2 sa1 :: Dict (By.Serial (f4 a4 a3 a2 a1)) of
                      Dict -> do x :: f4 a4 a3 a2 a1 <- By.deserialize
                                 return (some4 x)
+
+--------------------------------------------------------------------------------
+-- Binary
+
+instance By.Serial (Some1 f) => Bin.Binary (Some1 f) where
+  {-# INLINE put #-}
+  put = By.serialize
+  {-# INLINE get #-}
+  get = By.deserialize
+
+instance By.Serial (Some2 f) => Bin.Binary (Some2 f) where
+  {-# INLINE put #-}
+  put = By.serialize
+  {-# INLINE get #-}
+  get = By.deserialize
+
+instance By.Serial (Some3 f) => Bin.Binary (Some3 f) where
+  {-# INLINE put #-}
+  put = By.serialize
+  {-# INLINE get #-}
+  get = By.deserialize
+
+instance By.Serial (Some4 f) => Bin.Binary (Some4 f) where
+  {-# INLINE put #-}
+  put = By.serialize
+  {-# INLINE get #-}
+  get = By.deserialize
+
+--------------------------------------------------------------------------------
+-- Cereal
+
+instance By.Serial (Some1 f) => Cer.Serialize (Some1 f) where
+  {-# INLINE put #-}
+  put = By.serialize
+  {-# INLINE get #-}
+  get = By.deserialize
+
+instance By.Serial (Some2 f) => Cer.Serialize (Some2 f) where
+  {-# INLINE put #-}
+  put = By.serialize
+  {-# INLINE get #-}
+  get = By.deserialize
+
+instance By.Serial (Some3 f) => Cer.Serialize (Some3 f) where
+  {-# INLINE put #-}
+  put = By.serialize
+  {-# INLINE get #-}
+  get = By.deserialize
+
+instance By.Serial (Some4 f) => Cer.Serialize (Some4 f) where
+  {-# INLINE put #-}
+  put = By.serialize
+  {-# INLINE get #-}
+  get = By.deserialize
+

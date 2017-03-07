@@ -1,18 +1,18 @@
-{ mkDerivation, aeson, base, bytes, constraints, deepseq
-, hashable, profunctors, QuickCheck, singletons
-, stdenv, tasty, tasty-hunit, tasty-quickcheck
+{ mkDerivation, aeson, base, binary, bytes, bytestring, cereal
+, constraints, deepseq, hashable, profunctors, QuickCheck
+, singletons, stdenv, tasty, tasty-hunit, tasty-quickcheck
 }:
 mkDerivation {
   pname = "exinst";
   version = "0.3";
   src = ./.;
   libraryHaskellDepends = [
-    aeson base bytes constraints deepseq hashable profunctors
-    QuickCheck singletons
+    aeson base binary bytes cereal constraints deepseq hashable
+    profunctors QuickCheck singletons
   ];
   testHaskellDepends = [
-    aeson base bytes constraints deepseq hashable
-    profunctors QuickCheck singletons tasty tasty-hunit
+    aeson base binary bytes bytestring cereal constraints deepseq
+    hashable profunctors QuickCheck singletons tasty tasty-hunit
     tasty-quickcheck
   ];
   homepage = "https://github.com/k0001/exinst";
