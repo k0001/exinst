@@ -4,7 +4,7 @@
 }:
 mkDerivation {
   pname = "exinst";
-  version = "0.3";
+  version = "0.3.0.1";
   src = ./.;
   libraryHaskellDepends = [
     aeson base binary bytes cereal constraints deepseq hashable
@@ -16,6 +16,6 @@ mkDerivation {
     tasty-quickcheck
   ];
   homepage = "https://github.com/k0001/exinst";
-  description = "Derive instances for your existential types";
+  description = "Recover instances for your existential types";
   license = stdenv.lib.licenses.bsd3;
 }

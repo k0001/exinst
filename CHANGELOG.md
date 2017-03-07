@@ -1,4 +1,4 @@
-# Version HEAD
+# Version 0.3.0.1
 
 * Removed dependency on `generic-random`.
 
