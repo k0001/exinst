@@ -2,6 +2,8 @@
 
 * Removed dependency on `generic-random`.
 
+* Correctly deal with cabal flags for `deepseq` and `hashable`.
+
 
 # Version 0.3
 

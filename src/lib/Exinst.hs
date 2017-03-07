@@ -53,6 +53,7 @@ module Exinst
 import Data.Constraint (Constraint, Dict(Dict))
 
 import Exinst.Internal
+import Exinst.Instances.Base ()
 
 #ifdef VERSION_aeson
 import Exinst.Instances.Aeson ()
@@ -62,15 +63,11 @@ import Exinst.Instances.Aeson ()
 import Exinst.Instances.Bytes ()
 #endif
 
-#ifdef VERSION_bytes
-import Exinst.Instances.Base ()
-#endif
-
-#ifdef VERSION_bytes
+#ifdef VERSION_deepseq
 import Exinst.Instances.DeepSeq ()
 #endif
 
-#ifdef VERSION_bytes
+#ifdef VERSION_hashable
 import Exinst.Instances.Hashable ()
 #endif
 
