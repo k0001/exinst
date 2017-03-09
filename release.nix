@@ -11,7 +11,7 @@ let
 pkgs = import nixpkgs {};
 
 hsPackageSetConfig = self: super: {
-  exinst = self.callPackage (import ./default.nix) {};
+  exinst = self.callPackage (import ./pkg.nix) {};
 };
 
 ghc802 = pkgs.haskell.packages.ghc802.override {
