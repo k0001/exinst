@@ -10,9 +10,6 @@ type-indexed types whose type-indexes have been existentialized. Currently it on
 supports using [`singleton`](https://hackage.haskell.org/package/singletons) types as
 type-indexes.
 
-> TODO: Support for non-singleton-types types with kind `*` using `Typeable` should
-> be possible, but I haven't worked on that yet. It's on the roadmap.
-
 In short, what `exinst` currently gives you is: For any type ``t :: k -> *``,
 if `k` is a singleton type and `c (t k) :: Constraint` is satisfied, then you can
 existentialize away the `k` parameter with `Some1 t`, and have `c (Some1 t)`
@@ -96,7 +93,7 @@ instance Show ReceptacleOfAnySizeThatCanBeShown where
 
 That works as intended:
 
-```
+```haskell
 > show (MkReceptacleOfAnySizeThatCanBeShown Vase)
 "Vase"
 > show (MkReceptacleOfAnySizeThatCanBeShown Barrel)
@@ -107,7 +104,7 @@ And now, as we wanted, we can put `Receptacle`s of different sizes in a `[]` and
 show them (as long as we wrap each of them as
 `ReceptacleOfAnySizeThatCanBeShown`, that is).
 
-```
+```haskell
 > map show [MkReceptacleOfAnySizeThatCanBeShown Vase, MkReceptacleOfAnySizeThatCanBeShown Barrel]
 ["Vase", "Barrel"]
 ```
@@ -183,7 +180,7 @@ did with `ReceptacleOfAnySizeThatCanBeShown` before.
 
 Note: this code won't work yet. Keep reading.
 
-```
+```haskell
 > import Exinst (some1)
 > import Exinst.Instances.Base ()
 > :t some1 Glass
@@ -196,8 +193,6 @@ Well, actually, the default `Show` instance for `Some1` shows a bit more of
 information, as it permits this string to be `Read` back into a `Some1
 Receptacle` if needed, but displaying just `"Glass"` would be possible too, if
 desired.
-
-> TODO: Implement said `Read` instance.
 
 The important thing to notice in the example above is that `some1` does not
 require us to satisfy a `Show (Receptacle 'Small)` constraint, it just requires
@@ -231,15 +226,12 @@ witness that the constraint `c` is satisfied by `f1` applied to the singleton
 type.
 
 That class seems to be a bit too abstract, but the instances we as users need to
-write for it are quite silly and straightforward. Even *boilerplatey* if you
-will; they could even be generated using TH
-
-> TODO: Write the TH for deriving the `Dict{1,2,3,4}` implementation.
+write for it are quite silly and straightforward.
 
 Here's an example of how to provide `Show` support for `Some1 Receptacle` via
 `Dict1`:
 
-```
+```haskell
 instance (Show (Receptacle 'Small), Show (Receptacle 'Big)) => Dict1 Show Receptacle where
   dict1 = \x -> case x of
     SSmall -> Dict
@@ -385,7 +377,7 @@ Now, provided that we import `Exinst.Instances.Base` and
 `Exinst.Instances.Aeson`, `Some1 Receptacle` will have `Eq`, `Show`, `FromJSON`
 and `FromJSON` instances:
 
-```
+```haskell
 > import Exinst.Instances.Base ()
 > import Exinst.Instances.Aeson ()
 
@@ -473,11 +465,6 @@ type-index of `X` and then calls `dict3` to do the same for the third-to-last
 type-index of `X` and so on. Notice, however, how we didn't need to mention `X`
 in none of the instances above: As we said before, these instances are
 intended to work for any choice of `c`, `f4`, `f3`, `f2` and `f1`.
-
-> TODO: See if instead of having `Some1`, `Some2`, `Some3`, `Some4`, and their
-> respective `Dict1`, `Dict2`, `Dict3` and `Dict4`, etc., we can have a single
-> `SomeN` and a single `DictN` working out the number of parameters using
-> type-level natural numbers.
 
 ## Converting `Some1 (f :: k -> *)` to `f (a :: k)`.
 
