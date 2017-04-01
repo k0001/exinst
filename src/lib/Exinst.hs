@@ -45,6 +45,18 @@ module Exinst
    -- * Miscellaneous
  , Dict0(dict0)
 
+   -- * Products
+ , P1(P1)
+ , P2(P2)
+ , P3(P3)
+ , P4(P4)
+
+   -- * Sums
+ , S1(S1L,S1R)
+ , S2(S2L,S2R)
+ , S3(S3L,S3R)
+ , S4(S4L,S4R)
+
    -- * Re-exports
  , Constraint
  , Dict(Dict)
@@ -53,6 +65,9 @@ module Exinst
 import Data.Constraint (Constraint, Dict(Dict))
 
 import Exinst.Internal
+import Exinst.Internal.Product
+import Exinst.Internal.Sum
+
 import Exinst.Instances.Base ()
 
 #ifdef VERSION_aeson

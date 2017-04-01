@@ -1,3 +1,10 @@
+# Version HEAD
+
+* Add `P1`, `P2`, `P3`, `P4`.
+
+* Add `S1`, `S2`, `S3`, `S4`.
+
+
 # Version 0.3.0.1
 
 * Removed dependency on `generic-random`.

@@ -21,6 +21,8 @@ library
       Exinst
   other-modules:
       Exinst.Internal
+      Exinst.Internal.Product
+      Exinst.Internal.Sum
       Exinst.Instances.Base
   build-depends:
       base >=4.9 && <5.0
