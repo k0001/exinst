@@ -4,6 +4,8 @@
 
 * Add `S1`, `S2`, `S3`, `S4`.
 
+* Add `Read` instances for `Some{1,2,3,4}`.
+
 
 # Version 0.3.0.1
 

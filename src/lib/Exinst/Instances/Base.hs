@@ -30,6 +30,7 @@ import Data.Singletons.Decide
 import Data.Type.Equality
 import qualified GHC.Generics as G
 import Prelude
+import qualified Text.Read as Read
 
 import Exinst.Internal
   hiding (Some1(..), Some2(..), Some3(..), Some4(..))
@@ -37,7 +38,7 @@ import qualified Exinst.Internal as Exinst
 
 --------------------------------------------------------------------------------
 
--- Internal wrappers used to avoid writing the string manipulation in 'Show'
+-- Internal wrappers used to avoid writing the string manipulation in 'Show'.
 data Some1'Show r1 x = Some1 r1 x deriving (Show)
 data Some2'Show r2 r1 x = Some2 r2 r1 x deriving (Show)
 data Some3'Show r3 r2 r1 x = Some3 r3 r2 r1 x deriving (Show)
@@ -105,6 +106,94 @@ instance forall (f4 :: k4 -> k3 -> k2 -> k1 -> Type)
 
 --------------------------------------------------------------------------------
 -- Read
+
+instance forall (f :: k1 -> Type)
+  . ( SingKind k1
+    , Read (DemoteRep k1)
+    , Dict1 Read f
+    ) => Read (Exinst.Some1 f)
+  where
+    {-# INLINABLE readPrec #-}
+    readPrec = do
+      Read.Ident "Some1" <- Read.lexP
+      rsa1 <- Read.readPrec
+      withSomeSing rsa1 $ \(sa1 :: Sing (a1 :: k1)) ->
+         case dict1 sa1 :: Dict (Read (f a1)) of
+            Dict -> do
+               x :: f a1 <- Read.readPrec
+               pure (Exinst.Some1 sa1 x)
+
+instance forall (f :: k2 -> k1 -> Type)
+  . ( SingKind k2
+    , SingKind k1
+    , Read (DemoteRep k2)
+    , Read (DemoteRep k1)
+    , Dict2 Read f
+    ) => Read (Exinst.Some2 f)
+  where
+    {-# INLINABLE readPrec #-}
+    readPrec = do
+      Read.Ident "Some2" <- Read.lexP
+      rsa2 <- Read.readPrec
+      rsa1 <- Read.readPrec
+      withSomeSing rsa2 $ \(sa2 :: Sing (a2 :: k2)) ->
+         withSomeSing rsa1 $ \(sa1 :: Sing (a1 :: k1)) ->
+            case dict2 sa2 sa1 :: Dict (Read (f a2 a1)) of
+               Dict -> do
+                  x :: f a2 a1 <- Read.readPrec
+                  pure (Exinst.Some2 sa2 sa1 x)
+
+instance forall (f :: k3 -> k2 -> k1 -> Type)
+  . ( SingKind k3
+    , SingKind k2
+    , SingKind k1
+    , Read (DemoteRep k3)
+    , Read (DemoteRep k2)
+    , Read (DemoteRep k1)
+    , Dict3 Read f
+    ) => Read (Exinst.Some3 f)
+  where
+    {-# INLINABLE readPrec #-}
+    readPrec = do
+      Read.Ident "Some3" <- Read.lexP
+      rsa3 <- Read.readPrec
+      rsa2 <- Read.readPrec
+      rsa1 <- Read.readPrec
+      withSomeSing rsa3 $ \(sa3 :: Sing (a3 :: k3)) ->
+         withSomeSing rsa2 $ \(sa2 :: Sing (a2 :: k2)) ->
+            withSomeSing rsa1 $ \(sa1 :: Sing (a1 :: k1)) ->
+               case dict3 sa3 sa2 sa1 :: Dict (Read (f a3 a2 a1)) of
+                  Dict -> do
+                     x :: f a3 a2 a1 <- Read.readPrec
+                     pure (Exinst.Some3 sa3 sa2 sa1 x)
+
+instance forall (f :: k4 -> k3 -> k2 -> k1 -> Type)
+  . ( SingKind k4
+    , SingKind k3
+    , SingKind k2
+    , SingKind k1
+    , Read (DemoteRep k4)
+    , Read (DemoteRep k3)
+    , Read (DemoteRep k2)
+    , Read (DemoteRep k1)
+    , Dict4 Read f
+    ) => Read (Exinst.Some4 f)
+  where
+    {-# INLINABLE readPrec #-}
+    readPrec = do
+      Read.Ident "Some4" <- Read.lexP
+      rsa4 <- Read.readPrec
+      rsa3 <- Read.readPrec
+      rsa2 <- Read.readPrec
+      rsa1 <- Read.readPrec
+      withSomeSing rsa4 $ \(sa4 :: Sing (a4 :: k4)) ->
+         withSomeSing rsa3 $ \(sa3 :: Sing (a3 :: k3)) ->
+            withSomeSing rsa2 $ \(sa2 :: Sing (a2 :: k2)) ->
+               withSomeSing rsa1 $ \(sa1 :: Sing (a1 :: k1)) ->
+                  case dict4 sa4 sa3 sa2 sa1 :: Dict (Read (f a4 a3 a2 a1)) of
+                     Dict -> do
+                        x :: f a4 a3 a2 a1 <- Read.readPrec
+                        pure (Exinst.Some4 sa4 sa3 sa2 sa1 x)
 
 --------------------------------------------------------------------------------
 -- Eq
