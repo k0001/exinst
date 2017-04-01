@@ -550,6 +550,10 @@ indexes:
       In the expression: P1 XT YF
 ```
 
+Moreover, `P1` supports many common instances from @base@, @hashable@,
+@deepseq@, @aeson@, @bytes@, @cereal@, @binary@ and @quickcheck@ out of the
+box, so you can benefit from them as well.
+
 There's also `P2`, `P3` and `P4` for product types taking a different number of
 indexes, and also `S1`, `S2`, `S3` and `S4` for sum types:
 
