@@ -1,0 +1,8 @@
+:set -XConstraintKinds
+:set -XDataKinds
+:set -XGADTs
+:set -XKindSignatures
+:set -XOverloadedStrings
+:set -XPolyKinds
+
+import Data.Constraint (Dict(Dict), Constraint)
