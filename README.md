@@ -181,8 +181,7 @@ did with `ReceptacleOfAnySizeThatCanBeShown` before.
 Note: this code won't work yet. Keep reading.
 
 ```haskell
-> import Exinst (some1)
-> import Exinst.Instances.Base ()
+> import Exinst (Some1, some1)
 > :t some1 Glass
 :t some1 Glass :: Some1 Receptacle
 > show (some1 Glass)
@@ -285,6 +284,10 @@ and `Some4` (they can be enabled with some cabal flags).
 
 * `Serial` from the `bytes` package.
 
+* `Serialize` from the `cereal` package.
+
+* `Binary` from the `binary` package.
+
 * `Hashable` from the `hashable` package.
 
 * `NFData` from the `deepseq` package.
@@ -295,9 +298,9 @@ You are invited to read the instance heads for said instances so as to understan
 what you need to provide in order to get those instances “for free”. As a rule of
 thumb, most instances will require this: If you expect to have an instance for
 `class Y => Z a` satisfied for `Some1 (f :: k -> *)`, then make sure an instance
-for `Z` is available for the `DemoteRep ('KProxy :: KProxy k)`, that a `Dict1 Z
-(f :: k -> *)` or more general instance exists, and that the `Y` instance for
-`Some1 (f :: k -> *)` exists too.
+for `Z` is available for the `DemoteRep k`, that a `Dict1 Z (f :: k -> *)` or
+more general instance exists, and that the `Y` instance for `Some1 (f :: k ->
+*)` exists too.
 
 Here is the full code needed to have, say, the `Eq`, `Show`, `ToJSON` and
 `FromJSON` instances available for `Some1 Receptacle`:
@@ -373,14 +376,10 @@ instance Ae.FromJSON (Receptacle 'Big) where
      _ -> fail "Unknown"
 ```
 
-Now, provided that we import `Exinst.Instances.Base` and
-`Exinst.Instances.Aeson`, `Some1 Receptacle` will have `Eq`, `Show`, `FromJSON`
-and `FromJSON` instances:
+Now, `Some1 Receptacle` will have `Eq`, `Show`, `FromJSON` and `FromJSON`
+instances:
 
 ```haskell
-> import Exinst.Instances.Base ()
-> import Exinst.Instances.Aeson ()
-
 > -- Trying `fromSome1`.
 > fromSome1 (some1 Vase) == Just Vase
 True
@@ -570,8 +569,8 @@ Instances for `Some1` seem to come out of thin air, but the truth is that they
 need to be written at least once by library authors so that, provided all its
 requirements are satisfied, they are made available.
 
-When we imported `Exinst.Instances.Base` before, we brought to scope, among
-other things, the `Show` instance for `Some1`, which is defined as this:
+When we imported `Exinst` before, we also brought to scope, among other things,
+the `Show` instance for `Some1`, which is defined as this:
 
 ```haskell
 -- Internal wrapper so that we don't have to write the string manipulation parts
