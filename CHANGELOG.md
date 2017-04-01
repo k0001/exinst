@@ -1,14 +1,17 @@
 # Version 0.4
 
+* BREAKING: Decouple `binary` and `cereal` instances from `bytes`. This
+  introduces a slight backwards incompatible change if you were using some
+  `Serial` instances that depended on host endianness (such as `Int`).
+
 * Add `P1`, `P2`, `P3`, `P4`.
 
 * Add `S1`, `S2`, `S3`, `S4`.
 
 * Add `Read` instances for `Some{1,2,3,4}`.
 
-* Decouple `binary` and `cereal` instances from `bytes`. This introduces a
-  slight backwards incompatible change if you were using some `Serial` instances
-  that depended on host endianness (such as `Int`).
+* Moved documentation from `README.md` into the top-level `Exinst` module.
+
 
 # Version 0.3.0.1
 

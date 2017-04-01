@@ -196,19 +196,19 @@ instance forall (f :: k4 -> k3 -> k2 -> k1 -> Type)
 --------------------------------------------------------------------------------
 -- Eq
 
-instance forall (f :: k1 -> Type)
-  . ( SDecide k1
-    , Dict1 Eq f
-    ) => Eq (Exinst.Some1 f)
+instance forall (f :: k1 -> Type).
+  ( SDecide k1
+  , Dict1 Eq f
+  ) => Eq (Exinst.Some1 f)
   where
-    {-# INLINABLE (==) #-}
-    (==) = \som1x som1y ->
-       withSome1Sing som1x $ \sa1x (x :: f a1x) ->
-          withSome1Sing som1y $ \sa1y (y :: f a1y) ->
-             maybe False id $ do
-                Refl <- testEquality sa1x sa1y
-                case dict1 sa1x :: Dict (Eq (f a1x)) of
-                   Dict -> Just (x == y)
+  {-# INLINABLE (==) #-}
+  (==) = \som1x som1y ->
+     withSome1Sing som1x $ \sa1x (x :: f a1x) ->
+        withSome1Sing som1y $ \sa1y (y :: f a1y) ->
+           maybe False id $ do
+              Refl <- testEquality sa1x sa1y
+              case dict1 sa1x :: Dict (Eq (f a1x)) of
+                 Dict -> Just (x == y)
 
 instance forall (f :: k2 -> k1 -> Type)
   . ( SDecide k2
