@@ -22,46 +22,46 @@ import Exinst.Internal
 
 --------------------------------------------------------------------------------
 
-instance forall (f1 :: k1 -> *)
+instance forall (f :: k1 -> *)
   . ( SingKind k1
     , Ae.ToJSON (DemoteRep k1)
-    , Dict1 Ae.ToJSON f1
-    ) => Ae.ToJSON (Some1 f1)
+    , Dict1 Ae.ToJSON f
+    ) => Ae.ToJSON (Some1 f)
   where
     {-# INLINABLE toJSON #-}
-    toJSON = \some1x -> withSome1Sing some1x $ \sa1 (x :: f1 a1) ->
-       case dict1 sa1 :: Dict (Ae.ToJSON (f1 a1)) of
+    toJSON = \some1x -> withSome1Sing some1x $ \sa1 (x :: f a1) ->
+       case dict1 sa1 :: Dict (Ae.ToJSON (f a1)) of
           Dict -> Ae.toJSON (fromSing sa1, x)
 
-instance forall (f2 :: k2 -> k1 -> *)
+instance forall (f :: k2 -> k1 -> *)
   . ( SingKind k2
     , SingKind k1
     , Ae.ToJSON (DemoteRep k2)
     , Ae.ToJSON (DemoteRep k1)
-    , Dict2 Ae.ToJSON f2
-    ) => Ae.ToJSON (Some2 f2)
+    , Dict2 Ae.ToJSON f
+    ) => Ae.ToJSON (Some2 f)
   where
     {-# INLINABLE toJSON #-}
-    toJSON = \some2x -> withSome2Sing some2x $ \sa2 sa1 (x :: f2 a2 a1) ->
-       case dict2 sa2 sa1 :: Dict (Ae.ToJSON (f2 a2 a1)) of
+    toJSON = \some2x -> withSome2Sing some2x $ \sa2 sa1 (x :: f a2 a1) ->
+       case dict2 sa2 sa1 :: Dict (Ae.ToJSON (f a2 a1)) of
           Dict -> Ae.toJSON ((fromSing sa2, fromSing sa1), x)
 
-instance forall (f3 :: k3 -> k2 -> k1 -> *)
+instance forall (f :: k3 -> k2 -> k1 -> *)
   . ( SingKind k3
     , SingKind k2
     , SingKind k1
     , Ae.ToJSON (DemoteRep k3)
     , Ae.ToJSON (DemoteRep k2)
     , Ae.ToJSON (DemoteRep k1)
-    , Dict3 Ae.ToJSON f3
-    ) => Ae.ToJSON (Some3 f3)
+    , Dict3 Ae.ToJSON f
+    ) => Ae.ToJSON (Some3 f)
   where
     {-# INLINABLE toJSON #-}
-    toJSON = \some3x -> withSome3Sing some3x $ \sa3 sa2 sa1 (x :: f3 a3 a2 a1) ->
-       case dict3 sa3 sa2 sa1 :: Dict (Ae.ToJSON (f3 a3 a2 a1)) of
+    toJSON = \some3x -> withSome3Sing some3x $ \sa3 sa2 sa1 (x :: f a3 a2 a1) ->
+       case dict3 sa3 sa2 sa1 :: Dict (Ae.ToJSON (f a3 a2 a1)) of
           Dict -> Ae.toJSON ((fromSing sa3, fromSing sa2, fromSing sa1), x)
 
-instance forall (f4 :: k4 -> k3 -> k2 -> k1 -> *)
+instance forall (f :: k4 -> k3 -> k2 -> k1 -> *)
   . ( SingKind k4
     , SingKind k3
     , SingKind k2
@@ -70,71 +70,71 @@ instance forall (f4 :: k4 -> k3 -> k2 -> k1 -> *)
     , Ae.ToJSON (DemoteRep k3)
     , Ae.ToJSON (DemoteRep k2)
     , Ae.ToJSON (DemoteRep k1)
-    , Dict4 Ae.ToJSON f4
-    ) => Ae.ToJSON (Some4 f4)
+    , Dict4 Ae.ToJSON f
+    ) => Ae.ToJSON (Some4 f)
   where
     {-# INLINABLE toJSON #-}
-    toJSON = \some4x -> withSome4Sing some4x $ \sa4 sa3 sa2 sa1 (x :: f4 a4 a3 a2 a1) ->
-       case dict4 sa4 sa3 sa2 sa1 :: Dict (Ae.ToJSON (f4 a4 a3 a2 a1)) of
+    toJSON = \some4x -> withSome4Sing some4x $ \sa4 sa3 sa2 sa1 (x :: f a4 a3 a2 a1) ->
+       case dict4 sa4 sa3 sa2 sa1 :: Dict (Ae.ToJSON (f a4 a3 a2 a1)) of
           Dict -> Ae.toJSON ((fromSing sa4, fromSing sa3, fromSing sa2, fromSing sa1), x)
 
 --------------------------------------------------------------------------------
 
-instance forall (f1 :: k1 -> *)
+instance forall (f :: k1 -> *)
   . ( SingKind k1
     , Ae.FromJSON (DemoteRep k1)
-    , Dict1 Ae.FromJSON f1
-    ) => Ae.FromJSON (Some1 f1)
+    , Dict1 Ae.FromJSON f
+    ) => Ae.FromJSON (Some1 f)
   where
     {-# INLINABLE parseJSON #-}
     parseJSON = \v -> do
       (rsa1, v') <- Ae.parseJSON v
-      withSomeSing rsa1 $ \(sa1 :: Sing (a1 :: k1)) -> withSingI sa1 $
-         case dict1 sa1 :: Dict (Ae.FromJSON (f1 a1)) of
+      withSomeSing rsa1 $ \(sa1 :: Sing (a1 :: k1)) ->
+         case dict1 sa1 :: Dict (Ae.FromJSON (f a1)) of
             Dict -> do
-               x :: f1 a1 <- Ae.parseJSON v'
-               return (some1 x)
+               x :: f a1 <- Ae.parseJSON v'
+               pure (Some1 sa1 x)
 
-instance forall (f2 :: k2 -> k1 -> *)
+instance forall (f :: k2 -> k1 -> *)
   . ( SingKind k2
     , SingKind k1
     , Ae.FromJSON (DemoteRep k2)
     , Ae.FromJSON (DemoteRep k1)
-    , Dict2 Ae.FromJSON f2
-    ) => Ae.FromJSON (Some2 f2)
+    , Dict2 Ae.FromJSON f
+    ) => Ae.FromJSON (Some2 f)
   where
     {-# INLINABLE parseJSON #-}
     parseJSON = \v -> do
       ((rsa2, rsa1), v') <- Ae.parseJSON v
-      withSomeSing rsa2 $ \(sa2 :: Sing (a2 :: k2)) -> withSingI sa2 $
-         withSomeSing rsa1 $ \(sa1 :: Sing (a1 :: k1)) -> withSingI sa1 $
-            case dict2 sa2 sa1 :: Dict (Ae.FromJSON (f2 a2 a1)) of
+      withSomeSing rsa2 $ \(sa2 :: Sing (a2 :: k2)) ->
+         withSomeSing rsa1 $ \(sa1 :: Sing (a1 :: k1)) ->
+            case dict2 sa2 sa1 :: Dict (Ae.FromJSON (f a2 a1)) of
                Dict -> do
-                  x :: f2 a2 a1 <- Ae.parseJSON v'
-                  return (some2 x)
+                  x :: f a2 a1 <- Ae.parseJSON v'
+                  pure (Some2 sa2 sa1 x)
 
-instance forall (f3 :: k3 -> k2 -> k1 -> *)
+instance forall (f :: k3 -> k2 -> k1 -> *)
   . ( SingKind k3
     , SingKind k2
     , SingKind k1
     , Ae.FromJSON (DemoteRep k3)
     , Ae.FromJSON (DemoteRep k2)
     , Ae.FromJSON (DemoteRep k1)
-    , Dict3 Ae.FromJSON f3
-    ) => Ae.FromJSON (Some3 f3)
+    , Dict3 Ae.FromJSON f
+    ) => Ae.FromJSON (Some3 f)
   where
     {-# INLINABLE parseJSON #-}
     parseJSON = \v -> do
       ((rsa3, rsa2, rsa1), v') <- Ae.parseJSON v
-      withSomeSing rsa3 $ \(sa3 :: Sing (a3 :: k3)) -> withSingI sa3 $
-         withSomeSing rsa2 $ \(sa2 :: Sing (a2 :: k2)) -> withSingI sa2 $
-            withSomeSing rsa1 $ \(sa1 :: Sing (a1 :: k1)) -> withSingI sa1 $
-               case dict3 sa3 sa2 sa1 :: Dict (Ae.FromJSON (f3 a3 a2 a1)) of
+      withSomeSing rsa3 $ \(sa3 :: Sing (a3 :: k3)) ->
+         withSomeSing rsa2 $ \(sa2 :: Sing (a2 :: k2)) ->
+            withSomeSing rsa1 $ \(sa1 :: Sing (a1 :: k1)) ->
+               case dict3 sa3 sa2 sa1 :: Dict (Ae.FromJSON (f a3 a2 a1)) of
                   Dict -> do
-                     x :: f3 a3 a2 a1 <- Ae.parseJSON v'
-                     return (some3 x)
+                     x :: f a3 a2 a1 <- Ae.parseJSON v'
+                     pure (Some3 sa3 sa2 sa1 x)
 
-instance forall (f4 :: k4 -> k3 -> k2 -> k1 -> *)
+instance forall (f :: k4 -> k3 -> k2 -> k1 -> *)
   . ( SingKind k4
     , SingKind k3
     , SingKind k2
@@ -143,17 +143,17 @@ instance forall (f4 :: k4 -> k3 -> k2 -> k1 -> *)
     , Ae.FromJSON (DemoteRep k3)
     , Ae.FromJSON (DemoteRep k2)
     , Ae.FromJSON (DemoteRep k1)
-    , Dict4 Ae.FromJSON f4
-    ) => Ae.FromJSON (Some4 f4)
+    , Dict4 Ae.FromJSON f
+    ) => Ae.FromJSON (Some4 f)
   where
     {-# INLINABLE parseJSON #-}
     parseJSON = \v -> do
       ((rsa4, rsa3, rsa2, rsa1), v') <- Ae.parseJSON v
-      withSomeSing rsa4 $ \(sa4 :: Sing (a4 :: k4)) -> withSingI sa4 $
-         withSomeSing rsa3 $ \(sa3 :: Sing (a3 :: k3)) -> withSingI sa3 $
-            withSomeSing rsa2 $ \(sa2 :: Sing (a2 :: k2)) -> withSingI sa2 $
-               withSomeSing rsa1 $ \(sa1 :: Sing (a1 :: k1)) -> withSingI sa1 $
-                  case dict4 sa4 sa3 sa2 sa1 :: Dict (Ae.FromJSON (f4 a4 a3 a2 a1)) of
+      withSomeSing rsa4 $ \(sa4 :: Sing (a4 :: k4)) ->
+         withSomeSing rsa3 $ \(sa3 :: Sing (a3 :: k3)) ->
+            withSomeSing rsa2 $ \(sa2 :: Sing (a2 :: k2)) ->
+               withSomeSing rsa1 $ \(sa1 :: Sing (a1 :: k1)) ->
+                  case dict4 sa4 sa3 sa2 sa1 :: Dict (Ae.FromJSON (f a4 a3 a2 a1)) of
                      Dict -> do
-                        x :: f4 a4 a3 a2 a1 <- Ae.parseJSON v'
-                        return (some4 x)
+                        x :: f a4 a3 a2 a1 <- Ae.parseJSON v'
+                        pure (Some4 sa4 sa3 sa2 sa1 x)

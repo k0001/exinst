@@ -28,55 +28,55 @@ salt0 = 6700417
 
 --------------------------------------------------------------------------------
 
-instance forall (f1 :: k1 -> *)
+instance forall (f :: k1 -> *)
   . ( SingKind k1
     , Hashable (DemoteRep k1)
-    , Dict1 Hashable f1
-    ) => Hashable (Some1 f1)
+    , Dict1 Hashable f
+    ) => Hashable (Some1 f)
   where
     {-# INLINABLE hashWithSalt #-}
-    hashWithSalt salt some1x = withSome1Sing some1x $ \sa1 (x :: f1 a1) ->
-       case dict1 sa1 :: Dict (Hashable (f1 a1)) of
+    hashWithSalt salt some1x = withSome1Sing some1x $ \sa1 (x :: f a1) ->
+       case dict1 sa1 :: Dict (Hashable (f a1)) of
           Dict -> salt `hashWithSalt` salt0
                        `hashWithSalt` fromSing sa1
                        `hashWithSalt` x
 
-instance forall (f2 :: k2 -> k1 -> *)
+instance forall (f :: k2 -> k1 -> *)
   . ( SingKind k2
     , SingKind k1
     , Hashable (DemoteRep k2)
     , Hashable (DemoteRep k1)
-    , Dict2 Hashable f2
-    ) => Hashable (Some2 f2)
+    , Dict2 Hashable f
+    ) => Hashable (Some2 f)
   where
     {-# INLINABLE hashWithSalt #-}
-    hashWithSalt salt some2x = withSome2Sing some2x $ \sa2 sa1 (x :: f2 a2 a1) ->
-       case dict2 sa2 sa1 :: Dict (Hashable (f2 a2 a1)) of
+    hashWithSalt salt some2x = withSome2Sing some2x $ \sa2 sa1 (x :: f a2 a1) ->
+       case dict2 sa2 sa1 :: Dict (Hashable (f a2 a1)) of
           Dict -> salt `hashWithSalt` salt0
                        `hashWithSalt` fromSing sa2
                        `hashWithSalt` fromSing sa1
                        `hashWithSalt` x
 
-instance forall (f3 :: k3 -> k2 -> k1 -> *)
+instance forall (f :: k3 -> k2 -> k1 -> *)
   . ( SingKind k3
     , SingKind k2
     , SingKind k1
     , Hashable (DemoteRep k3)
     , Hashable (DemoteRep k2)
     , Hashable (DemoteRep k1)
-    , Dict3 Hashable f3
-    ) => Hashable (Some3 f3)
+    , Dict3 Hashable f
+    ) => Hashable (Some3 f)
   where
     {-# INLINABLE hashWithSalt #-}
-    hashWithSalt salt some3x = withSome3Sing some3x $ \sa3 sa2 sa1 (x :: f3 a3 a2 a1) ->
-       case dict3 sa3 sa2 sa1 :: Dict (Hashable (f3 a3 a2 a1)) of
+    hashWithSalt salt some3x = withSome3Sing some3x $ \sa3 sa2 sa1 (x :: f a3 a2 a1) ->
+       case dict3 sa3 sa2 sa1 :: Dict (Hashable (f a3 a2 a1)) of
           Dict -> salt `hashWithSalt` salt0
                        `hashWithSalt` fromSing sa3
                        `hashWithSalt` fromSing sa2
                        `hashWithSalt` fromSing sa1
                        `hashWithSalt` x
 
-instance forall (f4 :: k4 -> k3 -> k2 -> k1 -> *)
+instance forall (f :: k4 -> k3 -> k2 -> k1 -> *)
   . ( SingKind k4
     , SingKind k3
     , SingKind k2
@@ -85,12 +85,12 @@ instance forall (f4 :: k4 -> k3 -> k2 -> k1 -> *)
     , Hashable (DemoteRep k3)
     , Hashable (DemoteRep k2)
     , Hashable (DemoteRep k1)
-    , Dict4 Hashable f4
-    ) => Hashable (Some4 f4)
+    , Dict4 Hashable f
+    ) => Hashable (Some4 f)
   where
     {-# INLINABLE hashWithSalt #-}
-    hashWithSalt salt some4x = withSome4Sing some4x $ \sa4 sa3 sa2 sa1 (x :: f4 a4 a3 a2 a1) ->
-       case dict4 sa4 sa3 sa2 sa1 :: Dict (Hashable (f4 a4 a3 a2 a1)) of
+    hashWithSalt salt some4x = withSome4Sing some4x $ \sa4 sa3 sa2 sa1 (x :: f a4 a3 a2 a1) ->
+       case dict4 sa4 sa3 sa2 sa1 :: Dict (Hashable (f a4 a3 a2 a1)) of
           Dict -> salt `hashWithSalt` salt0
                        `hashWithSalt` fromSing sa4
                        `hashWithSalt` fromSing sa3

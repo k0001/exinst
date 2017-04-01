@@ -24,73 +24,73 @@ import Exinst.Internal
 
 --------------------------------------------------------------------------------
 
-instance forall (f1 :: k1 -> *)
+instance forall (f :: k1 -> *)
   . ( SingKind k1
     , By.Serial (DemoteRep k1)
-    , Dict1 By.Serial f1
-    ) => By.Serial (Some1 f1)
+    , Dict1 By.Serial f
+    ) => By.Serial (Some1 f)
   where
     {-# INLINABLE serialize #-}
-    serialize = \some1x -> withSome1Sing some1x $ \sa1 (x :: f1 a1) ->
-       case dict1 sa1 :: Dict (By.Serial (f1 a1)) of
+    serialize = \some1x -> withSome1Sing some1x $ \sa1 (x :: f a1) ->
+       case dict1 sa1 :: Dict (By.Serial (f a1)) of
           Dict -> do By.serialize (fromSing sa1)
                      By.serialize x
     {-# INLINABLE deserialize #-}
     deserialize = do
       rsa1 <- By.deserialize
-      withSomeSing rsa1 $ \(sa1 :: Sing (a1 :: k1)) -> withSingI sa1 $
-         case dict1 sa1 :: Dict (By.Serial (f1 a1)) of
-            Dict -> do x :: f1 a1 <- By.deserialize
-                       return (some1 x)
+      withSomeSing rsa1 $ \(sa1 :: Sing (a1 :: k1)) ->
+         case dict1 sa1 :: Dict (By.Serial (f a1)) of
+            Dict -> do x :: f a1 <- By.deserialize
+                       pure (Some1 sa1 x)
 
-instance forall (f2 :: k2 -> k1 -> *)
+instance forall (f :: k2 -> k1 -> *)
   . ( SingKind k2
     , SingKind k1
     , By.Serial (DemoteRep k2)
     , By.Serial (DemoteRep k1)
-    , Dict2 By.Serial f2
-    ) => By.Serial (Some2 f2)
+    , Dict2 By.Serial f
+    ) => By.Serial (Some2 f)
   where
     {-# INLINABLE serialize #-}
-    serialize = \some2x -> withSome2Sing some2x $ \sa2 sa1 (x :: f2 a2 a1) ->
-       case dict2 sa2 sa1 :: Dict (By.Serial (f2 a2 a1)) of
+    serialize = \some2x -> withSome2Sing some2x $ \sa2 sa1 (x :: f a2 a1) ->
+       case dict2 sa2 sa1 :: Dict (By.Serial (f a2 a1)) of
           Dict -> do By.serialize (fromSing sa2, fromSing sa1)
                      By.serialize x
     {-# INLINABLE deserialize #-}
     deserialize = do
       (rsa2, rsa1) <- By.deserialize
-      withSomeSing rsa2 $ \(sa2 :: Sing (a2 :: k2)) -> withSingI sa2 $
-         withSomeSing rsa1 $ \(sa1 :: Sing (a1 :: k1)) -> withSingI sa1 $
-            case dict2 sa2 sa1 :: Dict (By.Serial (f2 a2 a1)) of
-               Dict -> do x :: f2 a2 a1 <- By.deserialize
-                          return (some2 x)
+      withSomeSing rsa2 $ \(sa2 :: Sing (a2 :: k2)) ->
+         withSomeSing rsa1 $ \(sa1 :: Sing (a1 :: k1)) ->
+            case dict2 sa2 sa1 :: Dict (By.Serial (f a2 a1)) of
+               Dict -> do x :: f a2 a1 <- By.deserialize
+                          pure (Some2 sa2 sa1 x)
 
-instance forall (f3 :: k3 -> k2 -> k1 -> *)
+instance forall (f :: k3 -> k2 -> k1 -> *)
   . ( SingKind k3
     , SingKind k2
     , SingKind k1
     , By.Serial (DemoteRep k3)
     , By.Serial (DemoteRep k2)
     , By.Serial (DemoteRep k1)
-    , Dict3 By.Serial f3
-    ) => By.Serial (Some3 f3)
+    , Dict3 By.Serial f
+    ) => By.Serial (Some3 f)
   where
     {-# INLINABLE serialize #-}
-    serialize = \some3x -> withSome3Sing some3x $ \sa3 sa2 sa1 (x :: f3 a3 a2 a1) ->
-       case dict3 sa3 sa2 sa1 :: Dict (By.Serial (f3 a3 a2 a1)) of
+    serialize = \some3x -> withSome3Sing some3x $ \sa3 sa2 sa1 (x :: f a3 a2 a1) ->
+       case dict3 sa3 sa2 sa1 :: Dict (By.Serial (f a3 a2 a1)) of
           Dict -> do By.serialize (fromSing sa3, fromSing sa2, fromSing sa1)
                      By.serialize x
     {-# INLINABLE deserialize #-}
     deserialize = do
       (rsa3, rsa2, rsa1) <- By.deserialize
-      withSomeSing rsa3 $ \(sa3 :: Sing (a3 :: k3)) -> withSingI sa3 $
-         withSomeSing rsa2 $ \(sa2 :: Sing (a2 :: k2)) -> withSingI sa2 $
-            withSomeSing rsa1 $ \(sa1 :: Sing (a1 :: k1)) -> withSingI sa1 $
-               case dict3 sa3 sa2 sa1 :: Dict (By.Serial (f3 a3 a2 a1)) of
-                  Dict -> do x :: f3 a3 a2 a1 <- By.deserialize
-                             return (some3 x)
+      withSomeSing rsa3 $ \(sa3 :: Sing (a3 :: k3)) ->
+         withSomeSing rsa2 $ \(sa2 :: Sing (a2 :: k2)) ->
+            withSomeSing rsa1 $ \(sa1 :: Sing (a1 :: k1)) ->
+               case dict3 sa3 sa2 sa1 :: Dict (By.Serial (f a3 a2 a1)) of
+                  Dict -> do x :: f a3 a2 a1 <- By.deserialize
+                             pure (Some3 sa3 sa2 sa1 x)
 
-instance forall (f4 :: k4 -> k3 -> k2 -> k1 -> *)
+instance forall (f :: k4 -> k3 -> k2 -> k1 -> *)
   . ( SingKind k4
     , SingKind k3
     , SingKind k2
@@ -99,25 +99,25 @@ instance forall (f4 :: k4 -> k3 -> k2 -> k1 -> *)
     , By.Serial (DemoteRep k3)
     , By.Serial (DemoteRep k2)
     , By.Serial (DemoteRep k1)
-    , Dict4 By.Serial f4
-    ) => By.Serial (Some4 f4)
+    , Dict4 By.Serial f
+    ) => By.Serial (Some4 f)
   where
     {-# INLINABLE serialize #-}
-    serialize = \some4x -> withSome4Sing some4x $ \sa4 sa3 sa2 sa1 (x :: f4 a4 a3 a2 a1) ->
-       case dict4 sa4 sa3 sa2 sa1 :: Dict (By.Serial (f4 a4 a3 a2 a1)) of
+    serialize = \some4x -> withSome4Sing some4x $ \sa4 sa3 sa2 sa1 (x :: f a4 a3 a2 a1) ->
+       case dict4 sa4 sa3 sa2 sa1 :: Dict (By.Serial (f a4 a3 a2 a1)) of
           Dict -> do By.serialize (fromSing sa4, fromSing sa3,
                                    fromSing sa2, fromSing sa1)
                      By.serialize x
     {-# INLINABLE deserialize #-}
     deserialize = do
       (rsa4, rsa3, rsa2, rsa1) <- By.deserialize
-      withSomeSing rsa4 $ \(sa4 :: Sing (a4 :: k4)) -> withSingI sa4 $
-         withSomeSing rsa3 $ \(sa3 :: Sing (a3 :: k3)) -> withSingI sa3 $
-            withSomeSing rsa2 $ \(sa2 :: Sing (a2 :: k2)) -> withSingI sa2 $
-               withSomeSing rsa1 $ \(sa1 :: Sing (a1 :: k1)) -> withSingI sa1 $
-                  case dict4 sa4 sa3 sa2 sa1 :: Dict (By.Serial (f4 a4 a3 a2 a1)) of
-                     Dict -> do x :: f4 a4 a3 a2 a1 <- By.deserialize
-                                return (some4 x)
+      withSomeSing rsa4 $ \(sa4 :: Sing (a4 :: k4)) ->
+         withSomeSing rsa3 $ \(sa3 :: Sing (a3 :: k3)) ->
+            withSomeSing rsa2 $ \(sa2 :: Sing (a2 :: k2)) ->
+               withSomeSing rsa1 $ \(sa1 :: Sing (a1 :: k1)) ->
+                  case dict4 sa4 sa3 sa2 sa1 :: Dict (By.Serial (f a4 a3 a2 a1)) of
+                     Dict -> do x :: f a4 a3 a2 a1 <- By.deserialize
+                                pure (Some4 sa4 sa3 sa2 sa1 x)
 
 --------------------------------------------------------------------------------
 -- Binary

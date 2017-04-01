@@ -22,39 +22,39 @@ import Exinst.Internal
 
 --------------------------------------------------------------------------------
 
-instance forall (f1 :: k1 -> *).
-  ( Dict1 NFData f1
-  ) => NFData (Some1 f1) where
+instance forall (f :: k1 -> *).
+  ( Dict1 NFData f
+  ) => NFData (Some1 f) where
   {-# INLINABLE rnf #-}
   rnf = \(!some1x) ->
-    withSome1Sing some1x $ \ !sa1 !(x :: f1 a1) ->
-       case dict1 sa1 :: Dict (NFData (f1 a1)) of
+    withSome1Sing some1x $ \ !sa1 !(x :: f a1) ->
+       case dict1 sa1 :: Dict (NFData (f a1)) of
           Dict -> rnf x `seq` ()
 
-instance forall (f2 :: k2 -> k1 -> *).
-  ( Dict2 NFData f2
-  ) => NFData (Some2 f2) where
+instance forall (f :: k2 -> k1 -> *).
+  ( Dict2 NFData f
+  ) => NFData (Some2 f) where
   {-# INLINABLE rnf #-}
   rnf = \(!some2x) ->
-    withSome2Sing some2x $ \ !sa2 !sa1 !(x :: f2 a2 a1) ->
-       case dict2 sa2 sa1 :: Dict (NFData (f2 a2 a1)) of
+    withSome2Sing some2x $ \ !sa2 !sa1 !(x :: f a2 a1) ->
+       case dict2 sa2 sa1 :: Dict (NFData (f a2 a1)) of
           Dict -> rnf x `seq` ()
 
-instance forall (f3 :: k3 -> k2 -> k1 -> *).
-  ( Dict3 NFData f3
-  ) => NFData (Some3 f3) where
+instance forall (f :: k3 -> k2 -> k1 -> *).
+  ( Dict3 NFData f
+  ) => NFData (Some3 f) where
   {-# INLINABLE rnf #-}
   rnf = \(!some3x) ->
-    withSome3Sing some3x $ \ !sa3 !sa2 !sa1 !(x :: f3 a3 a2 a1) ->
-       case dict3 sa3 sa2 sa1 :: Dict (NFData (f3 a3 a2 a1)) of
+    withSome3Sing some3x $ \ !sa3 !sa2 !sa1 !(x :: f a3 a2 a1) ->
+       case dict3 sa3 sa2 sa1 :: Dict (NFData (f a3 a2 a1)) of
           Dict -> rnf x `seq` ()
 
-instance forall (f4 :: k4 -> k3 -> k2 -> k1 -> *).
-  ( Dict4 NFData f4
-  ) => NFData (Some4 f4) where
+instance forall (f :: k4 -> k3 -> k2 -> k1 -> *).
+  ( Dict4 NFData f
+  ) => NFData (Some4 f) where
   {-# INLINABLE rnf #-}
   rnf = \(!some4x) ->
-    withSome4Sing some4x $ \ !(sa4) !sa3 !sa2 !sa1 !(x :: f4 a4 a3 a2 a1) ->
-       case dict4 sa4 sa3 sa2 sa1 :: Dict (NFData (f4 a4 a3 a2 a1)) of
+    withSome4Sing some4x $ \ !(sa4) !sa3 !sa2 !sa1 !(x :: f a4 a3 a2 a1) ->
+       case dict4 sa4 sa3 sa2 sa1 :: Dict (NFData (f a4 a3 a2 a1)) of
           Dict -> rnf x `seq` ()
 
