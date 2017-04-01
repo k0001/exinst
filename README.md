@@ -493,6 +493,86 @@ If you don't know, statically, the type of `f (a :: k)`, then you can use
 leaves their scope (don't worry, the compiler will yell at you if you try to do
 that).
 
+# Products and sums
+
+Consider the following types and constructors:
+
+```
+data X (a :: Bool) where
+  XT :: X 'True
+  XF :: X 'False
+
+data Y (a :: Bool) where
+  YT :: Y 'True
+  YF :: Y 'False
+```
+
+You can use `(,)` to create a product for values of this type, and `Either` to
+create a sum. However, see what happens if we try to existentialize the type
+index when using that approach:
+
+```
+> :t (some1 XT, some1 YT)
+(some1 XT, some1 YT) :: (Some1 X, Some1 Y)
+
+> :t (some1 XT, some1 YF)
+(some1 XT, some1 YF) :: (Some1 X, Some1 Y)
+```
+
+It works, but there is no type level guarantee that the type index taken by `X`
+and `Y` is the same. If you do want to enforce that restriction, then you can
+use `P1` instead:
+
+```
+> :t P1
+P1 :: l a -> r a -> P1 l r (a :: k)
+
+> :t P1 XT YT
+P1 XT YT :: P1 X Y 'True
+
+> :t P1 XT YT
+P1 XT YT :: P1 X Y 'True
+
+> :t some1 (P1 XT YT)
+some1 (P1 XT YT) :: Some1 (P1 X Y)
+```
+
+Trying to mix `XT` with `YF` fails, of course, since they have different type
+indexes:
+
+```
+> :t P1 XT YF
+<interactive>:1:7: error:
+    • Couldn't match type ‘'False’ with ‘'True’
+      Expected type: Y 'True
+        Actual type: Y 'False
+    • In the second argument of ‘P1’, namely ‘YF’
+      In the expression: P1 XT YF
+```
+
+
+There's also `P2`, `P3` and `P4` for product types taking a different number of
+indexes, and also `S1`, `S2`, `S3` and `S4` for sum types:
+
+```
+> :t S1L
+S1L :: l a -> S1 l r (a :: k)
+
+> :t S1R
+S1R :: r a -> S1 l r (a :: k)
+
+> :t S1L XT
+S1L XT :: S1 X r 'True
+
+> :t S1R YT
+S1R YT :: S1 l Y 'True
+
+> :t some1 (S1L XT)
+some1 (S1L XT) :: Some1 (S1 X r)
+
+> :t some1 (S1R YT)
+some1 (S1R YT) :: Some1 (S1 l Y)
+```
 
 # Library implementors: Writing instances for `Some1` and friends.
 
