@@ -15,9 +15,15 @@ import GHC.Generics (Generic)
 import Data.Aeson (FromJSON, ToJSON)
 #endif
 
+#ifdef VERSION_binary
+import qualified Data.Binary as Bin
+#endif
+
 #ifdef VERSION_bytes
 import qualified Data.Bytes.Serial as By
-import qualified Data.Binary as Bin
+#endif
+
+#ifdef VERSION_cereal
 import qualified Data.Serialize as Cer
 #endif
 

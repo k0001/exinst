@@ -1,4 +1,4 @@
-# Version HEAD
+# Version 0.4
 
 * Add `P1`, `P2`, `P3`, `P4`.
 
@@ -6,6 +6,9 @@
 
 * Add `Read` instances for `Some{1,2,3,4}`.
 
+* Decouple `binary` and `cereal` instances from `bytes`. This introduces a
+  slight backwards incompatible change if you were using some `Serial` instances
+  that depended on host endianness (such as `Int`).
 
 # Version 0.3.0.1
 

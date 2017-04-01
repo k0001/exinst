@@ -74,8 +74,16 @@ import Exinst.Instances.Base ()
 import Exinst.Instances.Aeson ()
 #endif
 
+#ifdef VERSION_binary
+import Exinst.Instances.Binary ()
+#endif
+
 #ifdef VERSION_bytes
 import Exinst.Instances.Bytes ()
+#endif
+
+#ifdef VERSION_cereal
+import Exinst.Instances.Cereal ()
 #endif
 
 #ifdef VERSION_deepseq

@@ -35,9 +35,15 @@ library
   if flag(aeson)
     build-depends: aeson
     other-modules: Exinst.Instances.Aeson
+  if flag(binary) || flag(bytes)
+    build-depends: binary
+    other-modules: Exinst.Instances.Binary
   if flag(bytes)
-    build-depends: bytes >=0.15, binary, cereal
+    build-depends: bytes >=0.15
     other-modules: Exinst.Instances.Bytes
+  if flag(cereal) || flag(bytes)
+    build-depends: cereal
+    other-modules: Exinst.Instances.Cereal
   if flag(deepseq)
     build-depends: deepseq
     other-modules: Exinst.Instances.DeepSeq
@@ -52,7 +58,7 @@ library
 test-suite tests
   default-language: Haskell2010
   type: exitcode-stdio-1.0
-  hs-source-dirs: tests
+  hs-source-dirs: tests src/lib
   main-is: Main.hs
   build-depends:
      aeson
@@ -63,7 +69,6 @@ test-suite tests
    , cereal
    , constraints
    , deepseq
-   , exinst
    , hashable
    , profunctors
    , QuickCheck
@@ -78,7 +83,15 @@ flag aeson
   default: True
   manual: True
 flag bytes
-  description: Provide instances for @bytes@, @binary@ and @cereal@.
+  description: Provide instances for @bytes@ (implies @ceral@ and @binary@).
+  default: True
+  manual: True
+flag binary
+  description: Provide instances for @binary@.
+  default: True
+  manual: True
+flag cereal
+  description: Provide instances for @cereal@.
   default: True
   manual: True
 flag deepseq
