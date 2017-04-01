@@ -45,11 +45,11 @@ import qualified Test.QuickCheck as QC
 -- | Like 'Data.Functor.Sum.Sum' from "Data.Functor.Sum", but
 -- only intended to be used with kinds other than 'Type'.
 --
--- This type is particularly useful when used in combination with 'Some1' as
--- @'Some1' ('S1' l r)@, so as to ensure that @l@ and @r@ are indexed by the
--- same type. Moreover, 'S1' already supports many common instances from
--- @base@, @hashable@, @deepseq@, @aeson@, @bytes@, etc. out of the box, so you
--- can benefit from them as well.
+-- This type is particularly useful when used in combination with 'Exinst.Some1'
+-- as @'Exinst.Some1' ('S1' l r)@, so as to ensure that @l@ and @r@ are indexed
+-- by the same type. Moreover, 'S1' already supports many common instances from
+-- @base@, @hashable@, @deepseq@, @aeson@, @bytes@, @cereal@, @binary@, and
+-- @quickcheck@ out of the box, so you can benefit from them as well.
 data S1 l r (a1 :: k1)
   = S1L (l a1) | S1R (r a1)
   deriving (Eq, Show, Read, Ord, Generic)
