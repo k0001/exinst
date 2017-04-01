@@ -578,14 +578,15 @@ other things, the `Show` instance for `Some1`, which is defined as this:
 -- in the 'Show' instance by hand.
 data Some1'Show r1 x = Some1 r1 x deriving (Show)
 
-instance forall (f1 :: k1 -> *)
-  . ( SingKind ('KProxy :: KProxy k1)
-    , Show (DemoteRep ('KProxy :: KProxy k1))
-    , Dict1 Show f1
-    ) => Show (Some1 f1)
+instance forall (f :: k1 -> *).
+  ( SingKind k1
+  , Show (DemoteRep k1)
+  , Dict1 Show f
+  ) => Show (Exinst.Some1 f)
   where
-    showsPrec n = \some1 -> withSome1Sing some1 $ \sa1 (x :: f1 a1) ->
-       case dict1 sa1 :: Dict (Show (f1 a1)) of
+    showsPrec n = \some1 ->
+      withSome1Sing some1 $ \sa1 (x :: f a1) ->
+        case dict1 sa1 :: Dict (Show (f a1)) of
           Dict -> showsPrec n (Some1 (fromSing sa1) x)
 ```
 
