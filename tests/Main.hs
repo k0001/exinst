@@ -69,38 +69,86 @@ tt_id
      ) -- ^ It's easier to put all the constraints here.
   -> Tasty.TestTree
 tt_id = \title id' -> Tasty.testGroup title
-  [ QC.testProperty "Some1" $
-      QC.forAll QC.arbitrary $ \(x :: Some1 Foo1) -> Just x === id' x
-  , QC.testProperty "Some2" $
-      QC.forAll QC.arbitrary $ \(x :: Some2 Foo2) -> Just x === id' x
-  , QC.testProperty "Some3" $
-      QC.forAll QC.arbitrary $ \(x :: Some3 Foo3) -> Just x === id' x
-  , QC.testProperty "Some4" $
-      QC.forAll QC.arbitrary $ \(x :: Some4 Foo4) -> Just x === id' x
+  [ QC.testProperty "Some1 X1" $
+      QC.forAll QC.arbitrary $ \(x :: Some1 X1) -> Just x === id' x
+  , QC.testProperty "Some2 X2" $
+      QC.forAll QC.arbitrary $ \(x :: Some2 X2) -> Just x === id' x
+  , QC.testProperty "Some3 X3" $
+      QC.forAll QC.arbitrary $ \(x :: Some3 X3) -> Just x === id' x
+  , QC.testProperty "Some4 X4" $
+      QC.forAll QC.arbitrary $ \(x :: Some4 X4) -> Just x === id' x
+  , QC.testProperty "Some1 (P1 X1 X1)" $
+      QC.forAll QC.arbitrary $ \(x :: Some1 (P1 X1 X1)) -> Just x === id' x
+  , QC.testProperty "Some2 (P2 X2 X2)" $
+      QC.forAll QC.arbitrary $ \(x :: Some2 (P2 X2 X2)) -> Just x === id' x
+  , QC.testProperty "Some3 (P3 X3 X3)" $
+      QC.forAll QC.arbitrary $ \(x :: Some3 (P3 X3 X3)) -> Just x === id' x
+  , QC.testProperty "Some4 (P4 X4 X4)" $
+      QC.forAll QC.arbitrary $ \(x :: Some4 (P4 X4 X4)) -> Just x === id' x
+  , QC.testProperty "Some1 (S1 X1 X1)" $
+      QC.forAll QC.arbitrary $ \(x :: Some1 (S1 X1 X1)) -> Just x === id' x
+  , QC.testProperty "Some2 (S2 X2 X2)" $
+      QC.forAll QC.arbitrary $ \(x :: Some2 (S2 X2 X2)) -> Just x === id' x
+  , QC.testProperty "Some3 (S3 X3 X3)" $
+      QC.forAll QC.arbitrary $ \(x :: Some3 (S3 X3 X3)) -> Just x === id' x
+  , QC.testProperty "Some4 (S4 X4 X4)" $
+      QC.forAll QC.arbitrary $ \(x :: Some4 (S4 X4 X4)) -> Just x === id' x
   ]
 
 tt_nfdata :: Tasty.TestTree
 tt_nfdata = Tasty.testGroup "NFData"
-  [ QC.testProperty "Some1" $
-      QC.forAll QC.arbitrary $ \(x :: Some1 Foo1) -> () === rnf x
-  , QC.testProperty "Some2" $
-      QC.forAll QC.arbitrary $ \(x :: Some2 Foo2) -> () === rnf x
-  , QC.testProperty "Some3" $
-      QC.forAll QC.arbitrary $ \(x :: Some3 Foo3) -> () === rnf x
-  , QC.testProperty "Some4" $
-      QC.forAll QC.arbitrary $ \(x :: Some4 Foo4) -> () === rnf x
+  [ QC.testProperty "Some1 X1" $
+      QC.forAll QC.arbitrary $ \(x :: Some1 X1) -> () === rnf x
+  , QC.testProperty "Some2 X2" $
+      QC.forAll QC.arbitrary $ \(x :: Some2 X2) -> () === rnf x
+  , QC.testProperty "Some3 X3" $
+      QC.forAll QC.arbitrary $ \(x :: Some3 X3) -> () === rnf x
+  , QC.testProperty "Some4 X4" $
+      QC.forAll QC.arbitrary $ \(x :: Some4 X4) -> () === rnf x
+  , QC.testProperty "Some1 (P1 X1 X1)" $
+      QC.forAll QC.arbitrary $ \(x :: Some1 (P1 X1 X1)) -> () === rnf x
+  , QC.testProperty "Some2 (P2 X2 X2)" $
+      QC.forAll QC.arbitrary $ \(x :: Some2 (P2 X2 X2)) -> () === rnf x
+  , QC.testProperty "Some3 (P3 X3 X3)" $
+      QC.forAll QC.arbitrary $ \(x :: Some3 (P3 X3 X3)) -> () === rnf x
+  , QC.testProperty "Some4 (P4 X4 X4)" $
+      QC.forAll QC.arbitrary $ \(x :: Some4 (P4 X4 X4)) -> () === rnf x
+  , QC.testProperty "Some1 (S1 X1 X1)" $
+      QC.forAll QC.arbitrary $ \(x :: Some1 (S1 X1 X1)) -> () === rnf x
+  , QC.testProperty "Some2 (S2 X2 X2)" $
+      QC.forAll QC.arbitrary $ \(x :: Some2 (S2 X2 X2)) -> () === rnf x
+  , QC.testProperty "Some3 (S3 X3 X3)" $
+      QC.forAll QC.arbitrary $ \(x :: Some3 (S3 X3 X3)) -> () === rnf x
+  , QC.testProperty "Some4 (S4 X4 X4)" $
+      QC.forAll QC.arbitrary $ \(x :: Some4 (S4 X4 X4)) -> () === rnf x
   ]
 
 tt_hashable :: Tasty.TestTree
 tt_hashable = Tasty.testGroup "Hashable"
-  [ QC.testProperty "Some1" $
-      QC.forAll QC.arbitrary $ \(x :: Some1 Foo1) -> () === (hash x `seq` ())
-  , QC.testProperty "Some2" $
-      QC.forAll QC.arbitrary $ \(x :: Some2 Foo2) -> () === (hash x `seq` ())
-  , QC.testProperty "Some3" $
-      QC.forAll QC.arbitrary $ \(x :: Some3 Foo3) -> () === (hash x `seq` ())
-  , QC.testProperty "Some4" $
-      QC.forAll QC.arbitrary $ \(x :: Some4 Foo4) -> () === (hash x `seq` ())
+  [ QC.testProperty "Some1 X1" $
+      QC.forAll QC.arbitrary $ \(x :: Some1 X1) -> () === (hash x `seq` ())
+  , QC.testProperty "Some2 X2" $
+      QC.forAll QC.arbitrary $ \(x :: Some2 X2) -> () === (hash x `seq` ())
+  , QC.testProperty "Some3 X3" $
+      QC.forAll QC.arbitrary $ \(x :: Some3 X3) -> () === (hash x `seq` ())
+  , QC.testProperty "Some4 X4" $
+      QC.forAll QC.arbitrary $ \(x :: Some4 X4) -> () === (hash x `seq` ())
+  , QC.testProperty "Some1 (P1 X1 X1)" $
+      QC.forAll QC.arbitrary $ \(x :: Some1 (P1 X1 X1)) -> () === (hash x `seq` ())
+  , QC.testProperty "Some2 (P2 X2 X2)" $
+      QC.forAll QC.arbitrary $ \(x :: Some2 (P2 X2 X2)) -> () === (hash x `seq` ())
+  , QC.testProperty "Some3 (P3 X3 X3)" $
+      QC.forAll QC.arbitrary $ \(x :: Some3 (P3 X3 X3)) -> () === (hash x `seq` ())
+  , QC.testProperty "Some4 (P4 X4 X4)" $
+      QC.forAll QC.arbitrary $ \(x :: Some4 (P4 X4 X4)) -> () === (hash x `seq` ())
+  , QC.testProperty "Some1 (S1 X1 X1)" $
+      QC.forAll QC.arbitrary $ \(x :: Some1 (S1 X1 X1)) -> () === (hash x `seq` ())
+  , QC.testProperty "Some2 (S2 X2 X2)" $
+      QC.forAll QC.arbitrary $ \(x :: Some2 (S2 X2 X2)) -> () === (hash x `seq` ())
+  , QC.testProperty "Some3 (S3 X3 X3)" $
+      QC.forAll QC.arbitrary $ \(x :: Some3 (S3 X3 X3)) -> () === (hash x `seq` ())
+  , QC.testProperty "Some4 (S4 X4 X4)" $
+      QC.forAll QC.arbitrary $ \(x :: Some4 (S4 X4 X4)) -> () === (hash x `seq` ())
   ]
 
 --------------------------------------------------------------------------------
@@ -170,107 +218,78 @@ id_bytes_to_cereal = \a ->
 
 --------------------------------------------------------------------------------
 
-data family Foo1 :: Bool -> Type
-data instance Foo1 'False = F1 | F2 Int32 deriving (Eq, Show, Read, G.Generic, Aeson.FromJSON, Aeson.ToJSON, Bytes.Serial, Bin.Binary, Cer.Serialize, NFData, Hashable)
-data instance Foo1 'True = T1 | T2 Int32 deriving (Eq, Show, Read, G.Generic, Aeson.FromJSON, Aeson.ToJSON, Bytes.Serial, Bin.Binary, Cer.Serialize, NFData, Hashable)
+data family X1 :: Bool -> Type
+data instance X1 'False = XF1 | XF2 Int32 deriving (Eq, Show, Read, G.Generic, Aeson.FromJSON, Aeson.ToJSON, Bytes.Serial, Bin.Binary, Cer.Serialize, NFData, Hashable)
+data instance X1 'True = XT1 | XT2 Int32 deriving (Eq, Show, Read, G.Generic, Aeson.FromJSON, Aeson.ToJSON, Bytes.Serial, Bin.Binary, Cer.Serialize, NFData, Hashable)
 
-data family Foo2 :: Bool -> Bool -> Type
-data instance Foo2 'False 'False = FF1 | FF2 Int32 deriving (Eq, Show, Read, G.Generic, Aeson.FromJSON, Aeson.ToJSON, Bytes.Serial, Bin.Binary, Cer.Serialize, NFData, Hashable)
-data instance Foo2 'False 'True = FT1 | FT2 Int32 deriving (Eq, Show, Read, G.Generic, Aeson.FromJSON, Aeson.ToJSON, Bytes.Serial, Bin.Binary, Cer.Serialize, NFData, Hashable)
-data instance Foo2 'True 'False = TF1 | TF2 Int32 deriving (Eq, Show, Read, G.Generic, Aeson.FromJSON, Aeson.ToJSON, Bytes.Serial, Bin.Binary, Cer.Serialize, NFData, Hashable)
-data instance Foo2 'True 'True = TT1 | TT2 Int32 deriving (Eq, Show, Read, G.Generic, Aeson.FromJSON, Aeson.ToJSON, Bytes.Serial, Bin.Binary, Cer.Serialize, NFData, Hashable)
+data family X2 :: Bool -> Bool -> Type
+data instance X2 'False 'False = XFF1 | XFF2 Int32 deriving (Eq, Show, Read, G.Generic, Aeson.FromJSON, Aeson.ToJSON, Bytes.Serial, Bin.Binary, Cer.Serialize, NFData, Hashable)
+data instance X2 'False 'True = XFT1 | XFT2 Int32 deriving (Eq, Show, Read, G.Generic, Aeson.FromJSON, Aeson.ToJSON, Bytes.Serial, Bin.Binary, Cer.Serialize, NFData, Hashable)
+data instance X2 'True 'False = XTF1 | XTF2 Int32 deriving (Eq, Show, Read, G.Generic, Aeson.FromJSON, Aeson.ToJSON, Bytes.Serial, Bin.Binary, Cer.Serialize, NFData, Hashable)
+data instance X2 'True 'True = XTT1 | XTT2 Int32 deriving (Eq, Show, Read, G.Generic, Aeson.FromJSON, Aeson.ToJSON, Bytes.Serial, Bin.Binary, Cer.Serialize, NFData, Hashable)
 
-data family Foo3 :: Bool -> Bool -> Bool -> Type
-data instance Foo3 'False 'False 'False = FFF1 | FFF2 Int32 deriving (Eq, Show, Read, G.Generic, Aeson.FromJSON, Aeson.ToJSON, Bytes.Serial, Bin.Binary, Cer.Serialize, NFData, Hashable)
-data instance Foo3 'False 'False 'True = FFT1 | FFT2 Int32 deriving (Eq, Show, Read, G.Generic, Aeson.FromJSON, Aeson.ToJSON, Bytes.Serial, Bin.Binary, Cer.Serialize, NFData, Hashable)
-data instance Foo3 'False 'True 'False = FTF1 | FTF2 Int32 deriving (Eq, Show, Read, G.Generic, Aeson.FromJSON, Aeson.ToJSON, Bytes.Serial, Bin.Binary, Cer.Serialize, NFData, Hashable)
-data instance Foo3 'False 'True 'True = FTT1 | FTT2 Int32 deriving (Eq, Show, Read, G.Generic, Aeson.FromJSON, Aeson.ToJSON, Bytes.Serial, Bin.Binary, Cer.Serialize, NFData, Hashable)
-data instance Foo3 'True 'False 'False = TFF1 | TFF2 Int32 deriving (Eq, Show, Read, G.Generic, Aeson.FromJSON, Aeson.ToJSON, Bytes.Serial, Bin.Binary, Cer.Serialize, NFData, Hashable)
-data instance Foo3 'True 'False 'True = TFT1 | TFT2 Int32 deriving (Eq, Show, Read, G.Generic, Aeson.FromJSON, Aeson.ToJSON, Bytes.Serial, Bin.Binary, Cer.Serialize, NFData, Hashable)
-data instance Foo3 'True 'True 'False = TTF1 | TTF2 Int32 deriving (Eq, Show, Read, G.Generic, Aeson.FromJSON, Aeson.ToJSON, Bytes.Serial, Bin.Binary, Cer.Serialize, NFData, Hashable)
-data instance Foo3 'True 'True 'True = TTT1 | TTT2 Int32 deriving (Eq, Show, Read, G.Generic, Aeson.FromJSON, Aeson.ToJSON, Bytes.Serial, Bin.Binary, Cer.Serialize, NFData, Hashable)
+data family X3 :: Bool -> Bool -> Bool -> Type
+data instance X3 'False 'False 'False = XFFF1 | XFFF2 Int32 deriving (Eq, Show, Read, G.Generic, Aeson.FromJSON, Aeson.ToJSON, Bytes.Serial, Bin.Binary, Cer.Serialize, NFData, Hashable)
+data instance X3 'False 'False 'True = XFFT1 | XFFT2 Int32 deriving (Eq, Show, Read, G.Generic, Aeson.FromJSON, Aeson.ToJSON, Bytes.Serial, Bin.Binary, Cer.Serialize, NFData, Hashable)
+data instance X3 'False 'True 'False = XFTF1 | XFTF2 Int32 deriving (Eq, Show, Read, G.Generic, Aeson.FromJSON, Aeson.ToJSON, Bytes.Serial, Bin.Binary, Cer.Serialize, NFData, Hashable)
+data instance X3 'False 'True 'True = XFTT1 | XFTT2 Int32 deriving (Eq, Show, Read, G.Generic, Aeson.FromJSON, Aeson.ToJSON, Bytes.Serial, Bin.Binary, Cer.Serialize, NFData, Hashable)
+data instance X3 'True 'False 'False = XTFF1 | XTFF2 Int32 deriving (Eq, Show, Read, G.Generic, Aeson.FromJSON, Aeson.ToJSON, Bytes.Serial, Bin.Binary, Cer.Serialize, NFData, Hashable)
+data instance X3 'True 'False 'True = XTFT1 | XTFT2 Int32 deriving (Eq, Show, Read, G.Generic, Aeson.FromJSON, Aeson.ToJSON, Bytes.Serial, Bin.Binary, Cer.Serialize, NFData, Hashable)
+data instance X3 'True 'True 'False = XTTF1 | XTTF2 Int32 deriving (Eq, Show, Read, G.Generic, Aeson.FromJSON, Aeson.ToJSON, Bytes.Serial, Bin.Binary, Cer.Serialize, NFData, Hashable)
+data instance X3 'True 'True 'True = XTTT1 | XTTT2 Int32 deriving (Eq, Show, Read, G.Generic, Aeson.FromJSON, Aeson.ToJSON, Bytes.Serial, Bin.Binary, Cer.Serialize, NFData, Hashable)
 
-data family Foo4 :: Bool -> Bool -> Bool -> Bool -> Type
-data instance Foo4 'False 'False 'False 'False = FFFF1 | FFFF2 Int32 deriving (Eq, Show, Read, G.Generic, Aeson.FromJSON, Aeson.ToJSON, Bytes.Serial, Bin.Binary, Cer.Serialize, NFData, Hashable)
-data instance Foo4 'False 'False 'False 'True = FFFT1 | FFFT2 Int32 deriving (Eq, Show, Read, G.Generic, Aeson.FromJSON, Aeson.ToJSON, Bytes.Serial, Bin.Binary, Cer.Serialize, NFData, Hashable)
-data instance Foo4 'False 'False 'True 'False = FFTF1 | FFTF2 Int32 deriving (Eq, Show, Read, G.Generic, Aeson.FromJSON, Aeson.ToJSON, Bytes.Serial, Bin.Binary, Cer.Serialize, NFData, Hashable)
-data instance Foo4 'False 'False 'True 'True = FFTT1 | FFTT2 Int32 deriving (Eq, Show, Read, G.Generic, Aeson.FromJSON, Aeson.ToJSON, Bytes.Serial, Bin.Binary, Cer.Serialize, NFData, Hashable)
-data instance Foo4 'False 'True 'False 'False = FTFF1 | FTFF2 Int32 deriving (Eq, Show, Read, G.Generic, Aeson.FromJSON, Aeson.ToJSON, Bytes.Serial, Bin.Binary, Cer.Serialize, NFData, Hashable)
-data instance Foo4 'False 'True 'False 'True = FTFT1 | FTFT2 Int32 deriving (Eq, Show, Read, G.Generic, Aeson.FromJSON, Aeson.ToJSON, Bytes.Serial, Bin.Binary, Cer.Serialize, NFData, Hashable)
-data instance Foo4 'False 'True 'True 'False = FTTF1 | FTTF2 Int32 deriving (Eq, Show, Read, G.Generic, Aeson.FromJSON, Aeson.ToJSON, Bytes.Serial, Bin.Binary, Cer.Serialize, NFData, Hashable)
-data instance Foo4 'False 'True 'True 'True = FTTT1 | FTTT2 Int32 deriving (Eq, Show, Read, G.Generic, Aeson.FromJSON, Aeson.ToJSON, Bytes.Serial, Bin.Binary, Cer.Serialize, NFData, Hashable)
-data instance Foo4 'True 'False 'False 'False = TFFF1 | TFFF2 Int32 deriving (Eq, Show, Read, G.Generic, Aeson.FromJSON, Aeson.ToJSON, Bytes.Serial, Bin.Binary, Cer.Serialize, NFData, Hashable)
-data instance Foo4 'True 'False 'False 'True = TFFT1 | TFFT2 Int32 deriving (Eq, Show, Read, G.Generic, Aeson.FromJSON, Aeson.ToJSON, Bytes.Serial, Bin.Binary, Cer.Serialize, NFData, Hashable)
-data instance Foo4 'True 'False 'True 'False = TFTF1 | TFTF2 Int32 deriving (Eq, Show, Read, G.Generic, Aeson.FromJSON, Aeson.ToJSON, Bytes.Serial, Bin.Binary, Cer.Serialize, NFData, Hashable)
-data instance Foo4 'True 'False 'True 'True = TFTT1 | TFTT2 Int32 deriving (Eq, Show, Read, G.Generic, Aeson.FromJSON, Aeson.ToJSON, Bytes.Serial, Bin.Binary, Cer.Serialize, NFData, Hashable)
-data instance Foo4 'True 'True 'False 'False = TTFF1 | TTFF2 Int32 deriving (Eq, Show, Read, G.Generic, Aeson.FromJSON, Aeson.ToJSON, Bytes.Serial, Bin.Binary, Cer.Serialize, NFData, Hashable)
-data instance Foo4 'True 'True 'False 'True = TTFT1 | TTFT2 Int32 deriving (Eq, Show, Read, G.Generic, Aeson.FromJSON, Aeson.ToJSON, Bytes.Serial, Bin.Binary, Cer.Serialize, NFData, Hashable)
-data instance Foo4 'True 'True 'True 'False = TTTF1 | TTTF2 Int32 deriving (Eq, Show, Read, G.Generic, Aeson.FromJSON, Aeson.ToJSON, Bytes.Serial, Bin.Binary, Cer.Serialize, NFData, Hashable)
-data instance Foo4 'True 'True 'True 'True = TTTT1 | TTTT2 Int32 deriving (Eq, Show, Read, G.Generic, Aeson.FromJSON, Aeson.ToJSON, Bytes.Serial, Bin.Binary, Cer.Serialize, NFData, Hashable)
+data family X4 :: Bool -> Bool -> Bool -> Bool -> Type
+data instance X4 'False 'False 'False 'False = XFFFF1 | XFFFF2 Int32 deriving (Eq, Show, Read, G.Generic, Aeson.FromJSON, Aeson.ToJSON, Bytes.Serial, Bin.Binary, Cer.Serialize, NFData, Hashable)
+data instance X4 'False 'False 'False 'True = XFFFT1 | XFFFT2 Int32 deriving (Eq, Show, Read, G.Generic, Aeson.FromJSON, Aeson.ToJSON, Bytes.Serial, Bin.Binary, Cer.Serialize, NFData, Hashable)
+data instance X4 'False 'False 'True 'False = XFFTF1 | XFFTF2 Int32 deriving (Eq, Show, Read, G.Generic, Aeson.FromJSON, Aeson.ToJSON, Bytes.Serial, Bin.Binary, Cer.Serialize, NFData, Hashable)
+data instance X4 'False 'False 'True 'True = XFFTT1 | XFFTT2 Int32 deriving (Eq, Show, Read, G.Generic, Aeson.FromJSON, Aeson.ToJSON, Bytes.Serial, Bin.Binary, Cer.Serialize, NFData, Hashable)
+data instance X4 'False 'True 'False 'False = XFTFF1 | XFTFF2 Int32 deriving (Eq, Show, Read, G.Generic, Aeson.FromJSON, Aeson.ToJSON, Bytes.Serial, Bin.Binary, Cer.Serialize, NFData, Hashable)
+data instance X4 'False 'True 'False 'True = XFTFT1 | XFTFT2 Int32 deriving (Eq, Show, Read, G.Generic, Aeson.FromJSON, Aeson.ToJSON, Bytes.Serial, Bin.Binary, Cer.Serialize, NFData, Hashable)
+data instance X4 'False 'True 'True 'False = XFTTF1 | XFTTF2 Int32 deriving (Eq, Show, Read, G.Generic, Aeson.FromJSON, Aeson.ToJSON, Bytes.Serial, Bin.Binary, Cer.Serialize, NFData, Hashable)
+data instance X4 'False 'True 'True 'True = XFTTT1 | XFTTT2 Int32 deriving (Eq, Show, Read, G.Generic, Aeson.FromJSON, Aeson.ToJSON, Bytes.Serial, Bin.Binary, Cer.Serialize, NFData, Hashable)
+data instance X4 'True 'False 'False 'False = XTFFF1 | XTFFF2 Int32 deriving (Eq, Show, Read, G.Generic, Aeson.FromJSON, Aeson.ToJSON, Bytes.Serial, Bin.Binary, Cer.Serialize, NFData, Hashable)
+data instance X4 'True 'False 'False 'True = XTFFT1 | XTFFT2 Int32 deriving (Eq, Show, Read, G.Generic, Aeson.FromJSON, Aeson.ToJSON, Bytes.Serial, Bin.Binary, Cer.Serialize, NFData, Hashable)
+data instance X4 'True 'False 'True 'False = XTFTF1 | XTFTF2 Int32 deriving (Eq, Show, Read, G.Generic, Aeson.FromJSON, Aeson.ToJSON, Bytes.Serial, Bin.Binary, Cer.Serialize, NFData, Hashable)
+data instance X4 'True 'False 'True 'True = XTFTT1 | XTFTT2 Int32 deriving (Eq, Show, Read, G.Generic, Aeson.FromJSON, Aeson.ToJSON, Bytes.Serial, Bin.Binary, Cer.Serialize, NFData, Hashable)
+data instance X4 'True 'True 'False 'False = XTTFF1 | XTTFF2 Int32 deriving (Eq, Show, Read, G.Generic, Aeson.FromJSON, Aeson.ToJSON, Bytes.Serial, Bin.Binary, Cer.Serialize, NFData, Hashable)
+data instance X4 'True 'True 'False 'True = XTTFT1 | XTTFT2 Int32 deriving (Eq, Show, Read, G.Generic, Aeson.FromJSON, Aeson.ToJSON, Bytes.Serial, Bin.Binary, Cer.Serialize, NFData, Hashable)
+data instance X4 'True 'True 'True 'False = XTTTF1 | XTTTF2 Int32 deriving (Eq, Show, Read, G.Generic, Aeson.FromJSON, Aeson.ToJSON, Bytes.Serial, Bin.Binary, Cer.Serialize, NFData, Hashable)
+data instance X4 'True 'True 'True 'True = XTTTT1 | XTTTT2 Int32 deriving (Eq, Show, Read, G.Generic, Aeson.FromJSON, Aeson.ToJSON, Bytes.Serial, Bin.Binary, Cer.Serialize, NFData, Hashable)
 
 --------------------------------------------------------------------------------
 -- Arbitrary instances
 
-instance QC.Arbitrary (Foo1 'False) where
-  arbitrary = QC.oneof [ pure F1, F2 <$> QC.arbitrary ]
-instance QC.Arbitrary (Foo1 'True) where
-  arbitrary = QC.oneof [ pure T1, T2 <$> QC.arbitrary ]
+instance QC.Arbitrary (X1 'False) where arbitrary = QC.oneof [ pure XF1, fmap XF2 QC.arbitrary ]
+instance QC.Arbitrary (X1 'True) where arbitrary = QC.oneof [ pure XT1, fmap XT2 QC.arbitrary ]
 
-instance QC.Arbitrary (Foo2 'False 'False) where
-  arbitrary = QC.oneof [ pure FF1, FF2 <$> QC.arbitrary ]
-instance QC.Arbitrary (Foo2 'False 'True) where
-  arbitrary = QC.oneof [ pure FT1, FT2 <$> QC.arbitrary ]
-instance QC.Arbitrary (Foo2 'True 'False) where
-  arbitrary = QC.oneof [ pure TF1, TF2 <$> QC.arbitrary ]
-instance QC.Arbitrary (Foo2 'True 'True) where
-  arbitrary = QC.oneof [ pure TT1, TT2 <$> QC.arbitrary ]
+instance QC.Arbitrary (X2 'False 'False) where arbitrary = QC.oneof [ pure XFF1, fmap XFF2 QC.arbitrary ]
+instance QC.Arbitrary (X2 'False 'True) where arbitrary = QC.oneof [ pure XFT1, fmap XFT2 QC.arbitrary ]
+instance QC.Arbitrary (X2 'True 'False) where arbitrary = QC.oneof [ pure XTF1, fmap XTF2 QC.arbitrary ]
+instance QC.Arbitrary (X2 'True 'True) where arbitrary = QC.oneof [ pure XTT1, fmap XTT2 QC.arbitrary ]
 
-instance QC.Arbitrary (Foo3 'False 'False 'False) where
-  arbitrary = QC.oneof [ pure FFF1, FFF2 <$> QC.arbitrary ]
-instance QC.Arbitrary (Foo3 'False 'False 'True) where
-  arbitrary = QC.oneof [ pure FFT1, FFT2 <$> QC.arbitrary ]
-instance QC.Arbitrary (Foo3 'False 'True 'False) where
-  arbitrary = QC.oneof [ pure FTF1, FTF2 <$> QC.arbitrary ]
-instance QC.Arbitrary (Foo3 'False 'True 'True) where
-  arbitrary = QC.oneof [ pure FTT1, FTT2 <$> QC.arbitrary ]
-instance QC.Arbitrary (Foo3 'True 'False 'False) where
-  arbitrary = QC.oneof [ pure TFF1, TFF2 <$> QC.arbitrary ]
-instance QC.Arbitrary (Foo3 'True 'False 'True) where
-  arbitrary = QC.oneof [ pure TFT1, TFT2 <$> QC.arbitrary ]
-instance QC.Arbitrary (Foo3 'True 'True 'False) where
-  arbitrary = QC.oneof [ pure TTF1, TTF2 <$> QC.arbitrary ]
-instance QC.Arbitrary (Foo3 'True 'True 'True) where
-  arbitrary = QC.oneof [ pure TTT1, TTT2 <$> QC.arbitrary ]
+instance QC.Arbitrary (X3 'False 'False 'False) where arbitrary = QC.oneof [ pure XFFF1, fmap XFFF2 QC.arbitrary ]
+instance QC.Arbitrary (X3 'False 'False 'True) where arbitrary = QC.oneof [ pure XFFT1, fmap XFFT2 QC.arbitrary ]
+instance QC.Arbitrary (X3 'False 'True 'False) where arbitrary = QC.oneof [ pure XFTF1, fmap XFTF2 QC.arbitrary ]
+instance QC.Arbitrary (X3 'False 'True 'True) where arbitrary = QC.oneof [ pure XFTT1, fmap XFTT2 QC.arbitrary ]
+instance QC.Arbitrary (X3 'True 'False 'False) where arbitrary = QC.oneof [ pure XTFF1, fmap XTFF2 QC.arbitrary ]
+instance QC.Arbitrary (X3 'True 'False 'True) where arbitrary = QC.oneof [ pure XTFT1, fmap XTFT2 QC.arbitrary ]
+instance QC.Arbitrary (X3 'True 'True 'False) where arbitrary = QC.oneof [ pure XTTF1, fmap XTTF2 QC.arbitrary ]
+instance QC.Arbitrary (X3 'True 'True 'True) where arbitrary = QC.oneof [ pure XTTT1, fmap XTTT2 QC.arbitrary ]
 
-instance QC.Arbitrary (Foo4 'False 'False 'False 'False) where
-  arbitrary = QC.oneof [ pure FFFF1, FFFF2 <$> QC.arbitrary ]
-instance QC.Arbitrary (Foo4 'False 'False 'False 'True) where
-  arbitrary = QC.oneof [ pure FFFT1, FFFT2 <$> QC.arbitrary ]
-instance QC.Arbitrary (Foo4 'False 'False 'True 'False) where
-  arbitrary = QC.oneof [ pure FFTF1, FFTF2 <$> QC.arbitrary ]
-instance QC.Arbitrary (Foo4 'False 'False 'True 'True) where
-  arbitrary = QC.oneof [ pure FFTT1, FFTT2 <$> QC.arbitrary ]
-instance QC.Arbitrary (Foo4 'False 'True 'False 'False) where
-  arbitrary = QC.oneof [ pure FTFF1, FTFF2 <$> QC.arbitrary ]
-instance QC.Arbitrary (Foo4 'False 'True 'False 'True) where
-  arbitrary = QC.oneof [ pure FTFT1, FTFT2 <$> QC.arbitrary ]
-instance QC.Arbitrary (Foo4 'False 'True 'True 'False) where
-  arbitrary = QC.oneof [ pure FTTF1, FTTF2 <$> QC.arbitrary ]
-instance QC.Arbitrary (Foo4 'False 'True 'True 'True) where
-  arbitrary = QC.oneof [ pure FTTT1, FTTT2 <$> QC.arbitrary ]
-instance QC.Arbitrary (Foo4 'True 'False 'False 'False) where
-  arbitrary = QC.oneof [ pure TFFF1, TFFF2 <$> QC.arbitrary ]
-instance QC.Arbitrary (Foo4 'True 'False 'False 'True) where
-  arbitrary = QC.oneof [ pure TFFT1, TFFT2 <$> QC.arbitrary ]
-instance QC.Arbitrary (Foo4 'True 'False 'True 'False) where
-  arbitrary = QC.oneof [ pure TFTF1, TFTF2 <$> QC.arbitrary ]
-instance QC.Arbitrary (Foo4 'True 'False 'True 'True) where
-  arbitrary = QC.oneof [ pure TFTT1, TFTT2 <$> QC.arbitrary ]
-instance QC.Arbitrary (Foo4 'True 'True 'False 'False) where
-  arbitrary = QC.oneof [ pure TTFF1, TTFF2 <$> QC.arbitrary ]
-instance QC.Arbitrary (Foo4 'True 'True 'False 'True) where
-  arbitrary = QC.oneof [ pure TTFT1, TTFT2 <$> QC.arbitrary ]
-instance QC.Arbitrary (Foo4 'True 'True 'True 'False) where
-  arbitrary = QC.oneof [ pure TTTF1, TTTF2 <$> QC.arbitrary ]
-instance QC.Arbitrary (Foo4 'True 'True 'True 'True) where
-  arbitrary = QC.oneof [ pure TTTT1, TTTT2 <$> QC.arbitrary ]
+instance QC.Arbitrary (X4 'False 'False 'False 'False) where arbitrary = QC.oneof [ pure XFFFF1, fmap XFFFF2 QC.arbitrary ]
+instance QC.Arbitrary (X4 'False 'False 'False 'True) where arbitrary = QC.oneof [ pure XFFFT1, fmap XFFFT2 QC.arbitrary ]
+instance QC.Arbitrary (X4 'False 'False 'True 'False) where arbitrary = QC.oneof [ pure XFFTF1, fmap XFFTF2 QC.arbitrary ]
+instance QC.Arbitrary (X4 'False 'False 'True 'True) where arbitrary = QC.oneof [ pure XFFTT1, fmap XFFTT2 QC.arbitrary ]
+instance QC.Arbitrary (X4 'False 'True 'False 'False) where arbitrary = QC.oneof [ pure XFTFF1, fmap XFTFF2 QC.arbitrary ]
+instance QC.Arbitrary (X4 'False 'True 'False 'True) where arbitrary = QC.oneof [ pure XFTFT1, fmap XFTFT2 QC.arbitrary ]
+instance QC.Arbitrary (X4 'False 'True 'True 'False) where arbitrary = QC.oneof [ pure XFTTF1, fmap XFTTF2 QC.arbitrary ]
+instance QC.Arbitrary (X4 'False 'True 'True 'True) where arbitrary = QC.oneof [ pure XFTTT1, fmap XFTTT2 QC.arbitrary ]
+instance QC.Arbitrary (X4 'True 'False 'False 'False) where arbitrary = QC.oneof [ pure XTFFF1, fmap XTFFF2 QC.arbitrary ]
+instance QC.Arbitrary (X4 'True 'False 'False 'True) where arbitrary = QC.oneof [ pure XTFFT1, fmap XTFFT2 QC.arbitrary ]
+instance QC.Arbitrary (X4 'True 'False 'True 'False) where arbitrary = QC.oneof [ pure XTFTF1, fmap XTFTF2 QC.arbitrary ]
+instance QC.Arbitrary (X4 'True 'False 'True 'True) where arbitrary = QC.oneof [ pure XTFTT1, fmap XTFTT2 QC.arbitrary ]
+instance QC.Arbitrary (X4 'True 'True 'False 'False) where arbitrary = QC.oneof [ pure XTTFF1, fmap XTTFF2 QC.arbitrary ]
+instance QC.Arbitrary (X4 'True 'True 'False 'True) where arbitrary = QC.oneof [ pure XTTFT1, fmap XTTFT2 QC.arbitrary ]
+instance QC.Arbitrary (X4 'True 'True 'True 'False) where arbitrary = QC.oneof [ pure XTTTF1, fmap XTTTF2 QC.arbitrary ]
+instance QC.Arbitrary (X4 'True 'True 'True 'True) where arbitrary = QC.oneof [ pure XTTTT1, fmap XTTTT2 QC.arbitrary ]
+
