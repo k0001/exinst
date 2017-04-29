@@ -18,6 +18,7 @@ module Exinst.Internal
  , withSome1
  , withSome1Sing
  , some1SingRep
+ , same1
  , Dict1(dict1)
 
    -- * 2 type indexes
@@ -28,6 +29,7 @@ module Exinst.Internal
  , withSome2
  , withSome2Sing
  , some2SingRep
+ , same2
  , Dict2(dict2)
 
    -- * 3 type indexes
@@ -38,6 +40,7 @@ module Exinst.Internal
  , withSome3
  , withSome3Sing
  , some3SingRep
+ , same3
  , Dict3(dict3)
 
    -- * 4 type indexes
@@ -48,6 +51,7 @@ module Exinst.Internal
  , withSome4
  , withSome4Sing
  , some4SingRep
+ , same4
  , Dict4(dict4)
 
    -- * Miscellaneous
@@ -317,6 +321,84 @@ some4SingRep
 some4SingRep = \(Some4 sa4 sa3 sa2 sa1 _) ->
   (fromSing sa4, fromSing sa3, fromSing sa2, fromSing sa1)
 {-# INLINE some4SingRep #-}
+
+--------------------------------------------------------------------------------
+
+-- | @'same1' x a b@ applies @x@ to the contents of @a@ and @b@ if their type
+-- indexes are equal.
+--
+-- Hint: @'same1' ('some1' . 'Exinst.P1') :: 'Some1' f -> 'Some1' g -> 'Some1' ('Exinst.P1' f g)@
+{-# INLINABLE same1 #-}
+same1
+  :: SDecide k1
+  => (forall a1. SingI a1 => f a1 -> g a1 -> x)
+  -> Some1 (f :: k1 -> Type)
+  -> Some1 (g :: k1 -> Type)
+  -> Maybe x  -- ^
+same1 z = \s1f s1g ->
+  withSome1Sing s1f $ \sa1 f ->
+    withSome1Sing s1g $ \sa1' g -> do
+       Refl <- testEquality sa1 sa1'
+       pure (z f g)
+
+-- | @'same2' x a b@ applies @x@ to the contents of @a@ and @b@ if their type
+-- indexes are equal.
+--
+-- Hint: @'same2' ('some2' . 'Exinst.P2') :: 'Some2' f -> 'Some2' g -> 'Some2' ('Exinst.P2' f g)@
+{-# INLINABLE same2 #-}
+same2
+  :: (SDecide k2, SDecide k1)
+  => (forall a2 a1. SingI a1 => f a2 a1 -> g a2 a1 -> x)
+  -> Some2 (f :: k2 -> k1 -> Type)
+  -> Some2 (g :: k2 -> k1 -> Type)
+  -> Maybe x  -- ^
+same2 z = \s2l s2g ->
+  withSome2Sing s2l $ \sa2 sa1 f ->
+    withSome2Sing s2g $ \sa2' sa1' g -> do
+       Refl <- testEquality sa2 sa2'
+       Refl <- testEquality sa1 sa1'
+       pure (z f g)
+
+-- | @'same3' x a b@ applies @x@ to the contents of @a@ and @b@ if their type
+-- indexes are equal.
+--
+-- Hint: @'same3' ('some3' . 'Exinst.P3') :: 'Some3' f -> 'Some3' g -> 'Some3' ('Exinst.P3' f g)@
+{-# INLINABLE same3 #-}
+same3
+  :: (SDecide k3, SDecide k2, SDecide k1)
+  => (forall a3 a2 a1. (SingI a3, SingI a2, SingI a1)
+        => f a3 a2 a1 -> g a3 a2 a1 -> x)
+  -> Some3 (f :: k3 -> k2 -> k1 -> Type)
+  -> Some3 (g :: k3 -> k2 -> k1 -> Type)
+  -> Maybe x  -- ^
+same3 z = \s3l s3g ->
+  withSome3Sing s3l $ \sa3 sa2 sa1 f ->
+    withSome3Sing s3g $ \sa3' sa2' sa1' g -> do
+       Refl <- testEquality sa3 sa3'
+       Refl <- testEquality sa2 sa2'
+       Refl <- testEquality sa1 sa1'
+       pure (z f g)
+
+-- | @'same4' x a b@ applies @x@ to the contents of @a@ and @b@ if their type
+-- indexes are equal.
+--
+-- Hint: @'same4' ('some4' . 'Exinst.P4') :: 'Some4' f -> 'Some4' g -> 'Some4' ('Exinst.P4' f g)@
+{-# INLINABLE same4 #-}
+same4
+  :: (SDecide k4, SDecide k3, SDecide k2, SDecide k1)
+  => (forall a4 a3 a2 a1. (SingI a4, SingI a3, SingI a2, SingI a1)
+        => f a4 a3 a2 a1 -> g a4 a3 a2 a1 -> x)
+  -> Some4 (f :: k4 -> k3 -> k2 -> k1 -> Type)
+  -> Some4 (g :: k4 -> k3 -> k2 -> k1 -> Type)
+  -> Maybe x  -- ^
+same4 z = \s4l s4g ->
+  withSome4Sing s4l $ \sa4 sa3 sa2 sa1 f ->
+    withSome4Sing s4g $ \sa4' sa3' sa2' sa1' g -> do
+       Refl <- testEquality sa4 sa4'
+       Refl <- testEquality sa3 sa3'
+       Refl <- testEquality sa2 sa2'
+       Refl <- testEquality sa1 sa1'
+       pure (z f g)
 
 --------------------------------------------------------------------------------
 

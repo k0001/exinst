@@ -1,3 +1,8 @@
+# Version HEAD
+
+* Added `same{1,2,3,4}`.
+
+
 # Version 0.4
 
 * BREAKING: Decouple `binary` and `cereal` instances from `bytes`. This

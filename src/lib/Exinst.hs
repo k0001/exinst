@@ -51,6 +51,7 @@ module Exinst
  , withSome1
  , withSome1Sing
  , some1SingRep
+ , same1
  , Dict1(dict1)
 
    -- * 2 type indexes
@@ -61,6 +62,7 @@ module Exinst
  , withSome2
  , withSome2Sing
  , some2SingRep
+ , same2
  , Dict2(dict2)
 
    -- * 3 type indexes
@@ -71,6 +73,7 @@ module Exinst
  , withSome3
  , withSome3Sing
  , some3SingRep
+ , same3
  , Dict3(dict3)
 
    -- * 4 type indexes
@@ -81,6 +84,7 @@ module Exinst
  , withSome4
  , withSome4Sing
  , some4SingRep
+ , same4
  , Dict4(dict4)
 
    -- * Miscellaneous
