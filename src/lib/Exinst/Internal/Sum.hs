@@ -39,6 +39,10 @@ import Data.Hashable (Hashable)
 import qualified Test.QuickCheck as QC
 #endif
 
+#ifdef VERSION_serialise
+import qualified Codec.Serialise as Cborg
+#endif
+
 --------------------------------------------------------------------------------
 -- Sums
 
@@ -140,4 +144,12 @@ instance (QC.Arbitrary (l a4 a3 a2 a1), QC.Arbitrary (r a4 a3 a2 a1)) => QC.Arbi
   arbitrary = QC.oneof [ fmap S4L QC.arbitrary, fmap S4R QC.arbitrary ]
   shrink (S4L l) = S4L <$> QC.shrink l
   shrink (S4R r) = S4R <$> QC.shrink r
+#endif
+
+--------------------------------------------------------------------------------
+#ifdef VERSION_serialise
+instance (Cborg.Serialise (l a1), Cborg.Serialise (r a1)) => Cborg.Serialise (S1 l r a1)
+instance (Cborg.Serialise (l a2 a1), Cborg.Serialise (r a2 a1)) => Cborg.Serialise (S2 l r a2 a1)
+instance (Cborg.Serialise (l a3 a2 a1), Cborg.Serialise (r a3 a2 a1)) => Cborg.Serialise (S3 l r a3 a2 a1)
+instance (Cborg.Serialise (l a4 a3 a2 a1), Cborg.Serialise (r a4 a3 a2 a1)) => Cborg.Serialise (S4 l r a4 a3 a2 a1)
 #endif

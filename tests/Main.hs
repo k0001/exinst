@@ -9,6 +9,7 @@
 module Main where
 
 import Control.DeepSeq (NFData(rnf))
+import qualified Codec.Serialise as Cborg
 import qualified Data.Aeson as Aeson
 import qualified Data.Binary as Bin
 import qualified Data.ByteString.Lazy as BSL
@@ -50,6 +51,7 @@ tt =
   , tt_id "Identity through Bytes's Serial" id_bytes
   , tt_id "Identity through Cereal's Serialize" id_cereal
   , tt_id "Identity through Binary's Binary" id_binary
+  , tt_id "Identity through serialise's Serialise" id_serialise
   , tt_id "Identity from Cereal's Serialize to Binary's Binary" id_cereal_to_binary
   , tt_id "Identity from Cereal's Serialize to Bytes's Serial" id_cereal_to_bytes
   , tt_id "Identity from Binary's Binary to Cereal's Serialize" id_binary_to_cereal
@@ -64,7 +66,7 @@ tt_id
   -> (forall a.
         ( G.Generic a, Aeson.FromJSON a, Aeson.ToJSON a
         , Bytes.Serial a, Bin.Binary a, Cer.Serialize a
-        , Show a, Read a
+        , Cborg.Serialise a, Show a, Read a
         ) => a -> Maybe a
      ) -- ^ It's easier to put all the constraints here.
   -> Tasty.TestTree
@@ -180,6 +182,12 @@ id_cereal = \a ->
      Right a' -> Just a'
      Left _ -> Nothing
 
+id_serialise :: Cborg.Serialise a => a -> Maybe a
+id_serialise = \a ->
+  case Cborg.deserialiseOrFail (Cborg.serialise a) of
+    Right a' -> Just a'
+    Left _   -> Nothing
+
 id_cereal_to_binary :: (Bin.Binary a, Cer.Serialize a) => a -> Maybe a
 id_cereal_to_binary = \a ->
    case Bin.decodeOrFail (Cer.encodeLazy a) of
@@ -219,42 +227,42 @@ id_bytes_to_cereal = \a ->
 --------------------------------------------------------------------------------
 
 data family X1 :: Bool -> Type
-data instance X1 'False = XF1 | XF2 Int32 deriving (Eq, Show, Read, G.Generic, Aeson.FromJSON, Aeson.ToJSON, Bytes.Serial, Bin.Binary, Cer.Serialize, NFData, Hashable)
-data instance X1 'True = XT1 | XT2 Int32 deriving (Eq, Show, Read, G.Generic, Aeson.FromJSON, Aeson.ToJSON, Bytes.Serial, Bin.Binary, Cer.Serialize, NFData, Hashable)
+data instance X1 'False = XF1 | XF2 Int32 deriving (Eq, Show, Read, G.Generic, Aeson.FromJSON, Aeson.ToJSON, Bytes.Serial, Bin.Binary, Cer.Serialize, Cborg.Serialise, NFData, Hashable)
+data instance X1 'True = XT1 | XT2 Int32 deriving (Eq, Show, Read, G.Generic, Aeson.FromJSON, Aeson.ToJSON, Bytes.Serial, Bin.Binary, Cer.Serialize, Cborg.Serialise, NFData, Hashable)
 
 data family X2 :: Bool -> Bool -> Type
-data instance X2 'False 'False = XFF1 | XFF2 Int32 deriving (Eq, Show, Read, G.Generic, Aeson.FromJSON, Aeson.ToJSON, Bytes.Serial, Bin.Binary, Cer.Serialize, NFData, Hashable)
-data instance X2 'False 'True = XFT1 | XFT2 Int32 deriving (Eq, Show, Read, G.Generic, Aeson.FromJSON, Aeson.ToJSON, Bytes.Serial, Bin.Binary, Cer.Serialize, NFData, Hashable)
-data instance X2 'True 'False = XTF1 | XTF2 Int32 deriving (Eq, Show, Read, G.Generic, Aeson.FromJSON, Aeson.ToJSON, Bytes.Serial, Bin.Binary, Cer.Serialize, NFData, Hashable)
-data instance X2 'True 'True = XTT1 | XTT2 Int32 deriving (Eq, Show, Read, G.Generic, Aeson.FromJSON, Aeson.ToJSON, Bytes.Serial, Bin.Binary, Cer.Serialize, NFData, Hashable)
+data instance X2 'False 'False = XFF1 | XFF2 Int32 deriving (Eq, Show, Read, G.Generic, Aeson.FromJSON, Aeson.ToJSON, Bytes.Serial, Bin.Binary, Cer.Serialize, Cborg.Serialise, NFData, Hashable)
+data instance X2 'False 'True = XFT1 | XFT2 Int32 deriving (Eq, Show, Read, G.Generic, Aeson.FromJSON, Aeson.ToJSON, Bytes.Serial, Bin.Binary, Cer.Serialize, Cborg.Serialise, NFData, Hashable)
+data instance X2 'True 'False = XTF1 | XTF2 Int32 deriving (Eq, Show, Read, G.Generic, Aeson.FromJSON, Aeson.ToJSON, Bytes.Serial, Bin.Binary, Cer.Serialize, Cborg.Serialise, NFData, Hashable)
+data instance X2 'True 'True = XTT1 | XTT2 Int32 deriving (Eq, Show, Read, G.Generic, Aeson.FromJSON, Aeson.ToJSON, Bytes.Serial, Bin.Binary, Cer.Serialize, Cborg.Serialise, NFData, Hashable)
 
 data family X3 :: Bool -> Bool -> Bool -> Type
-data instance X3 'False 'False 'False = XFFF1 | XFFF2 Int32 deriving (Eq, Show, Read, G.Generic, Aeson.FromJSON, Aeson.ToJSON, Bytes.Serial, Bin.Binary, Cer.Serialize, NFData, Hashable)
-data instance X3 'False 'False 'True = XFFT1 | XFFT2 Int32 deriving (Eq, Show, Read, G.Generic, Aeson.FromJSON, Aeson.ToJSON, Bytes.Serial, Bin.Binary, Cer.Serialize, NFData, Hashable)
-data instance X3 'False 'True 'False = XFTF1 | XFTF2 Int32 deriving (Eq, Show, Read, G.Generic, Aeson.FromJSON, Aeson.ToJSON, Bytes.Serial, Bin.Binary, Cer.Serialize, NFData, Hashable)
-data instance X3 'False 'True 'True = XFTT1 | XFTT2 Int32 deriving (Eq, Show, Read, G.Generic, Aeson.FromJSON, Aeson.ToJSON, Bytes.Serial, Bin.Binary, Cer.Serialize, NFData, Hashable)
-data instance X3 'True 'False 'False = XTFF1 | XTFF2 Int32 deriving (Eq, Show, Read, G.Generic, Aeson.FromJSON, Aeson.ToJSON, Bytes.Serial, Bin.Binary, Cer.Serialize, NFData, Hashable)
-data instance X3 'True 'False 'True = XTFT1 | XTFT2 Int32 deriving (Eq, Show, Read, G.Generic, Aeson.FromJSON, Aeson.ToJSON, Bytes.Serial, Bin.Binary, Cer.Serialize, NFData, Hashable)
-data instance X3 'True 'True 'False = XTTF1 | XTTF2 Int32 deriving (Eq, Show, Read, G.Generic, Aeson.FromJSON, Aeson.ToJSON, Bytes.Serial, Bin.Binary, Cer.Serialize, NFData, Hashable)
-data instance X3 'True 'True 'True = XTTT1 | XTTT2 Int32 deriving (Eq, Show, Read, G.Generic, Aeson.FromJSON, Aeson.ToJSON, Bytes.Serial, Bin.Binary, Cer.Serialize, NFData, Hashable)
+data instance X3 'False 'False 'False = XFFF1 | XFFF2 Int32 deriving (Eq, Show, Read, G.Generic, Aeson.FromJSON, Aeson.ToJSON, Bytes.Serial, Bin.Binary, Cer.Serialize, Cborg.Serialise, NFData, Hashable)
+data instance X3 'False 'False 'True = XFFT1 | XFFT2 Int32 deriving (Eq, Show, Read, G.Generic, Aeson.FromJSON, Aeson.ToJSON, Bytes.Serial, Bin.Binary, Cer.Serialize, Cborg.Serialise, NFData, Hashable)
+data instance X3 'False 'True 'False = XFTF1 | XFTF2 Int32 deriving (Eq, Show, Read, G.Generic, Aeson.FromJSON, Aeson.ToJSON, Bytes.Serial, Bin.Binary, Cer.Serialize, Cborg.Serialise, NFData, Hashable)
+data instance X3 'False 'True 'True = XFTT1 | XFTT2 Int32 deriving (Eq, Show, Read, G.Generic, Aeson.FromJSON, Aeson.ToJSON, Bytes.Serial, Bin.Binary, Cer.Serialize, Cborg.Serialise, NFData, Hashable)
+data instance X3 'True 'False 'False = XTFF1 | XTFF2 Int32 deriving (Eq, Show, Read, G.Generic, Aeson.FromJSON, Aeson.ToJSON, Bytes.Serial, Bin.Binary, Cer.Serialize, Cborg.Serialise, NFData, Hashable)
+data instance X3 'True 'False 'True = XTFT1 | XTFT2 Int32 deriving (Eq, Show, Read, G.Generic, Aeson.FromJSON, Aeson.ToJSON, Bytes.Serial, Bin.Binary, Cer.Serialize, Cborg.Serialise, NFData, Hashable)
+data instance X3 'True 'True 'False = XTTF1 | XTTF2 Int32 deriving (Eq, Show, Read, G.Generic, Aeson.FromJSON, Aeson.ToJSON, Bytes.Serial, Bin.Binary, Cer.Serialize, Cborg.Serialise, NFData, Hashable)
+data instance X3 'True 'True 'True = XTTT1 | XTTT2 Int32 deriving (Eq, Show, Read, G.Generic, Aeson.FromJSON, Aeson.ToJSON, Bytes.Serial, Bin.Binary, Cer.Serialize, Cborg.Serialise, NFData, Hashable)
 
 data family X4 :: Bool -> Bool -> Bool -> Bool -> Type
-data instance X4 'False 'False 'False 'False = XFFFF1 | XFFFF2 Int32 deriving (Eq, Show, Read, G.Generic, Aeson.FromJSON, Aeson.ToJSON, Bytes.Serial, Bin.Binary, Cer.Serialize, NFData, Hashable)
-data instance X4 'False 'False 'False 'True = XFFFT1 | XFFFT2 Int32 deriving (Eq, Show, Read, G.Generic, Aeson.FromJSON, Aeson.ToJSON, Bytes.Serial, Bin.Binary, Cer.Serialize, NFData, Hashable)
-data instance X4 'False 'False 'True 'False = XFFTF1 | XFFTF2 Int32 deriving (Eq, Show, Read, G.Generic, Aeson.FromJSON, Aeson.ToJSON, Bytes.Serial, Bin.Binary, Cer.Serialize, NFData, Hashable)
-data instance X4 'False 'False 'True 'True = XFFTT1 | XFFTT2 Int32 deriving (Eq, Show, Read, G.Generic, Aeson.FromJSON, Aeson.ToJSON, Bytes.Serial, Bin.Binary, Cer.Serialize, NFData, Hashable)
-data instance X4 'False 'True 'False 'False = XFTFF1 | XFTFF2 Int32 deriving (Eq, Show, Read, G.Generic, Aeson.FromJSON, Aeson.ToJSON, Bytes.Serial, Bin.Binary, Cer.Serialize, NFData, Hashable)
-data instance X4 'False 'True 'False 'True = XFTFT1 | XFTFT2 Int32 deriving (Eq, Show, Read, G.Generic, Aeson.FromJSON, Aeson.ToJSON, Bytes.Serial, Bin.Binary, Cer.Serialize, NFData, Hashable)
-data instance X4 'False 'True 'True 'False = XFTTF1 | XFTTF2 Int32 deriving (Eq, Show, Read, G.Generic, Aeson.FromJSON, Aeson.ToJSON, Bytes.Serial, Bin.Binary, Cer.Serialize, NFData, Hashable)
-data instance X4 'False 'True 'True 'True = XFTTT1 | XFTTT2 Int32 deriving (Eq, Show, Read, G.Generic, Aeson.FromJSON, Aeson.ToJSON, Bytes.Serial, Bin.Binary, Cer.Serialize, NFData, Hashable)
-data instance X4 'True 'False 'False 'False = XTFFF1 | XTFFF2 Int32 deriving (Eq, Show, Read, G.Generic, Aeson.FromJSON, Aeson.ToJSON, Bytes.Serial, Bin.Binary, Cer.Serialize, NFData, Hashable)
-data instance X4 'True 'False 'False 'True = XTFFT1 | XTFFT2 Int32 deriving (Eq, Show, Read, G.Generic, Aeson.FromJSON, Aeson.ToJSON, Bytes.Serial, Bin.Binary, Cer.Serialize, NFData, Hashable)
-data instance X4 'True 'False 'True 'False = XTFTF1 | XTFTF2 Int32 deriving (Eq, Show, Read, G.Generic, Aeson.FromJSON, Aeson.ToJSON, Bytes.Serial, Bin.Binary, Cer.Serialize, NFData, Hashable)
-data instance X4 'True 'False 'True 'True = XTFTT1 | XTFTT2 Int32 deriving (Eq, Show, Read, G.Generic, Aeson.FromJSON, Aeson.ToJSON, Bytes.Serial, Bin.Binary, Cer.Serialize, NFData, Hashable)
-data instance X4 'True 'True 'False 'False = XTTFF1 | XTTFF2 Int32 deriving (Eq, Show, Read, G.Generic, Aeson.FromJSON, Aeson.ToJSON, Bytes.Serial, Bin.Binary, Cer.Serialize, NFData, Hashable)
-data instance X4 'True 'True 'False 'True = XTTFT1 | XTTFT2 Int32 deriving (Eq, Show, Read, G.Generic, Aeson.FromJSON, Aeson.ToJSON, Bytes.Serial, Bin.Binary, Cer.Serialize, NFData, Hashable)
-data instance X4 'True 'True 'True 'False = XTTTF1 | XTTTF2 Int32 deriving (Eq, Show, Read, G.Generic, Aeson.FromJSON, Aeson.ToJSON, Bytes.Serial, Bin.Binary, Cer.Serialize, NFData, Hashable)
-data instance X4 'True 'True 'True 'True = XTTTT1 | XTTTT2 Int32 deriving (Eq, Show, Read, G.Generic, Aeson.FromJSON, Aeson.ToJSON, Bytes.Serial, Bin.Binary, Cer.Serialize, NFData, Hashable)
+data instance X4 'False 'False 'False 'False = XFFFF1 | XFFFF2 Int32 deriving (Eq, Show, Read, G.Generic, Aeson.FromJSON, Aeson.ToJSON, Bytes.Serial, Bin.Binary, Cer.Serialize, Cborg.Serialise, NFData, Hashable)
+data instance X4 'False 'False 'False 'True = XFFFT1 | XFFFT2 Int32 deriving (Eq, Show, Read, G.Generic, Aeson.FromJSON, Aeson.ToJSON, Bytes.Serial, Bin.Binary, Cer.Serialize, Cborg.Serialise, NFData, Hashable)
+data instance X4 'False 'False 'True 'False = XFFTF1 | XFFTF2 Int32 deriving (Eq, Show, Read, G.Generic, Aeson.FromJSON, Aeson.ToJSON, Bytes.Serial, Bin.Binary, Cer.Serialize, Cborg.Serialise, NFData, Hashable)
+data instance X4 'False 'False 'True 'True = XFFTT1 | XFFTT2 Int32 deriving (Eq, Show, Read, G.Generic, Aeson.FromJSON, Aeson.ToJSON, Bytes.Serial, Bin.Binary, Cer.Serialize, Cborg.Serialise, NFData, Hashable)
+data instance X4 'False 'True 'False 'False = XFTFF1 | XFTFF2 Int32 deriving (Eq, Show, Read, G.Generic, Aeson.FromJSON, Aeson.ToJSON, Bytes.Serial, Bin.Binary, Cer.Serialize, Cborg.Serialise, NFData, Hashable)
+data instance X4 'False 'True 'False 'True = XFTFT1 | XFTFT2 Int32 deriving (Eq, Show, Read, G.Generic, Aeson.FromJSON, Aeson.ToJSON, Bytes.Serial, Bin.Binary, Cer.Serialize, Cborg.Serialise, NFData, Hashable)
+data instance X4 'False 'True 'True 'False = XFTTF1 | XFTTF2 Int32 deriving (Eq, Show, Read, G.Generic, Aeson.FromJSON, Aeson.ToJSON, Bytes.Serial, Bin.Binary, Cer.Serialize, Cborg.Serialise, NFData, Hashable)
+data instance X4 'False 'True 'True 'True = XFTTT1 | XFTTT2 Int32 deriving (Eq, Show, Read, G.Generic, Aeson.FromJSON, Aeson.ToJSON, Bytes.Serial, Bin.Binary, Cer.Serialize, Cborg.Serialise, NFData, Hashable)
+data instance X4 'True 'False 'False 'False = XTFFF1 | XTFFF2 Int32 deriving (Eq, Show, Read, G.Generic, Aeson.FromJSON, Aeson.ToJSON, Bytes.Serial, Bin.Binary, Cer.Serialize, Cborg.Serialise, NFData, Hashable)
+data instance X4 'True 'False 'False 'True = XTFFT1 | XTFFT2 Int32 deriving (Eq, Show, Read, G.Generic, Aeson.FromJSON, Aeson.ToJSON, Bytes.Serial, Bin.Binary, Cer.Serialize, Cborg.Serialise, NFData, Hashable)
+data instance X4 'True 'False 'True 'False = XTFTF1 | XTFTF2 Int32 deriving (Eq, Show, Read, G.Generic, Aeson.FromJSON, Aeson.ToJSON, Bytes.Serial, Bin.Binary, Cer.Serialize, Cborg.Serialise, NFData, Hashable)
+data instance X4 'True 'False 'True 'True = XTFTT1 | XTFTT2 Int32 deriving (Eq, Show, Read, G.Generic, Aeson.FromJSON, Aeson.ToJSON, Bytes.Serial, Bin.Binary, Cer.Serialize, Cborg.Serialise, NFData, Hashable)
+data instance X4 'True 'True 'False 'False = XTTFF1 | XTTFF2 Int32 deriving (Eq, Show, Read, G.Generic, Aeson.FromJSON, Aeson.ToJSON, Bytes.Serial, Bin.Binary, Cer.Serialize, Cborg.Serialise, NFData, Hashable)
+data instance X4 'True 'True 'False 'True = XTTFT1 | XTTFT2 Int32 deriving (Eq, Show, Read, G.Generic, Aeson.FromJSON, Aeson.ToJSON, Bytes.Serial, Bin.Binary, Cer.Serialize, Cborg.Serialise, NFData, Hashable)
+data instance X4 'True 'True 'True 'False = XTTTF1 | XTTTF2 Int32 deriving (Eq, Show, Read, G.Generic, Aeson.FromJSON, Aeson.ToJSON, Bytes.Serial, Bin.Binary, Cer.Serialize, Cborg.Serialise, NFData, Hashable)
+data instance X4 'True 'True 'True 'True = XTTTT1 | XTTTT2 Int32 deriving (Eq, Show, Read, G.Generic, Aeson.FromJSON, Aeson.ToJSON, Bytes.Serial, Bin.Binary, Cer.Serialize, Cborg.Serialise, NFData, Hashable)
 
 --------------------------------------------------------------------------------
 -- Arbitrary instances

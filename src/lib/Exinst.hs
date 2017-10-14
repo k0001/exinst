@@ -147,6 +147,10 @@ import Exinst.Instances.Hashable ()
 import Exinst.Instances.QuickCheck ()
 #endif
 
+#ifdef VERSION_serialise
+import Exinst.Instances.Serialise ()
+#endif
+
 
 {- $motivation
 

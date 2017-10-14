@@ -39,6 +39,10 @@ import Data.Hashable (Hashable)
 import qualified Test.QuickCheck as QC
 #endif
 
+#ifdef VERSION_QuickCheck
+import qualified Codec.Serialise as Cborg
+#endif
+
 --------------------------------------------------------------------------------
 -- Products
 
@@ -136,4 +140,12 @@ instance (QC.Arbitrary (l a3 a2 a1), QC.Arbitrary (r a3 a2 a1)) => QC.Arbitrary 
 instance (QC.Arbitrary (l a4 a3 a2 a1), QC.Arbitrary (r a4 a3 a2 a1)) => QC.Arbitrary (P4 l r a4 a3 a2 a1) where
   arbitrary = P4 <$> QC.arbitrary <*> QC.arbitrary
   shrink (P4 x y) = P4 <$> QC.shrink x <*> QC.shrink y
+#endif
+
+--------------------------------------------------------------------------------
+#ifdef VERSION_serialise
+instance (Cborg.Serialise (l a1), Cborg.Serialise (r a1)) => Cborg.Serialise (P1 l r a1)
+instance (Cborg.Serialise (l a2 a1), Cborg.Serialise (r a2 a1)) => Cborg.Serialise (P2 l r a2 a1)
+instance (Cborg.Serialise (l a3 a2 a1), Cborg.Serialise (r a3 a2 a1)) => Cborg.Serialise (P3 l r a3 a2 a1)
+instance (Cborg.Serialise (l a4 a3 a2 a1), Cborg.Serialise (r a4 a3 a2 a1)) => Cborg.Serialise (P4 l r a4 a3 a2 a1)
 #endif
