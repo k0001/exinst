@@ -1,6 +1,10 @@
 # Version HEAD
 
-* Added `same{1,2,3,4}`.
+* Add `same{1,2,3,4}`.
+
+* Add dependencies on `cborg` and `serialise`
+
+* Add instances for `serialise` (binary CBOR encoding/decoding)
 
 
 # Version 0.4

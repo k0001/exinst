@@ -12,11 +12,11 @@ mkDerivation {
     profunctors QuickCheck serialise singletons
   ];
   testHaskellDepends = [
-    aeson base base16-bytestring base64-bytestring binary bytes
-    bytestring cborg cereal constraints deepseq hashable profunctors
-    QuickCheck serialise singletons tasty tasty-hunit tasty-quickcheck
+    aeson base binary bytes bytestring cborg cereal constraints deepseq
+    hashable profunctors QuickCheck serialise singletons tasty tasty-hunit
+    tasty-quickcheck
   ];
   homepage = "https://github.com/k0001/exinst";
-  description = "Recover type indexes and instances for your existentialized types";
+  description = "Recover instances for your existential types";
   license = stdenv.lib.licenses.bsd3;
 }

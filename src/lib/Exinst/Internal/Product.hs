@@ -39,7 +39,7 @@ import Data.Hashable (Hashable)
 import qualified Test.QuickCheck as QC
 #endif
 
-#ifdef VERSION_QuickCheck
+#ifdef VERSION_serialise
 import qualified Codec.Serialise as Cborg
 #endif
 

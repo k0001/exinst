@@ -5,13 +5,14 @@
 
 {-# OPTIONS_GHC -fno-warn-orphans #-}
 
--- | This module exports 'Serialise' instances for 'Some1',
+-- | This module exports 'Serialise' instances (which provide
+-- binary serialisation via the CBOR format) for 'Some1',
 -- 'Some2', 'Some3' and 'Some4' from "Exinst", provided situable
 -- 'Dict1', 'Dict2', 'Dict3' and 'Dict4' instances are available.
 --
 -- See the README file in the @exinst@ package for more general documentation:
 -- https://hackage.haskell.org/package/exinst#readme
-module Exinst.Instances.Serialise () where
+module Exinst.Instances.Cbor () where
 
 import Codec.Serialise
 import Codec.Serialise.Decoding (decodeListLenOf)

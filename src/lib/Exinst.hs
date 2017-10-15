@@ -148,7 +148,7 @@ import Exinst.Instances.QuickCheck ()
 #endif
 
 #ifdef VERSION_serialise
-import Exinst.Instances.Serialise ()
+import Exinst.Instances.Cbor ()
 #endif
 
 
