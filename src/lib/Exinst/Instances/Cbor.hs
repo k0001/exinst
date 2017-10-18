@@ -55,13 +55,13 @@ instance forall (f :: k2 -> k1 -> *)
     {-# INLINABLE encode #-}
     encode = \some2x -> withSome2Sing some2x $ \sa2 sa1 (x :: f a2 a1) ->
        case dict2 sa2 sa1 :: Dict (Serialise (f a2 a1)) of
-          Dict -> encode ((fromSing sa2, fromSing sa1), x)
+          Dict -> encode (fromSing sa2, fromSing sa1, x)
 
 
     {-# INLINABLE decode #-}
     decode = do
-      decodeListLenOf 2
-      (rsa2, rsa1) <- decode
+      decodeListLenOf 3
+      rsa2 <- decode; rsa1 <- decode
       withSomeSing rsa2 $ \(sa2 :: Sing (a2 :: k2)) ->
          withSomeSing rsa1 $ \(sa1 :: Sing (a1 :: k1)) ->
             case dict2 sa2 sa1 :: Dict (Serialise (f a2 a1)) of
@@ -82,11 +82,11 @@ instance forall (f :: k3 -> k2 -> k1 -> *)
     {-# INLINABLE encode #-}
     encode = \some3x -> withSome3Sing some3x $ \sa3 sa2 sa1 (x :: f a3 a2 a1) ->
        case dict3 sa3 sa2 sa1 :: Dict (Serialise (f a3 a2 a1)) of
-          Dict -> encode ((fromSing sa3, fromSing sa2, fromSing sa1), x)
+          Dict -> encode (fromSing sa3, fromSing sa2, fromSing sa1, x)
     {-# INLINABLE decode #-}
     decode = do
-      decodeListLenOf 2
-      (rsa3, rsa2, rsa1) <- decode
+      decodeListLenOf 4
+      rsa3 <- decode; rsa2 <- decode; rsa1 <- decode
       withSomeSing rsa3 $ \(sa3 :: Sing (a3 :: k3)) ->
          withSomeSing rsa2 $ \(sa2 :: Sing (a2 :: k2)) ->
             withSomeSing rsa1 $ \(sa1 :: Sing (a1 :: k1)) ->
@@ -110,11 +110,11 @@ instance forall (f :: k4 -> k3 -> k2 -> k1 -> *)
     {-# INLINABLE encode #-}
     encode = \some4x -> withSome4Sing some4x $ \sa4 sa3 sa2 sa1 (x :: f a4 a3 a2 a1) ->
        case dict4 sa4 sa3 sa2 sa1 :: Dict (Serialise (f a4 a3 a2 a1)) of
-          Dict -> encode ((fromSing sa4, fromSing sa3, fromSing sa2, fromSing sa1), x)
+          Dict -> encode (fromSing sa4, fromSing sa3, fromSing sa2, fromSing sa1, x)
     {-# INLINABLE decode #-}
     decode = do
-      decodeListLenOf 2
-      (rsa4, rsa3, rsa2, rsa1) <- decode
+      decodeListLenOf 5
+      rsa4 <- decode; rsa3 <- decode; rsa2 <- decode; rsa1 <- decode;
       withSomeSing rsa4 $ \(sa4 :: Sing (a4 :: k4)) ->
          withSomeSing rsa3 $ \(sa3 :: Sing (a3 :: k3)) ->
             withSomeSing rsa2 $ \(sa2 :: Sing (a2 :: k2)) ->
