@@ -56,6 +56,17 @@ module Exinst.Internal
 
    -- * Miscellaneous
  , Dict0(dict0)
+
+   -- * Combinators
+ , s1map
+ , s1mapSing
+ , s1traverse
+ , s1traverseSing
+ , withSameSome1
+ , withSameSome1Sing
+ , s1zipWith
+ , s1zipWithSing
+ , s1zipWithF
  ) where
 
 import Data.Constraint
@@ -441,3 +452,100 @@ prism' :: (b -> s) -> (s -> Maybe a) -> Prism s s a b
 prism' bs sma = prism bs (\s -> maybe (Left s) Right (sma s))
 {-# INLINE prism' #-}
 
+--------------------------------------------------------------------------------
+-- 'Some1' combinators
+
+-- | "Map" over a 'Some1' with singleton-preserving transformation from
+-- @f@ to @g@
+--
+-- Laws:
+-- @
+-- s1map id = id
+-- s1map (f . g) = s1map f . s1map g
+-- @
+s1map :: forall k (f :: k -> Type) (g :: k -> Type)
+       . (forall (a :: k). SingI a => f a -> g a)
+      -> Some1 f
+      -> Some1 g
+s1map f s1x = withSome1 s1x (some1 . f)
+
+-- | Like 's1map' but it also provides the function the singleton
+s1mapSing :: forall k (f :: k -> Type) (g :: k -> Type)
+           . (forall (a :: k). SingI a => Sing a -> f a -> g a)
+          -> Some1 f
+          -> Some1 g
+s1mapSing f s1x = withSome1Sing s1x (\sa fa -> some1 $ f sa fa)
+
+-- | "Traverse" over a 'Some1' with a singleton-preserving transformation from
+-- @f@ to @g@ within some Functor @m@
+--
+-- Laws:
+-- @
+-- s1traverse pure = pure
+-- @
+s1traverse :: forall k (f :: k -> Type) (g :: k -> Type) m
+            . Functor m
+           => (forall (a :: k). SingI a => f a -> m (g a))
+           -> Some1 f
+           -> m (Some1 g)
+s1traverse f s1x = withSome1 s1x (fmap some1 . f)
+
+-- | Like 's1traverse' but it also provides the function the singleton
+s1traverseSing :: forall k (f :: k -> Type) (g :: k -> Type) m
+                . Functor m
+               => (forall (a :: k). SingI a => Sing a -> f a -> m (g a))
+               -> Some1 f
+               -> m (Some1 g)
+s1traverseSing f s1x = withSome1Sing s1x (\sa fa -> some1 <$> f sa fa)
+
+-- | Fold over two 'Some1's only if their contents are indexed by the same
+-- singleton
+withSameSome1 :: forall k (f :: k -> Type) (g :: k -> Type) r
+               . SDecide k
+              => Some1 f
+              -> Some1 g
+              -> (forall (a :: k). SingI a => f a -> g a -> r)
+              -> Maybe r
+withSameSome1 s1f s1g f = withSome1 s1f $ \(fa :: f a1) ->
+  withSome1 s1g $ \(ga :: g a2) -> case (sing :: Sing a1) `testEquality` (sing :: Sing a2) of
+    Just Refl -> Just $ f fa ga
+    Nothing   -> Nothing
+
+-- | Like 'withSameSome1' but it also provides the function the singleton
+withSameSome1Sing :: forall k (f :: k -> Type) (g :: k -> Type) r
+                   . SDecide k
+                  => Some1 f
+                  -> Some1 g
+                  -> (forall (a :: k). SingI a => Sing a -> f a -> g a -> r)
+                  -> Maybe r
+withSameSome1Sing s1f s1g f = withSome1 s1f $ \(fa :: f a1) ->
+  withSome1 s1g $ \(ga :: g a2) -> case (sing :: Sing a1) `testEquality` (sing :: Sing a2) of
+    Just Refl -> Just $ f (sing :: Sing a1) fa ga
+    Nothing   -> Nothing
+
+-- | Combine the contents of two 'Some1's in a singleton-preserving way
+s1zipWith :: forall k (f :: k -> Type) (g :: k -> Type) (h :: k -> Type)
+           . SDecide k
+          => (forall (a :: k). SingI a => f a -> g a -> h a)
+          -> Some1 f
+          -> Some1 g
+          -> Maybe (Some1 h)
+s1zipWith f s1f s1g = withSameSome1 s1f s1g $ \fa ga -> some1 $ f fa ga
+
+-- | Like 's1zipWith' but it also provides the function the singleton
+s1zipWithSing :: forall k (f :: k -> Type) (g :: k -> Type) (h :: k -> Type)
+               . SDecide k
+              => (forall (a :: k). SingI a => Sing a -> f a -> g a -> h a)
+              -> Some1 f
+              -> Some1 g
+              -> Maybe (Some1 h)
+s1zipWithSing f s1f s1g = withSameSome1Sing s1f s1g $ \sa fa ga -> some1 $ f sa fa ga
+
+-- | Like 's1zipWith' but the combining is within a Functor @m@
+s1zipWithF :: forall k (f :: k -> Type) (g :: k -> Type) (h :: k -> Type) (m :: Type -> Type)
+            . (SDecide k, Functor m)
+           => (forall (a :: k). SingI a => f a -> g a -> m (h a))
+           -> Some1 f
+           -> Some1 g
+           -> Maybe (m (Some1 h))
+s1zipWithF f s1f s1g = withSameSome1 s1f s1g $ \fa ga -> some1 <$> f fa ga
