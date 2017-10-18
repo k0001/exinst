@@ -60,7 +60,7 @@ library
 test-suite tests
   default-language: Haskell2010
   type: exitcode-stdio-1.0
-  hs-source-dirs: tests src/lib
+  hs-source-dirs: tests
   main-is: Main.hs
   build-depends:
      aeson
@@ -72,6 +72,7 @@ test-suite tests
    , cereal
    , constraints
    , deepseq
+   , exinst
    , hashable
    , profunctors
    , QuickCheck
