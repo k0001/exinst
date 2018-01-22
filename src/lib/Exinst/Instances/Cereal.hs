@@ -23,11 +23,11 @@ import Exinst.Internal
 --------------------------------------------------------------------------------
 
 -- | Compatible with the 'Data.Bytes.Serial.Serial' instance and
--- 'Data.Binary.Binary' instance, provided all of the 'DemoteRep's and the fully
+-- 'Data.Binary.Binary' instance, provided all of the 'Demote's and the fully
 -- applied @f@ instances are compatible as well.
 instance forall (f :: k1 -> *).
   ( SingKind k1
-  , Cer.Serialize (DemoteRep k1)
+  , Cer.Serialize (Demote k1)
   , Dict1 Cer.Serialize f
   ) => Cer.Serialize (Some1 f) where
   {-# INLINABLE put #-}
@@ -47,13 +47,13 @@ instance forall (f :: k1 -> *).
           pure (Some1 sa1 x)
 
 -- | Compatible with the 'Data.Bytes.Serial.Serial' instance and
--- 'Data.Binary.Binary' instance, provided all of the 'DemoteRep's and the fully
+-- 'Data.Binary.Binary' instance, provided all of the 'Demote's and the fully
 -- applied @f@ instances are compatible as well.
 instance forall (f :: k2 -> k1 -> *).
   ( SingKind k2
   , SingKind k1
-  , Cer.Serialize (DemoteRep k2)
-  , Cer.Serialize (DemoteRep k1)
+  , Cer.Serialize (Demote k2)
+  , Cer.Serialize (Demote k1)
   , Dict2 Cer.Serialize f
   ) => Cer.Serialize (Some2 f) where
   {-# INLINABLE put #-}
@@ -74,15 +74,15 @@ instance forall (f :: k2 -> k1 -> *).
             pure (Some2 sa2 sa1 x)
 
 -- | Compatible with the 'Data.Bytes.Serial.Serial' instance and
--- 'Data.Binary.Binary' instance, provided all of the 'DemoteRep's and the fully
+-- 'Data.Binary.Binary' instance, provided all of the 'Demote's and the fully
 -- applied @f@ instances are compatible as well.
 instance forall (f :: k3 -> k2 -> k1 -> *).
   ( SingKind k3
   , SingKind k2
   , SingKind k1
-  , Cer.Serialize (DemoteRep k3)
-  , Cer.Serialize (DemoteRep k2)
-  , Cer.Serialize (DemoteRep k1)
+  , Cer.Serialize (Demote k3)
+  , Cer.Serialize (Demote k2)
+  , Cer.Serialize (Demote k1)
   , Dict3 Cer.Serialize f
   ) => Cer.Serialize (Some3 f) where
   {-# INLINABLE put #-}
@@ -104,17 +104,17 @@ instance forall (f :: k3 -> k2 -> k1 -> *).
               pure (Some3 sa3 sa2 sa1 x)
 
 -- | Compatible with the 'Data.Bytes.Serial.Serial' instance and
--- 'Data.Binary.Binary' instance, provided all of the 'DemoteRep's and the fully
+-- 'Data.Binary.Binary' instance, provided all of the 'Demote's and the fully
 -- applied @f@ instances are compatible as well.
 instance forall (f :: k4 -> k3 -> k2 -> k1 -> *).
   ( SingKind k4
   , SingKind k3
   , SingKind k2
   , SingKind k1
-  , Cer.Serialize (DemoteRep k4)
-  , Cer.Serialize (DemoteRep k3)
-  , Cer.Serialize (DemoteRep k2)
-  , Cer.Serialize (DemoteRep k1)
+  , Cer.Serialize (Demote k4)
+  , Cer.Serialize (Demote k3)
+  , Cer.Serialize (Demote k2)
+  , Cer.Serialize (Demote k1)
   , Dict4 Cer.Serialize f
   ) => Cer.Serialize (Some4 f) where
   {-# INLINABLE put #-}

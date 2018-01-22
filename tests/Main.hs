@@ -28,7 +28,7 @@ import Test.Tasty.QuickCheck ((===))
 import qualified Test.Tasty.QuickCheck as QC
 import Text.Read (readMaybe)
 
-import Data.Singletons (SingKind, Sing, DemoteRep, withSomeSing)
+import Data.Singletons (SingKind, Sing, Demote, withSomeSing)
 
 import Exinst
 
