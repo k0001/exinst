@@ -26,7 +26,7 @@ import Exinst.Internal
 
 instance forall (f :: k1 -> *)
   . ( SingKind k1
-    , Serialise (DemoteRep k1)
+    , Serialise (Demote k1)
     , Dict1 Serialise f
     ) => Serialise (Some1 f)
   where
@@ -47,8 +47,8 @@ instance forall (f :: k1 -> *)
 instance forall (f :: k2 -> k1 -> *)
   . ( SingKind k2
     , SingKind k1
-    , Serialise (DemoteRep k2)
-    , Serialise (DemoteRep k1)
+    , Serialise (Demote k2)
+    , Serialise (Demote k1)
     , Dict2 Serialise f
     ) => Serialise (Some2 f)
   where
@@ -73,9 +73,9 @@ instance forall (f :: k3 -> k2 -> k1 -> *)
   . ( SingKind k3
     , SingKind k2
     , SingKind k1
-    , Serialise (DemoteRep k3)
-    , Serialise (DemoteRep k2)
-    , Serialise (DemoteRep k1)
+    , Serialise (Demote k3)
+    , Serialise (Demote k2)
+    , Serialise (Demote k1)
     , Dict3 Serialise f
     ) => Serialise (Some3 f)
   where
@@ -100,10 +100,10 @@ instance forall (f :: k4 -> k3 -> k2 -> k1 -> *)
     , SingKind k3
     , SingKind k2
     , SingKind k1
-    , Serialise (DemoteRep k4)
-    , Serialise (DemoteRep k3)
-    , Serialise (DemoteRep k2)
-    , Serialise (DemoteRep k1)
+    , Serialise (Demote k4)
+    , Serialise (Demote k3)
+    , Serialise (Demote k2)
+    , Serialise (Demote k1)
     , Dict4 Serialise f
     ) => Serialise (Some4 f)
   where

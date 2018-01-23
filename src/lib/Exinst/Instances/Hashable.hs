@@ -30,7 +30,7 @@ salt0 = 6700417
 
 instance forall (f :: k1 -> *)
   . ( SingKind k1
-    , Hashable (DemoteRep k1)
+    , Hashable (Demote k1)
     , Dict1 Hashable f
     ) => Hashable (Some1 f)
   where
@@ -44,8 +44,8 @@ instance forall (f :: k1 -> *)
 instance forall (f :: k2 -> k1 -> *)
   . ( SingKind k2
     , SingKind k1
-    , Hashable (DemoteRep k2)
-    , Hashable (DemoteRep k1)
+    , Hashable (Demote k2)
+    , Hashable (Demote k1)
     , Dict2 Hashable f
     ) => Hashable (Some2 f)
   where
@@ -61,9 +61,9 @@ instance forall (f :: k3 -> k2 -> k1 -> *)
   . ( SingKind k3
     , SingKind k2
     , SingKind k1
-    , Hashable (DemoteRep k3)
-    , Hashable (DemoteRep k2)
-    , Hashable (DemoteRep k1)
+    , Hashable (Demote k3)
+    , Hashable (Demote k2)
+    , Hashable (Demote k1)
     , Dict3 Hashable f
     ) => Hashable (Some3 f)
   where
@@ -81,10 +81,10 @@ instance forall (f :: k4 -> k3 -> k2 -> k1 -> *)
     , SingKind k3
     , SingKind k2
     , SingKind k1
-    , Hashable (DemoteRep k4)
-    , Hashable (DemoteRep k3)
-    , Hashable (DemoteRep k2)
-    , Hashable (DemoteRep k1)
+    , Hashable (Demote k4)
+    , Hashable (Demote k3)
+    , Hashable (Demote k2)
+    , Hashable (Demote k1)
     , Dict4 Hashable f
     ) => Hashable (Some4 f)
   where

@@ -295,21 +295,21 @@ _Some4 = prism' some4 fromSome4
 some1SingRep
   :: SingKind k1
   => Some1 (f1 :: k1 -> Type)
-  -> DemoteRep k1 -- ^
+  -> Demote k1 -- ^
 some1SingRep = \(Some1 sa1 _) -> fromSing sa1
 {-# INLINE some1SingRep #-}
 
 some2SingRep
   :: (SingKind k2, SingKind k1)
   => Some2 (f2 :: k2 -> k1 -> Type)
-  -> (DemoteRep k2, DemoteRep k1) -- ^
+  -> (Demote k2, Demote k1) -- ^
 some2SingRep = \(Some2 sa2 sa1 _) -> (fromSing sa2, fromSing sa1)
 {-# INLINE some2SingRep #-}
 
 some3SingRep
   :: (SingKind k3, SingKind k2, SingKind k1)
   => Some3 (f3 :: k3 -> k2 -> k1 -> Type)
-  -> (DemoteRep k3, DemoteRep k2, DemoteRep k1) -- ^
+  -> (Demote k3, Demote k2, Demote k1) -- ^
 some3SingRep = \(Some3 sa3 sa2 sa1 _) ->
   (fromSing sa3, fromSing sa2, fromSing sa1)
 {-# INLINE some3SingRep #-}
@@ -317,7 +317,7 @@ some3SingRep = \(Some3 sa3 sa2 sa1 _) ->
 some4SingRep
   :: (SingKind k4, SingKind k3, SingKind k2, SingKind k1)
   => Some4 (f4 :: k4 -> k3 -> k2 -> k1 -> Type)
-  -> (DemoteRep k4, DemoteRep k3, DemoteRep k2, DemoteRep k1) -- ^
+  -> (Demote k4, Demote k3, Demote k2, Demote k1) -- ^
 some4SingRep = \(Some4 sa4 sa3 sa2 sa1 _) ->
   (fromSing sa4, fromSing sa3, fromSing sa2, fromSing sa1)
 {-# INLINE some4SingRep #-}

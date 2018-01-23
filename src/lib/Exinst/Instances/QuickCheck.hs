@@ -13,7 +13,7 @@ module Exinst.Instances.QuickCheck () where
 
 import Data.Constraint
 import Data.Kind (Type)
-import Data.Singletons (SingKind, Sing, DemoteRep, withSomeSing)
+import Data.Singletons (SingKind, Sing, Demote, withSomeSing)
 import qualified Test.QuickCheck as QC
 
 import Exinst.Internal
@@ -23,7 +23,7 @@ import Exinst.Internal
 instance
   forall k1 (f :: k1 -> Type).
   ( SingKind k1
-  , QC.Arbitrary (DemoteRep k1)
+  , QC.Arbitrary (Demote k1)
   , Dict1 QC.Arbitrary f
   ) => QC.Arbitrary (Some1 f) where
   arbitrary = do
@@ -39,8 +39,8 @@ instance
   forall k2 k1 (f :: k2 -> k1 -> Type).
   ( SingKind k2
   , SingKind k1
-  , QC.Arbitrary (DemoteRep k2)
-  , QC.Arbitrary (DemoteRep k1)
+  , QC.Arbitrary (Demote k2)
+  , QC.Arbitrary (Demote k1)
   , Dict2 QC.Arbitrary f
   ) => QC.Arbitrary (Some2 f) where
   arbitrary = do
@@ -59,9 +59,9 @@ instance
   ( SingKind k3
   , SingKind k2
   , SingKind k1
-  , QC.Arbitrary (DemoteRep k3)
-  , QC.Arbitrary (DemoteRep k2)
-  , QC.Arbitrary (DemoteRep k1)
+  , QC.Arbitrary (Demote k3)
+  , QC.Arbitrary (Demote k2)
+  , QC.Arbitrary (Demote k1)
   , Dict3 QC.Arbitrary f
   ) => QC.Arbitrary (Some3 f) where
   arbitrary = do
@@ -83,10 +83,10 @@ instance
   , SingKind k3
   , SingKind k2
   , SingKind k1
-  , QC.Arbitrary (DemoteRep k4)
-  , QC.Arbitrary (DemoteRep k3)
-  , QC.Arbitrary (DemoteRep k2)
-  , QC.Arbitrary (DemoteRep k1)
+  , QC.Arbitrary (Demote k4)
+  , QC.Arbitrary (Demote k3)
+  , QC.Arbitrary (Demote k2)
+  , QC.Arbitrary (Demote k1)
   , Dict4 QC.Arbitrary f
   ) => QC.Arbitrary (Some4 f) where
   arbitrary = do

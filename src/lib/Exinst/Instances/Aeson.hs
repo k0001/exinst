@@ -24,7 +24,7 @@ import Exinst.Internal
 
 instance forall (f :: k1 -> *)
   . ( SingKind k1
-    , Ae.ToJSON (DemoteRep k1)
+    , Ae.ToJSON (Demote k1)
     , Dict1 Ae.ToJSON f
     ) => Ae.ToJSON (Some1 f)
   where
@@ -36,8 +36,8 @@ instance forall (f :: k1 -> *)
 instance forall (f :: k2 -> k1 -> *)
   . ( SingKind k2
     , SingKind k1
-    , Ae.ToJSON (DemoteRep k2)
-    , Ae.ToJSON (DemoteRep k1)
+    , Ae.ToJSON (Demote k2)
+    , Ae.ToJSON (Demote k1)
     , Dict2 Ae.ToJSON f
     ) => Ae.ToJSON (Some2 f)
   where
@@ -50,9 +50,9 @@ instance forall (f :: k3 -> k2 -> k1 -> *)
   . ( SingKind k3
     , SingKind k2
     , SingKind k1
-    , Ae.ToJSON (DemoteRep k3)
-    , Ae.ToJSON (DemoteRep k2)
-    , Ae.ToJSON (DemoteRep k1)
+    , Ae.ToJSON (Demote k3)
+    , Ae.ToJSON (Demote k2)
+    , Ae.ToJSON (Demote k1)
     , Dict3 Ae.ToJSON f
     ) => Ae.ToJSON (Some3 f)
   where
@@ -66,10 +66,10 @@ instance forall (f :: k4 -> k3 -> k2 -> k1 -> *)
     , SingKind k3
     , SingKind k2
     , SingKind k1
-    , Ae.ToJSON (DemoteRep k4)
-    , Ae.ToJSON (DemoteRep k3)
-    , Ae.ToJSON (DemoteRep k2)
-    , Ae.ToJSON (DemoteRep k1)
+    , Ae.ToJSON (Demote k4)
+    , Ae.ToJSON (Demote k3)
+    , Ae.ToJSON (Demote k2)
+    , Ae.ToJSON (Demote k1)
     , Dict4 Ae.ToJSON f
     ) => Ae.ToJSON (Some4 f)
   where
@@ -82,7 +82,7 @@ instance forall (f :: k4 -> k3 -> k2 -> k1 -> *)
 
 instance forall (f :: k1 -> *)
   . ( SingKind k1
-    , Ae.FromJSON (DemoteRep k1)
+    , Ae.FromJSON (Demote k1)
     , Dict1 Ae.FromJSON f
     ) => Ae.FromJSON (Some1 f)
   where
@@ -98,8 +98,8 @@ instance forall (f :: k1 -> *)
 instance forall (f :: k2 -> k1 -> *)
   . ( SingKind k2
     , SingKind k1
-    , Ae.FromJSON (DemoteRep k2)
-    , Ae.FromJSON (DemoteRep k1)
+    , Ae.FromJSON (Demote k2)
+    , Ae.FromJSON (Demote k1)
     , Dict2 Ae.FromJSON f
     ) => Ae.FromJSON (Some2 f)
   where
@@ -117,9 +117,9 @@ instance forall (f :: k3 -> k2 -> k1 -> *)
   . ( SingKind k3
     , SingKind k2
     , SingKind k1
-    , Ae.FromJSON (DemoteRep k3)
-    , Ae.FromJSON (DemoteRep k2)
-    , Ae.FromJSON (DemoteRep k1)
+    , Ae.FromJSON (Demote k3)
+    , Ae.FromJSON (Demote k2)
+    , Ae.FromJSON (Demote k1)
     , Dict3 Ae.FromJSON f
     ) => Ae.FromJSON (Some3 f)
   where
@@ -139,10 +139,10 @@ instance forall (f :: k4 -> k3 -> k2 -> k1 -> *)
     , SingKind k3
     , SingKind k2
     , SingKind k1
-    , Ae.FromJSON (DemoteRep k4)
-    , Ae.FromJSON (DemoteRep k3)
-    , Ae.FromJSON (DemoteRep k2)
-    , Ae.FromJSON (DemoteRep k1)
+    , Ae.FromJSON (Demote k4)
+    , Ae.FromJSON (Demote k3)
+    , Ae.FromJSON (Demote k2)
+    , Ae.FromJSON (Demote k1)
     , Dict4 Ae.FromJSON f
     ) => Ae.FromJSON (Some4 f)
   where

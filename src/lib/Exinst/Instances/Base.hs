@@ -47,7 +47,7 @@ data Some4'Show r4 r3 r2 r1 x = Some4 r4 r3 r2 r1 x deriving (Show)
 
 instance forall (f :: k1 -> Type)
   . ( SingKind k1
-    , Show (DemoteRep k1)
+    , Show (Demote k1)
     , Dict1 Show f
     ) => Show (Exinst.Some1 f)
   where
@@ -59,8 +59,8 @@ instance forall (f :: k1 -> Type)
 instance forall (f :: k2 -> k1 -> Type)
   . ( SingKind k2
     , SingKind k1
-    , Show (DemoteRep k2)
-    , Show (DemoteRep k1)
+    , Show (Demote k2)
+    , Show (Demote k1)
     , Dict2 Show f
     ) => Show (Exinst.Some2 f)
   where
@@ -73,9 +73,9 @@ instance forall (f :: k3 -> k2 -> k1 -> Type)
   . ( SingKind k3
     , SingKind k2
     , SingKind k1
-    , Show (DemoteRep k3)
-    , Show (DemoteRep k2)
-    , Show (DemoteRep k1)
+    , Show (Demote k3)
+    , Show (Demote k2)
+    , Show (Demote k1)
     , Dict3 Show f
     ) => Show (Exinst.Some3 f)
   where
@@ -89,10 +89,10 @@ instance forall (f :: k4 -> k3 -> k2 -> k1 -> Type)
     , SingKind k3
     , SingKind k2
     , SingKind k1
-    , Show (DemoteRep k4)
-    , Show (DemoteRep k3)
-    , Show (DemoteRep k2)
-    , Show (DemoteRep k1)
+    , Show (Demote k4)
+    , Show (Demote k3)
+    , Show (Demote k2)
+    , Show (Demote k1)
     , Dict4 Show f
     ) => Show (Exinst.Some4 f)
   where
@@ -107,7 +107,7 @@ instance forall (f :: k4 -> k3 -> k2 -> k1 -> Type)
 
 instance forall (f :: k1 -> Type)
   . ( SingKind k1
-    , Read (DemoteRep k1)
+    , Read (Demote k1)
     , Dict1 Read f
     ) => Read (Exinst.Some1 f)
   where
@@ -124,8 +124,8 @@ instance forall (f :: k1 -> Type)
 instance forall (f :: k2 -> k1 -> Type)
   . ( SingKind k2
     , SingKind k1
-    , Read (DemoteRep k2)
-    , Read (DemoteRep k1)
+    , Read (Demote k2)
+    , Read (Demote k1)
     , Dict2 Read f
     ) => Read (Exinst.Some2 f)
   where
@@ -145,9 +145,9 @@ instance forall (f :: k3 -> k2 -> k1 -> Type)
   . ( SingKind k3
     , SingKind k2
     , SingKind k1
-    , Read (DemoteRep k3)
-    , Read (DemoteRep k2)
-    , Read (DemoteRep k1)
+    , Read (Demote k3)
+    , Read (Demote k2)
+    , Read (Demote k1)
     , Dict3 Read f
     ) => Read (Exinst.Some3 f)
   where
@@ -170,10 +170,10 @@ instance forall (f :: k4 -> k3 -> k2 -> k1 -> Type)
     , SingKind k3
     , SingKind k2
     , SingKind k1
-    , Read (DemoteRep k4)
-    , Read (DemoteRep k3)
-    , Read (DemoteRep k2)
-    , Read (DemoteRep k1)
+    , Read (Demote k4)
+    , Read (Demote k3)
+    , Read (Demote k2)
+    , Read (Demote k1)
     , Dict4 Read f
     ) => Read (Exinst.Some4 f)
   where
@@ -270,7 +270,7 @@ instance forall (f :: k4 -> k3 -> k2 -> k1 -> Type)
 instance forall (f :: k1 -> Type)
   . ( SingKind k1
     , SDecide k1
-    , Ord (DemoteRep k1)
+    , Ord (Demote k1)
     , Dict1 Ord f
     , Eq (Exinst.Some1 f)
     ) => Ord (Exinst.Some1 f)
@@ -290,8 +290,8 @@ instance forall (f :: k2 -> k1 -> Type)
     , SingKind k1
     , SDecide k2
     , SDecide k1
-    , Ord (DemoteRep k2)
-    , Ord (DemoteRep k1)
+    , Ord (Demote k2)
+    , Ord (Demote k1)
     , Dict2 Ord f
     , Eq (Exinst.Some2 f)
     ) => Ord (Exinst.Some2 f)
@@ -315,9 +315,9 @@ instance forall (f :: k3 -> k2 -> k1 -> Type)
     , SDecide k3
     , SDecide k2
     , SDecide k1
-    , Ord (DemoteRep k3)
-    , Ord (DemoteRep k2)
-    , Ord (DemoteRep k1)
+    , Ord (Demote k3)
+    , Ord (Demote k2)
+    , Ord (Demote k1)
     , Dict3 Ord f
     , Eq (Exinst.Some3 f)
     ) => Ord (Exinst.Some3 f)
@@ -345,10 +345,10 @@ instance forall (f :: k4 -> k3 -> k2 -> k1 -> Type)
     , SDecide k3
     , SDecide k2
     , SDecide k1
-    , Ord (DemoteRep k4)
-    , Ord (DemoteRep k3)
-    , Ord (DemoteRep k2)
-    , Ord (DemoteRep k1)
+    , Ord (Demote k4)
+    , Ord (Demote k3)
+    , Ord (Demote k2)
+    , Ord (Demote k1)
     , Dict4 Ord f
     , Eq (Exinst.Some4 f)
     ) => Ord (Exinst.Some4 f)
@@ -381,15 +381,15 @@ type family Eithers1' (xs :: [k1]) (f :: k1 -> Type) :: Type where
 
 instance forall k1 (f :: k1 -> Type)
   . ( SingKind k1
-    , PEnum ('Proxy :: Proxy k1)
-    , PBounded ('Proxy :: Proxy k1)
-    , G.Generic (DemoteRep k1)
+    , PEnum (Demote k1)
+    , PBounded (Demote k1)
+    , G.Generic (Demote k1)
     , Dict1 G.Generic f
     , Dict1 (Inj (Eithers1 f)) f
     ) => G.Generic (Exinst.Some1 f)
   where
     type Rep (Exinst.Some1 (f :: k1 -> Type)) =
-      G.Rep (DemoteRep k1, Eithers1 f)
+      G.Rep (Demote k1, Eithers1 f)
     {-# INLINABLE from #-}
     from = \s1x -> withSome1Sing s1x $ \sa1 (x :: f a1) ->
       case dict1 sa1 :: Dict (G.Generic (f a1)) of
@@ -422,18 +422,18 @@ type family Cartesian2 (xs2 :: [k2]) (xs1 :: [k1]) :: [(k2,k1)] where
 instance forall k2 k1 (f :: k2 -> k1 -> Type)
   . ( SingKind k2
     , SingKind k1
-    , PEnum ('Proxy :: Proxy k2)
-    , PEnum ('Proxy :: Proxy k1)
-    , PBounded ('Proxy :: Proxy k2)
-    , PBounded ('Proxy :: Proxy k1)
-    , G.Generic (DemoteRep k2)
-    , G.Generic (DemoteRep k1)
+    , PEnum (Demote k2)
+    , PEnum (Demote k1)
+    , PBounded (Demote k2)
+    , PBounded (Demote k1)
+    , G.Generic (Demote k2)
+    , G.Generic (Demote k1)
     , Dict2 G.Generic f
     , Dict2 (Inj (Eithers2 f)) f
     ) => G.Generic (Exinst.Some2 f)
   where
     type Rep (Exinst.Some2 (f :: k2 -> k1 -> Type)) =
-      G.Rep ((DemoteRep k2, DemoteRep k1), Eithers2 f)
+      G.Rep ((Demote k2, Demote k1), Eithers2 f)
     {-# INLINABLE from #-}
     from = \s2x -> withSome2Sing s2x $ \sa2 sa1 (x :: f a2 a1) ->
       case dict2 sa2 sa1 :: Dict (G.Generic (f a2 a1)) of
@@ -472,21 +472,21 @@ instance forall k3 k2 k1 (f :: k3 -> k2 -> k1 -> Type)
   . ( SingKind k3
     , SingKind k2
     , SingKind k1
-    , PEnum ('Proxy :: Proxy k3)
-    , PEnum ('Proxy :: Proxy k2)
-    , PEnum ('Proxy :: Proxy k1)
-    , PBounded ('Proxy :: Proxy k3)
-    , PBounded ('Proxy :: Proxy k2)
-    , PBounded ('Proxy :: Proxy k1)
-    , G.Generic (DemoteRep k3)
-    , G.Generic (DemoteRep k2)
-    , G.Generic (DemoteRep k1)
+    , PEnum (Demote k3)
+    , PEnum (Demote k2)
+    , PEnum (Demote k1)
+    , PBounded (Demote k3)
+    , PBounded (Demote k2)
+    , PBounded (Demote k1)
+    , G.Generic (Demote k3)
+    , G.Generic (Demote k2)
+    , G.Generic (Demote k1)
     , Dict3 G.Generic f
     , Dict3 (Inj (Eithers3 f)) f
     ) => G.Generic (Exinst.Some3 f)
   where
     type Rep (Exinst.Some3 (f :: k3 -> k2 -> k1 -> Type)) =
-      G.Rep ((DemoteRep k3, DemoteRep k2, DemoteRep k1), Eithers3 f)
+      G.Rep ((Demote k3, Demote k2, Demote k1), Eithers3 f)
     {-# INLINABLE from #-}
     from = \s3x -> withSome3Sing s3x $ \sa3 sa2 sa1 (x :: f a3 a2 a1) ->
       case dict3 sa3 sa2 sa1 :: Dict (G.Generic (f a3 a2 a1)) of
@@ -528,24 +528,24 @@ instance forall k3 k2 k1 (f :: k4 -> k3 -> k2 -> k1 -> Type)
     , SingKind k3
     , SingKind k2
     , SingKind k1
-    , PEnum ('Proxy :: Proxy k4)
-    , PEnum ('Proxy :: Proxy k3)
-    , PEnum ('Proxy :: Proxy k2)
-    , PEnum ('Proxy :: Proxy k1)
-    , PBounded ('Proxy :: Proxy k4)
-    , PBounded ('Proxy :: Proxy k3)
-    , PBounded ('Proxy :: Proxy k2)
-    , PBounded ('Proxy :: Proxy k1)
-    , G.Generic (DemoteRep k4)
-    , G.Generic (DemoteRep k3)
-    , G.Generic (DemoteRep k2)
-    , G.Generic (DemoteRep k1)
+    , PEnum (Demote k4)
+    , PEnum (Demote k3)
+    , PEnum (Demote k2)
+    , PEnum (Demote k1)
+    , PBounded (Demote k4)
+    , PBounded (Demote k3)
+    , PBounded (Demote k2)
+    , PBounded (Demote k1)
+    , G.Generic (Demote k4)
+    , G.Generic (Demote k3)
+    , G.Generic (Demote k2)
+    , G.Generic (Demote k1)
     , Dict4 G.Generic f
     , Dict4 (Inj (Eithers4 f)) f
     ) => G.Generic (Exinst.Some4 f)
   where
     type Rep (Exinst.Some4 (f :: k4 -> k3 -> k2 -> k1 -> Type)) =
-      G.Rep ((DemoteRep k4, DemoteRep k3, DemoteRep k2, DemoteRep k1), Eithers4 f)
+      G.Rep ((Demote k4, Demote k3, Demote k2, Demote k1), Eithers4 f)
     {-# INLINABLE from #-}
     from = \s4x -> withSome4Sing s4x $ \sa4 sa3 sa2 sa1 (x :: f a4 a3 a2 a1) ->
       case dict4 sa4 sa3 sa2 sa1 :: Dict (G.Generic (f a4 a3 a2 a1)) of
