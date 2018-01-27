@@ -1,11 +1,11 @@
-{ nixpkgs ? builtins.fetchTarball
-    "https://github.com/NixOS/nixpkgs-channels/archive/nixos-17.09.tar.gz",
-  compiler ? "ghc822"
+{ nixpkgs ? (import <nixpkgs> {}).fetchFromGitHub {
+    owner = "NixOS";
+    repo = "nixpkgs-channels";
+    rev = "d982c61f1afcac2f7f99fc9740c031c1bc02e456"; # unstable, jan 14 2018
+    sha256 = "0sq6fa10sqm7pnk84kbpzv4sjz2dza3jlk43cl1b04aqn0yfspnq"; }
 }:
 
 let
-
-
 pkgs = import nixpkgs {};
 
 th-desugar-src = pkgs.fetchFromGitHub {
@@ -16,13 +16,13 @@ th-desugar-src = pkgs.fetchFromGitHub {
 };
 
 hsPackageSetConfig = self: super: {
-  th-desugar = self.callCabal2nix "th-desugar" th-desugar-src  {};
-  singletons = pkgs.haskell.lib.dontCheck (self.callHackage "singletons" "2.3.1" {});
+  # th-desugar = super.th-desugar_1_7;
+  # singletons = super.singletons_2_3_1;
   exinst = self.callPackage (import ./pkg.nix) {};
 };
 
-ghcV = pkgs.haskell.packages.${compiler}.override {
+ghc822 = pkgs.haskell.packages.ghc822.override {
   packageSetConfig = hsPackageSetConfig;
 };
 
-in { inherit (ghcV) exinst; }
+in { inherit (ghc822) exinst; }

@@ -1,4 +1,6 @@
-# Version HEAD
+# Version 0.5
+
+* BREAKING: Depend on `singletons == 2.3.*`.
 
 * Add `same{1,2,3,4}`.
 
