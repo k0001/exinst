@@ -35,27 +35,35 @@ library
   if flag(aeson)
     build-depends: aeson
     other-modules: Exinst.Instances.Aeson
+    cpp-options: -DHAS_aeson
   if flag(binary) || flag(bytes)
     build-depends: binary
     other-modules: Exinst.Instances.Binary
+    cpp-options: -DHAS_binary
   if flag(bytes)
     build-depends: bytes >=0.15
     other-modules: Exinst.Instances.Bytes
+    cpp-options: -DHAS_bytes
   if flag(cereal) || flag(bytes)
     build-depends: cereal
     other-modules: Exinst.Instances.Cereal
+    cpp-options: -DHAS_cereal
   if flag(deepseq)
     build-depends: deepseq
     other-modules: Exinst.Instances.DeepSeq
+    cpp-options: -DHAS_deepseq
   if flag(hashable)
     build-depends: hashable
     other-modules: Exinst.Instances.Hashable
+    cpp-options: -DHAS_hashable
   if flag(quickcheck)
     build-depends: QuickCheck
     other-modules: Exinst.Instances.QuickCheck
-  if flag(cbor)
+    cpp-options: -DHAS_quickcheck
+  if flag(serialise)
     build-depends: cborg, serialise
-    other-modules: Exinst.Instances.Cbor
+    other-modules: Exinst.Instances.Serialise
+    cpp-options: -DHAS_serialise
 
 test-suite tests
   default-language: Haskell2010
@@ -111,7 +119,7 @@ flag quickcheck
   description: Provide instances for @QuickCheck@
   default: True
   manual: True
-flag cbor
-  description: Provide cbor serialisation instances for @serialise@
+flag serialise
+  description: Provide instances for @serialise@
   default: True
   manual: True

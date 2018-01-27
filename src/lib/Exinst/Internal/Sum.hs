@@ -11,35 +11,35 @@ module Exinst.Internal.Sum
 
 import GHC.Generics (Generic)
 
-#ifdef VERSION_aeson
+#ifdef HAS_aeson
 import Data.Aeson (FromJSON, ToJSON)
 #endif
 
-#ifdef VERSION_binary
+#ifdef HAS_binary
 import qualified Data.Binary as Bin
 #endif
 
-#ifdef VERSION_bytes
+#ifdef HAS_bytes
 import qualified Data.Bytes.Serial as By
 #endif
 
-#ifdef VERSION_cereal
+#ifdef HAS_cereal
 import qualified Data.Serialize as Cer
 #endif
 
-#ifdef VERSION_deepseq
+#ifdef HAS_deepseq
 import Control.DeepSeq (NFData)
 #endif
 
-#ifdef VERSION_hashable
+#ifdef HAS_hashable
 import Data.Hashable (Hashable)
 #endif
 
-#ifdef VERSION_QuickCheck
+#ifdef HAS_quickcheck
 import qualified Test.QuickCheck as QC
 #endif
 
-#ifdef VERSION_serialise
+#ifdef HAS_serialise
 import qualified Codec.Serialise as Cborg
 #endif
 
@@ -74,7 +74,7 @@ data S4 l r (a4 :: k4) (a3 :: k3) (a2 :: k2) (a1 :: k1)
   deriving (Eq, Show, Read, Ord, Generic)
 
 --------------------------------------------------------------------------------
-#ifdef VERSION_hashable
+#ifdef HAS_hashable
 instance (Hashable (l a1), Hashable (r a1)) => Hashable (S1 l r a1)
 instance (Hashable (l a2 a1), Hashable (r a2 a1)) => Hashable (S2 l r a2 a1)
 instance (Hashable (l a3 a2 a1), Hashable (r a3 a2 a1)) => Hashable (S3 l r a3 a2 a1)
@@ -82,7 +82,7 @@ instance (Hashable (l a4 a3 a2 a1), Hashable (r a4 a3 a2 a1)) => Hashable (S4 l 
 #endif
 
 --------------------------------------------------------------------------------
-#ifdef VERSION_deepseq
+#ifdef HAS_deepseq
 instance (NFData (l a1), NFData (r a1)) => NFData (S1 l r a1)
 instance (NFData (l a2 a1), NFData (r a2 a1)) => NFData (S2 l r a2 a1)
 instance (NFData (l a3 a2 a1), NFData (r a3 a2 a1)) => NFData (S3 l r a3 a2 a1)
@@ -90,7 +90,7 @@ instance (NFData (l a4 a3 a2 a1), NFData (r a4 a3 a2 a1)) => NFData (S4 l r a4 a
 #endif
 
 --------------------------------------------------------------------------------
-#ifdef VERSION_aeson
+#ifdef HAS_aeson
 instance (FromJSON (l a1), FromJSON (r a1)) => FromJSON (S1 l r a1)
 instance (FromJSON (l a2 a1), FromJSON (r a2 a1)) => FromJSON (S2 l r a2 a1)
 instance (FromJSON (l a3 a2 a1), FromJSON (r a3 a2 a1)) => FromJSON (S3 l r a3 a2 a1)
@@ -103,7 +103,7 @@ instance (ToJSON (l a4 a3 a2 a1), ToJSON (r a4 a3 a2 a1)) => ToJSON (S4 l r a4 a
 #endif
 
 --------------------------------------------------------------------------------
-#ifdef VERSION_bytes
+#ifdef HAS_bytes
 instance (By.Serial (l a1), By.Serial (r a1)) => By.Serial (S1 l r a1)
 instance (By.Serial (l a2 a1), By.Serial (r a2 a1)) => By.Serial (S2 l r a2 a1)
 instance (By.Serial (l a3 a2 a1), By.Serial (r a3 a2 a1)) => By.Serial (S3 l r a3 a2 a1)
@@ -111,7 +111,7 @@ instance (By.Serial (l a4 a3 a2 a1), By.Serial (r a4 a3 a2 a1)) => By.Serial (S4
 #endif
 
 --------------------------------------------------------------------------------
-#ifdef VERSION_cereal
+#ifdef HAS_cereal
 instance (Cer.Serialize (l a1), Cer.Serialize (r a1)) => Cer.Serialize (S1 l r a1)
 instance (Cer.Serialize (l a2 a1), Cer.Serialize (r a2 a1)) => Cer.Serialize (S2 l r a2 a1)
 instance (Cer.Serialize (l a3 a2 a1), Cer.Serialize (r a3 a2 a1)) => Cer.Serialize (S3 l r a3 a2 a1)
@@ -119,7 +119,7 @@ instance (Cer.Serialize (l a4 a3 a2 a1), Cer.Serialize (r a4 a3 a2 a1)) => Cer.S
 #endif
 
 --------------------------------------------------------------------------------
-#ifdef VERSION_binary
+#ifdef HAS_binary
 instance (Bin.Binary (l a1), Bin.Binary (r a1)) => Bin.Binary (S1 l r a1)
 instance (Bin.Binary (l a2 a1), Bin.Binary (r a2 a1)) => Bin.Binary (S2 l r a2 a1)
 instance (Bin.Binary (l a3 a2 a1), Bin.Binary (r a3 a2 a1)) => Bin.Binary (S3 l r a3 a2 a1)
@@ -127,7 +127,7 @@ instance (Bin.Binary (l a4 a3 a2 a1), Bin.Binary (r a4 a3 a2 a1)) => Bin.Binary 
 #endif
 
 --------------------------------------------------------------------------------
-#ifdef VERSION_QuickCheck
+#ifdef HAS_quickcheck
 instance (QC.Arbitrary (l a1), QC.Arbitrary (r a1)) => QC.Arbitrary (S1 l r a1) where
   arbitrary = QC.oneof [ fmap S1L QC.arbitrary, fmap S1R QC.arbitrary ]
   shrink (S1L l) = S1L <$> QC.shrink l
@@ -147,7 +147,7 @@ instance (QC.Arbitrary (l a4 a3 a2 a1), QC.Arbitrary (r a4 a3 a2 a1)) => QC.Arbi
 #endif
 
 --------------------------------------------------------------------------------
-#ifdef VERSION_serialise
+#ifdef HAS_serialise
 instance (Cborg.Serialise (l a1), Cborg.Serialise (r a1)) => Cborg.Serialise (S1 l r a1)
 instance (Cborg.Serialise (l a2 a1), Cborg.Serialise (r a2 a1)) => Cborg.Serialise (S2 l r a2 a1)
 instance (Cborg.Serialise (l a3 a2 a1), Cborg.Serialise (r a3 a2 a1)) => Cborg.Serialise (S3 l r a3 a2 a1)

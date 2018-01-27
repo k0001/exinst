@@ -12,7 +12,7 @@
 --
 -- See the README file in the @exinst@ package for more general documentation:
 -- https://hackage.haskell.org/package/exinst#readme
-module Exinst.Instances.Cbor () where
+module Exinst.Instances.Serialise () where
 
 import Codec.Serialise
 import Codec.Serialise.Decoding (decodeListLenOf)

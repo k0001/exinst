@@ -119,36 +119,36 @@ import Exinst.Internal.Sum
 
 import Exinst.Instances.Base ()
 
-#ifdef VERSION_aeson
+#ifdef HAS_aeson
 import Exinst.Instances.Aeson ()
 #endif
 
-#ifdef VERSION_binary
+#ifdef HAS_binary
 import Exinst.Instances.Binary ()
 #endif
 
-#ifdef VERSION_bytes
+#ifdef HAS_bytes
 import Exinst.Instances.Bytes ()
 #endif
 
-#ifdef VERSION_cereal
+#ifdef HAS_cereal
 import Exinst.Instances.Cereal ()
 #endif
 
-#ifdef VERSION_deepseq
+#ifdef HAS_deepseq
 import Exinst.Instances.DeepSeq ()
 #endif
 
-#ifdef VERSION_hashable
+#ifdef HAS_hashable
 import Exinst.Instances.Hashable ()
 #endif
 
-#ifdef VERSION_QuickCheck
+#ifdef HAS_quickcheck
 import Exinst.Instances.QuickCheck ()
 #endif
 
-#ifdef VERSION_serialise
-import Exinst.Instances.Cbor ()
+#ifdef HAS_serialise
+import Exinst.Instances.Serialise ()
 #endif
 
 
