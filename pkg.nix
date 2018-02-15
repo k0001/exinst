@@ -2,7 +2,7 @@
 , profunctors, singletons, stdenv, ghc
 , tasty, tasty-hunit, tasty-quickcheck
 , aeson, binary, bytes, cborg, cereal, deepseq
-, hashable, serialise, store, QuickCheck
+, hashable, serialise, QuickCheck
 
 , hasAeson ? true
 , hasBinary ? true
@@ -12,7 +12,6 @@
 , hasHashable ? true
 , hasQuickcheck ? true
 , hasSerialise ? true
-, hasStore ? !(ghc.isGhcjs or false)
 }:
 
 let
@@ -24,7 +23,6 @@ extraDeps =
   stdenv.lib.optionals (hasDeepseq) [ deepseq ] ++
   stdenv.lib.optionals (hasHashable) [ hashable ] ++
   stdenv.lib.optionals (hasSerialise) [ serialise cborg ] ++
-  stdenv.lib.optionals (hasStore) [ store ] ++
   stdenv.lib.optionals (hasQuickcheck) [ QuickCheck ];
 
 in mkDerivation rec {
@@ -39,7 +37,7 @@ in mkDerivation rec {
   testHaskellDepends = libraryHaskellDepends ++
     [ tasty tasty-hunit tasty-quickcheck
       aeson binary bytes cereal deepseq hashable
-      serialise cborg store QuickCheck
+      serialise cborg QuickCheck
     ];
   configureFlags =
     stdenv.lib.optionals (!hasAeson) [ "-f-aeson" ] ++
@@ -49,6 +47,5 @@ in mkDerivation rec {
     stdenv.lib.optionals (!hasDeepseq) [ "-f-deepseq" ] ++
     stdenv.lib.optionals (!hasHashable) [ "-f-hashable" ] ++
     stdenv.lib.optionals (!hasSerialise) [ "-f-serialise" ] ++
-    stdenv.lib.optionals (!hasStore) [ "-f-store" ] ++
     stdenv.lib.optionals (!hasQuickcheck) [ "-f-quickcheck" ];
 }

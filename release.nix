@@ -26,7 +26,6 @@ hsPackageSetConfig = self: super: {
     hasHashable = false;
     hasQuickcheck = false;
     hasSerialise = false;
-    hasStore = false;
   };
 };
 
