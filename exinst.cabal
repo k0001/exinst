@@ -68,7 +68,7 @@ library
 test-suite tests
   default-language: Haskell2010
   type: exitcode-stdio-1.0
-  hs-source-dirs: tests
+  hs-source-dirs: tests src/lib
   main-is: Main.hs
   build-depends:
      aeson
@@ -80,7 +80,6 @@ test-suite tests
    , cereal
    , constraints
    , deepseq
-   , exinst
    , hashable
    , profunctors
    , QuickCheck
@@ -89,7 +88,15 @@ test-suite tests
    , tasty
    , tasty-hunit
    , tasty-quickcheck
-
+  cpp-options:
+    -DHAS_aeson
+    -DHAS_binary
+    -DHAS_bytes
+    -DHAS_cereal
+    -DHAS_deepseq
+    -DHAS_hashable
+    -DHAS_quickcheck
+    -DHAS_serialise
 
 flag aeson
   description: Provide instances for @aeson@

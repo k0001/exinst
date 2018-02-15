@@ -16,13 +16,22 @@ th-desugar-src = pkgs.fetchFromGitHub {
 };
 
 hsPackageSetConfig = self: super: {
-  # th-desugar = super.th-desugar_1_7;
-  # singletons = super.singletons_2_3_1;
   exinst = self.callPackage (import ./pkg.nix) {};
+  exinst_no-extras = self.exinst.override {
+    hasAeson = false;
+    hasBinary = false;
+    hasBytes = false;
+    hasCereal = false;
+    hasDeepseq = false;
+    hasHashable = false;
+    hasQuickcheck = false;
+    hasSerialise = false;
+    hasStore = false;
+  };
 };
 
 ghc822 = pkgs.haskell.packages.ghc822.override {
   packageSetConfig = hsPackageSetConfig;
 };
 
-in { inherit (ghc822) exinst; }
+in { inherit (ghc822) exinst exinst_no-extras; }
