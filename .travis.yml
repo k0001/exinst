@@ -2,4 +2,4 @@ language: nix
 script:
   - nix-channel --list
   - nix-channel --update
-  - nix-build --max-jobs 4 ./release.nix --argstr nixpkgs /nix/var/nix/profiles/per-user/root/channels/nixpkgs -A exinst -A exinst_no-extras
+  - nix-build --max-jobs 4 ./release.nix --argstr nixpkgs /nix/var/nix/profiles/per-user/root/channels/nixpkgs-unstable -A exinst -A exinst_no-extras
