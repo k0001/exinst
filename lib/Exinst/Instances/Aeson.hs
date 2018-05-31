@@ -1,6 +1,7 @@
 {-# LANGUAGE DataKinds #-}
 {-# LANGUAGE PolyKinds #-}
 {-# LANGUAGE ScopedTypeVariables #-}
+{-# LANGUAGE TypeInType #-}
 {-# LANGUAGE UndecidableInstances #-}
 
 {-# OPTIONS_GHC -fno-warn-orphans #-}
@@ -15,6 +16,7 @@ module Exinst.Instances.Aeson () where
 
 import qualified Data.Aeson as Ae
 import Data.Constraint
+import Data.Kind (Type)
 import Data.Singletons
 import Prelude
 
@@ -22,7 +24,7 @@ import Exinst.Internal
 
 --------------------------------------------------------------------------------
 
-instance forall (f :: k1 -> *)
+instance forall (f :: k1 -> Type)
   . ( SingKind k1
     , Ae.ToJSON (Demote k1)
     , Dict1 Ae.ToJSON f
@@ -33,7 +35,7 @@ instance forall (f :: k1 -> *)
        case dict1 sa1 :: Dict (Ae.ToJSON (f a1)) of
           Dict -> Ae.toJSON (fromSing sa1, x)
 
-instance forall (f :: k2 -> k1 -> *)
+instance forall (f :: k2 -> k1 -> Type)
   . ( SingKind k2
     , SingKind k1
     , Ae.ToJSON (Demote k2)
@@ -46,7 +48,7 @@ instance forall (f :: k2 -> k1 -> *)
        case dict2 sa2 sa1 :: Dict (Ae.ToJSON (f a2 a1)) of
           Dict -> Ae.toJSON ((fromSing sa2, fromSing sa1), x)
 
-instance forall (f :: k3 -> k2 -> k1 -> *)
+instance forall (f :: k3 -> k2 -> k1 -> Type)
   . ( SingKind k3
     , SingKind k2
     , SingKind k1
@@ -61,7 +63,7 @@ instance forall (f :: k3 -> k2 -> k1 -> *)
        case dict3 sa3 sa2 sa1 :: Dict (Ae.ToJSON (f a3 a2 a1)) of
           Dict -> Ae.toJSON ((fromSing sa3, fromSing sa2, fromSing sa1), x)
 
-instance forall (f :: k4 -> k3 -> k2 -> k1 -> *)
+instance forall (f :: k4 -> k3 -> k2 -> k1 -> Type)
   . ( SingKind k4
     , SingKind k3
     , SingKind k2
@@ -80,7 +82,7 @@ instance forall (f :: k4 -> k3 -> k2 -> k1 -> *)
 
 --------------------------------------------------------------------------------
 
-instance forall (f :: k1 -> *)
+instance forall (f :: k1 -> Type)
   . ( SingKind k1
     , Ae.FromJSON (Demote k1)
     , Dict1 Ae.FromJSON f
@@ -95,7 +97,7 @@ instance forall (f :: k1 -> *)
                x :: f a1 <- Ae.parseJSON v'
                pure (Some1 sa1 x)
 
-instance forall (f :: k2 -> k1 -> *)
+instance forall (f :: k2 -> k1 -> Type)
   . ( SingKind k2
     , SingKind k1
     , Ae.FromJSON (Demote k2)
@@ -113,7 +115,7 @@ instance forall (f :: k2 -> k1 -> *)
                   x :: f a2 a1 <- Ae.parseJSON v'
                   pure (Some2 sa2 sa1 x)
 
-instance forall (f :: k3 -> k2 -> k1 -> *)
+instance forall (f :: k3 -> k2 -> k1 -> Type)
   . ( SingKind k3
     , SingKind k2
     , SingKind k1
@@ -134,7 +136,7 @@ instance forall (f :: k3 -> k2 -> k1 -> *)
                      x :: f a3 a2 a1 <- Ae.parseJSON v'
                      pure (Some3 sa3 sa2 sa1 x)
 
-instance forall (f :: k4 -> k3 -> k2 -> k1 -> *)
+instance forall (f :: k4 -> k3 -> k2 -> k1 -> Type)
   . ( SingKind k4
     , SingKind k3
     , SingKind k2

@@ -1,3 +1,15 @@
+# Version 0.6
+
+* The `binary` and `deepseq` Cabal flags were removed since these two packages
+  are always included with the GHC distribution, so it doesn't make sense to
+  make them optional.
+
+* The optional dependencies hidden behind Cabal flags now apply to the test
+  suite as well.
+
+* Builds with GHC 8.4.
+
+
 # Version 0.5
 
 * BREAKING: Depend on `singletons == 2.3.*`.

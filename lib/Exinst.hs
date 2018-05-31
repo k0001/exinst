@@ -118,13 +118,11 @@ import Exinst.Internal.Product
 import Exinst.Internal.Sum
 
 import Exinst.Instances.Base ()
+import Exinst.Instances.Binary ()
+import Exinst.Instances.DeepSeq ()
 
 #ifdef HAS_aeson
 import Exinst.Instances.Aeson ()
-#endif
-
-#ifdef HAS_binary
-import Exinst.Instances.Binary ()
 #endif
 
 #ifdef HAS_bytes
@@ -133,10 +131,6 @@ import Exinst.Instances.Bytes ()
 
 #ifdef HAS_cereal
 import Exinst.Instances.Cereal ()
-#endif
-
-#ifdef HAS_deepseq
-import Exinst.Instances.DeepSeq ()
 #endif
 
 #ifdef HAS_hashable

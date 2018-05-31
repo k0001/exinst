@@ -1,6 +1,7 @@
 {-# LANGUAGE DataKinds #-}
 {-# LANGUAGE PolyKinds #-}
 {-# LANGUAGE ScopedTypeVariables #-}
+{-# LANGUAGE TypeInType #-}
 {-# LANGUAGE UndecidableInstances #-}
 
 {-# OPTIONS_GHC -fno-warn-orphans #-}
@@ -15,6 +16,7 @@ module Exinst.Instances.Hashable () where
 
 import Data.Hashable (Hashable(hashWithSalt))
 import Data.Constraint
+import Data.Kind (Type)
 import Data.Singletons
 import Prelude
 
@@ -28,7 +30,7 @@ salt0 = 6700417
 
 --------------------------------------------------------------------------------
 
-instance forall (f :: k1 -> *)
+instance forall (f :: k1 -> Type)
   . ( SingKind k1
     , Hashable (Demote k1)
     , Dict1 Hashable f
@@ -41,7 +43,7 @@ instance forall (f :: k1 -> *)
                        `hashWithSalt` fromSing sa1
                        `hashWithSalt` x
 
-instance forall (f :: k2 -> k1 -> *)
+instance forall (f :: k2 -> k1 -> Type)
   . ( SingKind k2
     , SingKind k1
     , Hashable (Demote k2)
@@ -57,7 +59,7 @@ instance forall (f :: k2 -> k1 -> *)
                        `hashWithSalt` fromSing sa1
                        `hashWithSalt` x
 
-instance forall (f :: k3 -> k2 -> k1 -> *)
+instance forall (f :: k3 -> k2 -> k1 -> Type)
   . ( SingKind k3
     , SingKind k2
     , SingKind k1
@@ -76,7 +78,7 @@ instance forall (f :: k3 -> k2 -> k1 -> *)
                        `hashWithSalt` fromSing sa1
                        `hashWithSalt` x
 
-instance forall (f :: k4 -> k3 -> k2 -> k1 -> *)
+instance forall (f :: k4 -> k3 -> k2 -> k1 -> Type)
   . ( SingKind k4
     , SingKind k3
     , SingKind k2

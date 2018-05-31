@@ -1,6 +1,7 @@
 {-# LANGUAGE DataKinds #-}
 {-# LANGUAGE PolyKinds #-}
 {-# LANGUAGE ScopedTypeVariables #-}
+{-# LANGUAGE TypeInType #-}
 {-# LANGUAGE UndecidableInstances #-}
 
 {-# OPTIONS_GHC -fno-warn-orphans #-}
@@ -15,6 +16,7 @@ module Exinst.Instances.Cereal () where
 
 import qualified Data.Serialize as Cer
 import Data.Constraint
+import Data.Kind (Type)
 import Data.Singletons
 import Prelude
 
@@ -25,7 +27,7 @@ import Exinst.Internal
 -- | Compatible with the 'Data.Bytes.Serial.Serial' instance and
 -- 'Data.Binary.Binary' instance, provided all of the 'Demote's and the fully
 -- applied @f@ instances are compatible as well.
-instance forall (f :: k1 -> *).
+instance forall (f :: k1 -> Type).
   ( SingKind k1
   , Cer.Serialize (Demote k1)
   , Dict1 Cer.Serialize f
@@ -49,7 +51,7 @@ instance forall (f :: k1 -> *).
 -- | Compatible with the 'Data.Bytes.Serial.Serial' instance and
 -- 'Data.Binary.Binary' instance, provided all of the 'Demote's and the fully
 -- applied @f@ instances are compatible as well.
-instance forall (f :: k2 -> k1 -> *).
+instance forall (f :: k2 -> k1 -> Type).
   ( SingKind k2
   , SingKind k1
   , Cer.Serialize (Demote k2)
@@ -76,7 +78,7 @@ instance forall (f :: k2 -> k1 -> *).
 -- | Compatible with the 'Data.Bytes.Serial.Serial' instance and
 -- 'Data.Binary.Binary' instance, provided all of the 'Demote's and the fully
 -- applied @f@ instances are compatible as well.
-instance forall (f :: k3 -> k2 -> k1 -> *).
+instance forall (f :: k3 -> k2 -> k1 -> Type).
   ( SingKind k3
   , SingKind k2
   , SingKind k1
@@ -106,7 +108,7 @@ instance forall (f :: k3 -> k2 -> k1 -> *).
 -- | Compatible with the 'Data.Bytes.Serial.Serial' instance and
 -- 'Data.Binary.Binary' instance, provided all of the 'Demote's and the fully
 -- applied @f@ instances are compatible as well.
-instance forall (f :: k4 -> k3 -> k2 -> k1 -> *).
+instance forall (f :: k4 -> k3 -> k2 -> k1 -> Type).
   ( SingKind k4
   , SingKind k3
   , SingKind k2

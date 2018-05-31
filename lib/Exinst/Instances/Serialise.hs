@@ -1,6 +1,7 @@
 {-# LANGUAGE DataKinds #-}
 {-# LANGUAGE PolyKinds #-}
 {-# LANGUAGE ScopedTypeVariables #-}
+{-# LANGUAGE TypeInType #-}
 {-# LANGUAGE UndecidableInstances #-}
 
 {-# OPTIONS_GHC -fno-warn-orphans #-}
@@ -17,6 +18,7 @@ module Exinst.Instances.Serialise () where
 import Codec.Serialise
 import Codec.Serialise.Decoding (decodeListLenOf)
 import Data.Constraint
+import Data.Kind (Type)
 import Data.Singletons
 import Prelude
 
@@ -24,7 +26,7 @@ import Exinst.Internal
 
 --------------------------------------------------------------------------------
 
-instance forall (f :: k1 -> *)
+instance forall (f :: k1 -> Type)
   . ( SingKind k1
     , Serialise (Demote k1)
     , Dict1 Serialise f
@@ -44,7 +46,7 @@ instance forall (f :: k1 -> *)
                x :: f a1 <- decode
                pure (Some1 sa1 x)
 
-instance forall (f :: k2 -> k1 -> *)
+instance forall (f :: k2 -> k1 -> Type)
   . ( SingKind k2
     , SingKind k1
     , Serialise (Demote k2)
@@ -69,7 +71,7 @@ instance forall (f :: k2 -> k1 -> *)
                   x :: f a2 a1 <- decode
                   pure (Some2 sa2 sa1 x)
 
-instance forall (f :: k3 -> k2 -> k1 -> *)
+instance forall (f :: k3 -> k2 -> k1 -> Type)
   . ( SingKind k3
     , SingKind k2
     , SingKind k1
@@ -95,7 +97,7 @@ instance forall (f :: k3 -> k2 -> k1 -> *)
                      x :: f a3 a2 a1 <- decode
                      pure (Some3 sa3 sa2 sa1 x)
 
-instance forall (f :: k4 -> k3 -> k2 -> k1 -> *)
+instance forall (f :: k4 -> k3 -> k2 -> k1 -> Type)
   . ( SingKind k4
     , SingKind k3
     , SingKind k2

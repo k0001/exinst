@@ -9,14 +9,12 @@ module Exinst.Internal.Product
  , P4(P4)
  ) where
 
+import Control.DeepSeq (NFData)
+import qualified Data.Binary as Bin
 import GHC.Generics (Generic)
 
 #ifdef HAS_aeson
 import Data.Aeson (FromJSON, ToJSON)
-#endif
-
-#ifdef HAS_binary
-import qualified Data.Binary as Bin
 #endif
 
 #ifdef HAS_bytes
@@ -27,9 +25,6 @@ import qualified Data.Bytes.Serial as By
 import qualified Data.Serialize as Cer
 #endif
 
-#ifdef HAS_deepseq
-import Control.DeepSeq (NFData)
-#endif
 
 #ifdef HAS_hashable
 import Data.Hashable (Hashable)
@@ -82,12 +77,10 @@ instance (Hashable (l a4 a3 a2 a1), Hashable (r a4 a3 a2 a1)) => Hashable (P4 l 
 #endif
 
 --------------------------------------------------------------------------------
-#ifdef HAS_deepseq
 instance (NFData (l a1), NFData (r a1)) => NFData (P1 l r a1)
 instance (NFData (l a2 a1), NFData (r a2 a1)) => NFData (P2 l r a2 a1)
 instance (NFData (l a3 a2 a1), NFData (r a3 a2 a1)) => NFData (P3 l r a3 a2 a1)
 instance (NFData (l a4 a3 a2 a1), NFData (r a4 a3 a2 a1)) => NFData (P4 l r a4 a3 a2 a1)
-#endif
 
 --------------------------------------------------------------------------------
 #ifdef HAS_aeson
@@ -119,12 +112,10 @@ instance (Cer.Serialize (l a4 a3 a2 a1), Cer.Serialize (r a4 a3 a2 a1)) => Cer.S
 #endif
 
 --------------------------------------------------------------------------------
-#ifdef HAS_binary
 instance (Bin.Binary (l a1), Bin.Binary (r a1)) => Bin.Binary (P1 l r a1)
 instance (Bin.Binary (l a2 a1), Bin.Binary (r a2 a1)) => Bin.Binary (P2 l r a2 a1)
 instance (Bin.Binary (l a3 a2 a1), Bin.Binary (r a3 a2 a1)) => Bin.Binary (P3 l r a3 a2 a1)
 instance (Bin.Binary (l a4 a3 a2 a1), Bin.Binary (r a4 a3 a2 a1)) => Bin.Binary (P4 l r a4 a3 a2 a1)
-#endif
 
 --------------------------------------------------------------------------------
 #ifdef HAS_quickcheck

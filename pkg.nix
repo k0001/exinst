@@ -3,49 +3,39 @@
 , tasty, tasty-hunit, tasty-quickcheck
 , aeson, binary, bytes, cborg, cereal, deepseq
 , hashable, serialise, QuickCheck
-
-, hasAeson ? true
-, hasBinary ? true
-, hasBytes ? true
-, hasCereal ? true
-, hasDeepseq ? true
-, hasHashable ? true
-, hasQuickcheck ? true
-, hasSerialise ? true
+, flags ? {}
 }:
 
 let
+lib = stdenv.lib;
+flags' =
+  { aeson = true;
+    bytes = true;
+    cereal = true;
+    hashable = true;
+    quickcheck = true;
+    serialise = true;
+  } // flags;
+
 extraDeps =
-  stdenv.lib.optionals (hasAeson) [ aeson ] ++
-  stdenv.lib.optionals (hasBinary || hasBytes) [ binary ] ++
-  stdenv.lib.optionals (hasBytes) [ bytes ] ++
-  stdenv.lib.optionals (hasCereal || hasBytes) [ cereal ] ++
-  stdenv.lib.optionals (hasDeepseq) [ deepseq ] ++
-  stdenv.lib.optionals (hasHashable) [ hashable ] ++
-  stdenv.lib.optionals (hasSerialise) [ serialise cborg ] ++
-  stdenv.lib.optionals (hasQuickcheck) [ QuickCheck ];
+  lib.optionals (flags'.aeson) [ aeson ] ++
+  lib.optionals (flags'.bytes) [ bytes ] ++
+  lib.optionals (flags'.cereal || flags'.bytes) [ cereal ] ++
+  lib.optionals (flags'.hashable) [ hashable ] ++
+  lib.optionals (flags'.serialise) [ serialise cborg ] ++
+  lib.optionals (flags'.quickcheck) [ QuickCheck ];
 
 in mkDerivation rec {
   pname = "exinst";
-  version = "0.4";
+  version = "0.6";
   homepage = "https://github.com/k0001/exinst";
   description = "Recover instances for your existential types";
   license = stdenv.lib.licenses.bsd3;
   src = ./.;
   libraryHaskellDepends = extraDeps ++
-    [ base bytestring constraints profunctors singletons ];
+    [ base binary bytestring constraints deepseq profunctors singletons ];
   testHaskellDepends = libraryHaskellDepends ++
-    [ tasty tasty-hunit tasty-quickcheck
-      aeson binary bytes cereal deepseq hashable
-      serialise cborg QuickCheck
-    ];
+    [ tasty tasty-hunit tasty-quickcheck ];
   configureFlags =
-    stdenv.lib.optionals (!hasAeson) [ "-f-aeson" ] ++
-    stdenv.lib.optionals (!hasBinary) [ "-f-binary" ] ++
-    stdenv.lib.optionals (!hasBytes) [ "-f-bytes" ] ++
-    stdenv.lib.optionals (!hasCereal) [ "-f-cereal" ] ++
-    stdenv.lib.optionals (!hasDeepseq) [ "-f-deepseq" ] ++
-    stdenv.lib.optionals (!hasHashable) [ "-f-hashable" ] ++
-    stdenv.lib.optionals (!hasSerialise) [ "-f-serialise" ] ++
-    stdenv.lib.optionals (!hasQuickcheck) [ "-f-quickcheck" ];
+    lib.mapAttrsToList (k: v: "-f" + lib.optionalString (!v) "-" + k) flags';
 }
