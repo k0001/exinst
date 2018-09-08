@@ -6,6 +6,6 @@ See the [BSD3 LICENSE](https://github.com/k0001/exinst/blob/master/exinst/LICENS
 file to learn about the legal terms and conditions for this library.
 
 Find documentation for this library in the top-level
-[`Exinst`](https://github.com/k0001/exinst/blob/master/exinst/src/lib/Exinst.hs)
+[`Exinst`](https://github.com/k0001/exinst/blob/master/lib/Exinst.hs)
 module.
 
