@@ -1,0 +1,6 @@
+packages:
+  exinst/
+  exinst-aeson/
+  exinst-bytes/
+  exinst-cereal/
+  exinst-serialise/
