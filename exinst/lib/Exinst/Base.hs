@@ -23,11 +23,10 @@ import Data.Constraint
 import Data.Kind (Type)
 import Data.Singletons
 import Data.Singletons.Prelude.Enum (PEnum(EnumFromTo), PBounded(MinBound, MaxBound))
-import Data.Singletons.Prelude.Bool (Sing(STrue,SFalse))
+import Data.Singletons.Prelude.Bool (SBool(STrue, SFalse))
 import qualified Data.Singletons.Prelude.List as List
 import Data.Singletons.Prelude.Tuple (Tuple2Sym1)
 import Data.Singletons.Decide
-import Data.Type.Equality
 import qualified GHC.Generics as G
 import Prelude
 import qualified Text.Read as Read
@@ -45,7 +44,7 @@ data Some2'Show r2 r1 x = Some2 r2 r1 x deriving (Show)
 data Some3'Show r3 r2 r1 x = Some3 r3 r2 r1 x deriving (Show)
 data Some4'Show r4 r3 r2 r1 x = Some4 r4 r3 r2 r1 x deriving (Show)
 
-instance forall (f :: k1 -> Type)
+instance forall k1 (f :: k1 -> Type)
   . ( SingKind k1
     , Show (Demote k1)
     , Dict1 Show f
@@ -56,7 +55,7 @@ instance forall (f :: k1 -> Type)
        case dict1 sa1 :: Dict (Show (f a1)) of
           Dict -> showsPrec n (Some1 (fromSing sa1) x)
 
-instance forall (f :: k2 -> k1 -> Type)
+instance forall k2 k1 (f :: k2 -> k1 -> Type)
   . ( SingKind k2
     , SingKind k1
     , Show (Demote k2)
@@ -69,7 +68,7 @@ instance forall (f :: k2 -> k1 -> Type)
        case dict2 sa2 sa1 :: Dict (Show (f a2 a1)) of
           Dict -> showsPrec n (Some2 (fromSing sa2) (fromSing sa1) x)
 
-instance forall (f :: k3 -> k2 -> k1 -> Type)
+instance forall k3 k2 k1 (f :: k3 -> k2 -> k1 -> Type)
   . ( SingKind k3
     , SingKind k2
     , SingKind k1
@@ -84,7 +83,7 @@ instance forall (f :: k3 -> k2 -> k1 -> Type)
        case dict3 sa3 sa2 sa1 :: Dict (Show (f a3 a2 a1)) of
           Dict -> showsPrec n (Some3 (fromSing sa3) (fromSing sa2) (fromSing sa1) x)
 
-instance forall (f :: k4 -> k3 -> k2 -> k1 -> Type)
+instance forall k4 k3 k2 k1 (f :: k4 -> k3 -> k2 -> k1 -> Type)
   . ( SingKind k4
     , SingKind k3
     , SingKind k2
@@ -105,7 +104,7 @@ instance forall (f :: k4 -> k3 -> k2 -> k1 -> Type)
 --------------------------------------------------------------------------------
 -- Read
 
-instance forall (f :: k1 -> Type)
+instance forall k1 (f :: k1 -> Type)
   . ( SingKind k1
     , Read (Demote k1)
     , Dict1 Read f
@@ -121,7 +120,7 @@ instance forall (f :: k1 -> Type)
                x :: f a1 <- Read.readPrec
                pure (Exinst.Some1 sa1 x)
 
-instance forall (f :: k2 -> k1 -> Type)
+instance forall k2 k1 (f :: k2 -> k1 -> Type)
   . ( SingKind k2
     , SingKind k1
     , Read (Demote k2)
@@ -141,7 +140,7 @@ instance forall (f :: k2 -> k1 -> Type)
                   x :: f a2 a1 <- Read.readPrec
                   pure (Exinst.Some2 sa2 sa1 x)
 
-instance forall (f :: k3 -> k2 -> k1 -> Type)
+instance forall k3 k2 k1 (f :: k3 -> k2 -> k1 -> Type)
   . ( SingKind k3
     , SingKind k2
     , SingKind k1
@@ -165,7 +164,7 @@ instance forall (f :: k3 -> k2 -> k1 -> Type)
                      x :: f a3 a2 a1 <- Read.readPrec
                      pure (Exinst.Some3 sa3 sa2 sa1 x)
 
-instance forall (f :: k4 -> k3 -> k2 -> k1 -> Type)
+instance forall k4 k3 k2 k1 (f :: k4 -> k3 -> k2 -> k1 -> Type)
   . ( SingKind k4
     , SingKind k3
     , SingKind k2
@@ -196,7 +195,7 @@ instance forall (f :: k4 -> k3 -> k2 -> k1 -> Type)
 --------------------------------------------------------------------------------
 -- Eq
 
-instance forall (f :: k1 -> Type).
+instance forall k1 (f :: k1 -> Type).
   ( SDecide k1
   , Dict1 Eq f
   ) => Eq (Exinst.Some1 f)
@@ -206,11 +205,11 @@ instance forall (f :: k1 -> Type).
      withSome1Sing som1x $ \sa1x (x :: f a1x) ->
         withSome1Sing som1y $ \sa1y (y :: f a1y) ->
            maybe False id $ do
-              Refl <- testEquality sa1x sa1y
+              Refl <- decideEquality sa1x sa1y
               case dict1 sa1x :: Dict (Eq (f a1x)) of
                  Dict -> Just (x == y)
 
-instance forall (f :: k2 -> k1 -> Type)
+instance forall k2 k1 (f :: k2 -> k1 -> Type)
   . ( SDecide k2
     , SDecide k1
     , Dict2 Eq f
@@ -221,12 +220,12 @@ instance forall (f :: k2 -> k1 -> Type)
        withSome2Sing som2x $ \sa2x sa1x (x :: f a2x a1x) ->
           withSome2Sing som2y $ \sa2y sa1y (y :: f a2y a1y) ->
              maybe False id $ do
-                Refl <- testEquality sa2x sa2y
-                Refl <- testEquality sa1x sa1y
+                Refl <- decideEquality sa2x sa2y
+                Refl <- decideEquality sa1x sa1y
                 case dict2 sa2x sa1x :: Dict (Eq (f a2x a1x)) of
                    Dict -> Just (x == y)
 
-instance forall (f :: k3 -> k2 -> k1 -> Type)
+instance forall k3 k2 k1 (f :: k3 -> k2 -> k1 -> Type)
   . ( SDecide k3
     , SDecide k2
     , SDecide k1
@@ -238,13 +237,13 @@ instance forall (f :: k3 -> k2 -> k1 -> Type)
        withSome3Sing som3x $ \sa3x sa2x sa1x (x :: f a3x a2x a1x) ->
           withSome3Sing som3y $ \sa3y sa2y sa1y (y :: f a3y a2y a1y) ->
              maybe False id $ do
-                Refl <- testEquality sa3x sa3y
-                Refl <- testEquality sa2x sa2y
-                Refl <- testEquality sa1x sa1y
+                Refl <- decideEquality sa3x sa3y
+                Refl <- decideEquality sa2x sa2y
+                Refl <- decideEquality sa1x sa1y
                 case dict3 sa3x sa2x sa1x :: Dict (Eq (f a3x a2x a1x)) of
                    Dict -> Just (x == y)
 
-instance forall (f :: k4 -> k3 -> k2 -> k1 -> Type)
+instance forall k4 k3 k2 k1 (f :: k4 -> k3 -> k2 -> k1 -> Type)
   . ( SDecide k4
     , SDecide k3
     , SDecide k2
@@ -257,17 +256,17 @@ instance forall (f :: k4 -> k3 -> k2 -> k1 -> Type)
        withSome4Sing som4x $ \sa4x sa3x sa2x sa1x (x :: f a4x a3x a2x a1x) ->
           withSome4Sing som4y $ \sa4y sa3y sa2y sa1y (y :: f a4y a3y a2y a1y) ->
              maybe False id $ do
-                Refl <- testEquality sa4x sa4y
-                Refl <- testEquality sa3x sa3y
-                Refl <- testEquality sa2x sa2y
-                Refl <- testEquality sa1x sa1y
+                Refl <- decideEquality sa4x sa4y
+                Refl <- decideEquality sa3x sa3y
+                Refl <- decideEquality sa2x sa2y
+                Refl <- decideEquality sa1x sa1y
                 case dict4 sa4x sa3x sa2x sa1x :: Dict (Eq (f a4x a3x a2x a1x)) of
                    Dict -> Just (x == y)
 
 --------------------------------------------------------------------------------
 -- Ord
 
-instance forall (f :: k1 -> Type)
+instance forall k1 (f :: k1 -> Type)
   . ( SingKind k1
     , SDecide k1
     , Ord (Demote k1)
@@ -281,11 +280,11 @@ instance forall (f :: k1 -> Type)
           withSome1Sing som1y $ \sa1y (y :: f a1y) ->
              let termCompare = compare (fromSing sa1x) (fromSing sa1y)
              in maybe termCompare id $ do
-                  Refl <- testEquality sa1x sa1y
+                  Refl <- decideEquality sa1x sa1y
                   case dict1 sa1x :: Dict (Ord (f a1x)) of
                      Dict -> Just (compare x y)
 
-instance forall (f :: k2 -> k1 -> Type)
+instance forall k2 k1 (f :: k2 -> k1 -> Type)
   . ( SingKind k2
     , SingKind k1
     , SDecide k2
@@ -303,12 +302,12 @@ instance forall (f :: k2 -> k1 -> Type)
              let termCompare = compare (fromSing sa2x, fromSing sa1x)
                                        (fromSing sa2y, fromSing sa1y)
              in maybe termCompare id $ do
-                   Refl <- testEquality sa2x sa2y
-                   Refl <- testEquality sa1x sa1y
+                   Refl <- decideEquality sa2x sa2y
+                   Refl <- decideEquality sa1x sa1y
                    case dict2 sa2x sa1x :: Dict (Ord (f a2x a1x)) of
                       Dict -> Just (compare x y)
 
-instance forall (f :: k3 -> k2 -> k1 -> Type)
+instance forall k3 k2 k1 (f :: k3 -> k2 -> k1 -> Type)
   . ( SingKind k3
     , SingKind k2
     , SingKind k1
@@ -330,13 +329,13 @@ instance forall (f :: k3 -> k2 -> k1 -> Type)
                    (fromSing sa3x, fromSing sa2x, fromSing sa1x)
                    (fromSing sa3y, fromSing sa2y, fromSing sa1y)
              in maybe termCompare id $ do
-                  Refl <- testEquality sa3x sa3y
-                  Refl <- testEquality sa2x sa2y
-                  Refl <- testEquality sa1x sa1y
+                  Refl <- decideEquality sa3x sa3y
+                  Refl <- decideEquality sa2x sa2y
+                  Refl <- decideEquality sa1x sa1y
                   case dict3 sa3x sa2x sa1x :: Dict (Ord (f a3x a2x a1x)) of
                      Dict -> Just (compare x y)
 
-instance forall (f :: k4 -> k3 -> k2 -> k1 -> Type)
+instance forall k4 k3 k2 k1 (f :: k4 -> k3 -> k2 -> k1 -> Type)
   . ( SingKind k4
     , SingKind k3
     , SingKind k2
@@ -361,10 +360,10 @@ instance forall (f :: k4 -> k3 -> k2 -> k1 -> Type)
                    (fromSing sa4x, fromSing sa3x, fromSing sa2x, fromSing sa1x)
                    (fromSing sa4y, fromSing sa3y, fromSing sa2y, fromSing sa1y)
              in maybe termCompare id $ do
-                  Refl <- testEquality sa4x sa4y
-                  Refl <- testEquality sa3x sa3y
-                  Refl <- testEquality sa2x sa2y
-                  Refl <- testEquality sa1x sa1y
+                  Refl <- decideEquality sa4x sa4y
+                  Refl <- decideEquality sa3x sa3y
+                  Refl <- decideEquality sa2x sa2y
+                  Refl <- decideEquality sa1x sa1y
                   case dict4 sa4x sa3x sa2x sa1x :: Dict (Ord (f a4x a3x a2x a1x)) of
                      Dict -> Just (compare x y)
 
@@ -523,7 +522,7 @@ type family Cartesian4 (xs4 :: [k4]) (xs3 :: [k3]) (xs2 :: [k2]) (xs1 :: [k1]) :
                 , Cartesian4 xs4 xs3 xs2 xs1 ]
 
 
-instance forall k3 k2 k1 (f :: k4 -> k3 -> k2 -> k1 -> Type)
+instance forall k4 k3 k2 k1 (f :: k4 -> k3 -> k2 -> k1 -> Type)
   . ( SingKind k4
     , SingKind k3
     , SingKind k2
@@ -566,31 +565,31 @@ instance forall k3 k2 k1 (f :: k4 -> k3 -> k2 -> k1 -> Type)
 --------------------------------------------------------------------------------
 -- Out of the box 'DictX' instances for some @base@ types
 
-instance
+instance forall c.
   (c 'False, c 'True
   ) => Dict0 (c :: Bool -> Constraint) where
   {-# INLINABLE dict0 #-}
   dict0 = \case { SFalse -> Dict; STrue -> Dict }
 
-instance
+instance forall k0 c f.
   ( c (f 'False), c (f 'True)
   ) => Dict1 c (f :: Bool -> k0) where
   {-# INLINABLE dict1 #-}
   dict1 = \case { SFalse -> Dict; STrue -> Dict }
 
-instance
+instance forall k1 k0 c f.
   ( Dict1 c (f 'False), Dict1 c (f 'True)
   ) => Dict2 c (f :: Bool -> k1 -> k0) where
   {-# INLINABLE dict2 #-}
   dict2 = \x -> case x of { SFalse -> dict1; STrue -> dict1 }
 
-instance
+instance forall k2 k1 k0 c f.
   ( Dict2 c (f 'False), Dict2 c (f 'True)
   ) => Dict3 c (f :: Bool -> k2 -> k1 -> k0) where
   {-# INLINABLE dict3 #-}
   dict3 = \x -> case x of { SFalse -> dict2; STrue -> dict2 }
 
-instance
+instance forall k3 k2 k1 k0 c f.
   ( Dict3 c (f 'False), Dict3 c (f 'True)
   ) => Dict4 c (f :: Bool -> k3 -> k2 -> k1 -> k0) where
   {-# INLINABLE dict4 #-}

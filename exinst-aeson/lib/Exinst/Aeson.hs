@@ -23,7 +23,7 @@ import Prelude
 
 --------------------------------------------------------------------------------
 
-instance forall (f :: k1 -> Type)
+instance forall k1 (f :: k1 -> Type)
   . ( SingKind k1
     , Ae.ToJSON (Demote k1)
     , Dict1 Ae.ToJSON f
@@ -34,7 +34,7 @@ instance forall (f :: k1 -> Type)
        case dict1 sa1 :: Dict (Ae.ToJSON (f a1)) of
           Dict -> Ae.toJSON (fromSing sa1, x)
 
-instance forall (f :: k2 -> k1 -> Type)
+instance forall k2 k1 (f :: k2 -> k1 -> Type)
   . ( SingKind k2
     , SingKind k1
     , Ae.ToJSON (Demote k2)
@@ -47,7 +47,7 @@ instance forall (f :: k2 -> k1 -> Type)
        case dict2 sa2 sa1 :: Dict (Ae.ToJSON (f a2 a1)) of
           Dict -> Ae.toJSON ((fromSing sa2, fromSing sa1), x)
 
-instance forall (f :: k3 -> k2 -> k1 -> Type)
+instance forall k3 k2 k1 (f :: k3 -> k2 -> k1 -> Type)
   . ( SingKind k3
     , SingKind k2
     , SingKind k1
@@ -62,7 +62,7 @@ instance forall (f :: k3 -> k2 -> k1 -> Type)
        case dict3 sa3 sa2 sa1 :: Dict (Ae.ToJSON (f a3 a2 a1)) of
           Dict -> Ae.toJSON ((fromSing sa3, fromSing sa2, fromSing sa1), x)
 
-instance forall (f :: k4 -> k3 -> k2 -> k1 -> Type)
+instance forall k4 k3 k2 k1 (f :: k4 -> k3 -> k2 -> k1 -> Type)
   . ( SingKind k4
     , SingKind k3
     , SingKind k2
@@ -81,7 +81,7 @@ instance forall (f :: k4 -> k3 -> k2 -> k1 -> Type)
 
 --------------------------------------------------------------------------------
 
-instance forall (f :: k1 -> Type)
+instance forall k1 (f :: k1 -> Type)
   . ( SingKind k1
     , Ae.FromJSON (Demote k1)
     , Dict1 Ae.FromJSON f
@@ -96,7 +96,7 @@ instance forall (f :: k1 -> Type)
                x :: f a1 <- Ae.parseJSON v'
                pure (Some1 sa1 x)
 
-instance forall (f :: k2 -> k1 -> Type)
+instance forall k2 k1 (f :: k2 -> k1 -> Type)
   . ( SingKind k2
     , SingKind k1
     , Ae.FromJSON (Demote k2)
@@ -114,7 +114,7 @@ instance forall (f :: k2 -> k1 -> Type)
                   x :: f a2 a1 <- Ae.parseJSON v'
                   pure (Some2 sa2 sa1 x)
 
-instance forall (f :: k3 -> k2 -> k1 -> Type)
+instance forall k3 k2 k1 (f :: k3 -> k2 -> k1 -> Type)
   . ( SingKind k3
     , SingKind k2
     , SingKind k1
@@ -135,7 +135,7 @@ instance forall (f :: k3 -> k2 -> k1 -> Type)
                      x :: f a3 a2 a1 <- Ae.parseJSON v'
                      pure (Some3 sa3 sa2 sa1 x)
 
-instance forall (f :: k4 -> k3 -> k2 -> k1 -> Type)
+instance forall k4 k3 k2 k1 (f :: k4 -> k3 -> k2 -> k1 -> Type)
   . ( SingKind k4
     , SingKind k3
     , SingKind k2

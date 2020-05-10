@@ -1,8 +1,8 @@
 name:                exinst-serialise
-version:             0.7
+version:             0.7.1
 author:              Renzo Carbonara
 maintainer:          renλren!zone
-copyright:           Renzo Carbonara 2015-2018
+copyright:           Renzo Carbonara 2015
 license:             BSD3
 license-file:        LICENSE.txt
 extra-source-files:  README.md CHANGELOG.md

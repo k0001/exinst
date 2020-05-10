@@ -29,7 +29,7 @@ import Exinst.Internal.Product
 -- | Compatible with the 'Data.Bytes.Serial.Serial' instance and
 -- 'Data.Serialize.Serialize' instance, provided all of the 'Demote's and the
 -- fully applied @f@ instances are compatible as well.
-instance forall (f :: k1 -> Type).
+instance forall k1 (f :: k1 -> Type).
   ( SingKind k1
   , Bin.Binary (Demote k1)
   , Dict1 Bin.Binary f
@@ -53,7 +53,7 @@ instance forall (f :: k1 -> Type).
 -- | Compatible with the 'Data.Bytes.Serial.Serial' instance and
 -- 'Data.Serialize.Serialize' instance, provided all of the 'Demote's and the
 -- fully applied @f@ instances are compatible as well.
-instance forall (f :: k2 -> k1 -> Type).
+instance forall k2 k1 (f :: k2 -> k1 -> Type).
   ( SingKind k2
   , SingKind k1
   , Bin.Binary (Demote k2)
@@ -80,7 +80,7 @@ instance forall (f :: k2 -> k1 -> Type).
 -- | Compatible with the 'Data.Bytes.Serial.Serial' instance and
 -- 'Data.Serialize.Serialize' instance, provided all of the 'Demote's and the
 -- fully applied @f@ instances are compatible as well.
-instance forall (f :: k3 -> k2 -> k1 -> Type).
+instance forall k3 k2 k1 (f :: k3 -> k2 -> k1 -> Type).
   ( SingKind k3
   , SingKind k2
   , SingKind k1
@@ -110,7 +110,7 @@ instance forall (f :: k3 -> k2 -> k1 -> Type).
 -- | Compatible with the 'Data.Bytes.Serial.Serial' instance and
 -- 'Data.Serialize.Serialize' instance, provided all of the 'Demote's and the
 -- fully applied @f@ instances are compatible as well.
-instance forall (f :: k4 -> k3 -> k2 -> k1 -> Type).
+instance forall k4 k3 k2 k1 (f :: k4 -> k3 -> k2 -> k1 -> Type).
   ( SingKind k4
   , SingKind k3
   , SingKind k2

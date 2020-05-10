@@ -26,7 +26,7 @@ import Exinst
 
 --------------------------------------------------------------------------------
 
-instance forall (f :: k1 -> Type)
+instance forall k1 (f :: k1 -> Type)
   . ( SingKind k1
     , Serialise (Demote k1)
     , Dict1 Serialise f
@@ -46,7 +46,7 @@ instance forall (f :: k1 -> Type)
                x :: f a1 <- decode
                pure (Some1 sa1 x)
 
-instance forall (f :: k2 -> k1 -> Type)
+instance forall k2 k1 (f :: k2 -> k1 -> Type)
   . ( SingKind k2
     , SingKind k1
     , Serialise (Demote k2)
@@ -71,7 +71,7 @@ instance forall (f :: k2 -> k1 -> Type)
                   x :: f a2 a1 <- decode
                   pure (Some2 sa2 sa1 x)
 
-instance forall (f :: k3 -> k2 -> k1 -> Type)
+instance forall k3 k2 k1 (f :: k3 -> k2 -> k1 -> Type)
   . ( SingKind k3
     , SingKind k2
     , SingKind k1
@@ -97,7 +97,7 @@ instance forall (f :: k3 -> k2 -> k1 -> Type)
                      x :: f a3 a2 a1 <- decode
                      pure (Some3 sa3 sa2 sa1 x)
 
-instance forall (f :: k4 -> k3 -> k2 -> k1 -> Type)
+instance forall k4 k3 k2 k1 (f :: k4 -> k3 -> k2 -> k1 -> Type)
   . ( SingKind k4
     , SingKind k3
     , SingKind k2

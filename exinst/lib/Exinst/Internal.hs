@@ -63,7 +63,6 @@ import Data.Kind (Type)
 import Data.Profunctor (dimap, Choice(right'))
 import Data.Singletons
 import Data.Singletons.Decide
-import Data.Type.Equality
 import Prelude
 
 --------------------------------------------------------------------------------
@@ -83,7 +82,7 @@ data Some4 (f4 :: k4 -> k3 -> k2 -> k1 -> Type) = forall a4 a3 a2 a1.
 --------------------------------------------------------------------------------
 
 some1
-  :: forall (f1 :: k1 -> Type) a1
+  :: forall k1 (f1 :: k1 -> Type) a1
   .  SingI a1
   => f1 a1
   -> Some1 f1 -- ^
@@ -91,7 +90,7 @@ some1 = Some1 (sing :: Sing a1)
 {-# INLINE some1 #-}
 
 some2
-  :: forall (f2 :: k2 -> k1 -> Type) a2 a1
+  :: forall k2 k1 (f2 :: k2 -> k1 -> Type) a2 a1
   .  (SingI a2, SingI a1)
   => f2 a2 a1
   -> Some2 f2 -- ^
@@ -99,7 +98,7 @@ some2 = Some2 (sing :: Sing a2) (sing :: Sing a1)
 {-# INLINE some2 #-}
 
 some3
-  :: forall (f3 :: k3 -> k2 -> k1 -> Type) a3 a2 a1
+  :: forall k3 k2 k1 (f3 :: k3 -> k2 -> k1 -> Type) a3 a2 a1
   .  (SingI a3, SingI a2, SingI a1)
   => f3 a3 a2 a1
   -> Some3 f3 -- ^
@@ -107,7 +106,7 @@ some3 = Some3 (sing :: Sing a3) (sing :: Sing a2) (sing :: Sing a1)
 {-# INLINE some3 #-}
 
 some4
-  :: forall (f4 :: k4 -> k3 -> k2 -> k1 -> Type) a4 a3 a2 a1
+  :: forall k4 k3 k2 k1 (f4 :: k4 -> k3 -> k2 -> k1 -> Type) a4 a3 a2 a1
   .  (SingI a4, SingI a3, SingI a2, SingI a1)
   => f4 a4 a3 a2 a1
   -> Some4 f4 -- ^
@@ -118,7 +117,7 @@ some4 = Some4 (sing :: Sing a4) (sing :: Sing a3)
 --------------------------------------------------------------------------------
 
 withSome1
-  :: forall (f1 :: k1 -> Type) (r :: Type)
+  :: forall k1 (f1 :: k1 -> Type) (r :: Type)
    . Some1 f1
   -> (forall a1. SingI a1 => f1 a1 -> r)
   -> r -- ^
@@ -126,7 +125,7 @@ withSome1 s1 g = withSome1Sing s1 (\_ -> g)
 {-# INLINABLE withSome1 #-}
 
 withSome2
-  :: forall (f2 :: k2 -> k1 -> Type) (r :: Type)
+  :: forall k2 k1 (f2 :: k2 -> k1 -> Type) (r :: Type)
   .  Some2 f2
   -> (forall a2 a1. (SingI a2, SingI a1) => f2 a2 a1 -> r)
   -> r -- ^
@@ -134,7 +133,7 @@ withSome2 s2 g = withSome2Sing s2 (\_ _ -> g)
 {-# INLINABLE withSome2 #-}
 
 withSome3
-  :: forall (f3 :: k3 -> k2 -> k1 -> Type) (r :: Type)
+  :: forall k3 k2 k1 (f3 :: k3 -> k2 -> k1 -> Type) (r :: Type)
   .  Some3 f3
   -> (forall a3 a2 a1. (SingI a3, SingI a2, SingI a1) => f3 a3 a2 a1 -> r)
   -> r -- ^
@@ -142,7 +141,7 @@ withSome3 s3 g = withSome3Sing s3 (\_ _ _ -> g)
 {-# INLINABLE withSome3 #-}
 
 withSome4
-  :: forall (f4 :: k4 -> k3 -> k2 -> k1 -> Type) (r :: Type)
+  :: forall k4 k3 k2 k1 (f4 :: k4 -> k3 -> k2 -> k1 -> Type) (r :: Type)
   .  Some4 f4
   -> (forall a4 a3 a2 a1
         .  (SingI a4, SingI a3, SingI a2, SingI a1)
@@ -155,7 +154,7 @@ withSome4 s4 g = withSome4Sing s4 (\_ _ _ _ -> g)
 
 -- | Like 'withSome1', but takes an explicit 'Sing' besides the 'SingI' instance.
 withSome1Sing
-  :: forall (f1 :: k1 -> Type) (r :: Type)
+  :: forall k1 (f1 :: k1 -> Type) (r :: Type)
    . Some1 f1
   -> (forall a1. (SingI a1) => Sing a1 -> f1 a1 -> r)
   -> r -- ^
@@ -164,7 +163,7 @@ withSome1Sing (Some1 sa1 x) g = withSingI sa1 (g sa1 x)
 
 -- | Like 'withSome2', but takes explicit 'Sing's besides the 'SingI' instances.
 withSome2Sing
-  :: forall (f2 :: k2 -> k1 -> Type) (r :: Type)
+  :: forall k2 k1 (f2 :: k2 -> k1 -> Type) (r :: Type)
   .  Some2 f2
   -> (forall a2 a1. (SingI a2, SingI a1) => Sing a2 -> Sing a1 -> f2 a2 a1 -> r)
   -> r -- ^
@@ -173,7 +172,7 @@ withSome2Sing (Some2 sa2 sa1 x) g = withSingI sa2 (withSingI sa1 (g sa2 sa1 x))
 
 -- | Like 'withSome3', but takes explicit 'Sing's besides the 'SingI' instances.
 withSome3Sing
-  :: forall (f3 :: k3 -> k2 -> k1 -> Type) (r :: Type)
+  :: forall k3 k2 k1 (f3 :: k3 -> k2 -> k1 -> Type) (r :: Type)
   .  Some3 f3
   -> (forall a3 a2 a1
          .  (SingI a3, SingI a2, SingI a1)
@@ -185,7 +184,7 @@ withSome3Sing (Some3 sa3 sa2 sa1 x) g =
 
 -- | Like 'withSome4', but takes explicit 'Sing's besides the 'SingI' instances.
 withSome4Sing
-  :: forall (f4 :: k4 -> k3 -> k2 -> k1 -> Type) (r :: Type)
+  :: forall k4 k3 k2 k1 (f4 :: k4 -> k3 -> k2 -> k1 -> Type) (r :: Type)
   .  Some4 f4
   -> (forall a4 a3 a2 a1
         .  (SingI a4, SingI a3, SingI a2, SingI a1)
@@ -199,43 +198,43 @@ withSome4Sing (Some4 sa4 sa3 sa2 sa1 x) g =
 --------------------------------------------------------------------------------
 
 fromSome1
-   :: forall (f1 :: k1 -> Type) a1
+   :: forall k1 (f1 :: k1 -> Type) a1
     . (SingI a1, SDecide k1)
    => Some1 f1
    -> Maybe (f1 a1) -- ^
 fromSome1 = \(Some1 sa1' x) -> do
-   Refl <- testEquality sa1' (sing :: Sing a1)
+   Refl <- decideEquality sa1' (sing :: Sing a1)
    return x
 {-# INLINABLE fromSome1 #-}
 
 fromSome2
-   :: forall (f2 :: k2 -> k1 -> Type) a2 a1
+   :: forall k2 k1 (f2 :: k2 -> k1 -> Type) a2 a1
     . ( SingI a2, SDecide k2
       , SingI a1, SDecide k1 )
    => Some2 f2
    -> Maybe (f2 a2 a1) -- ^
 fromSome2 = \(Some2 sa2' sa1' x) -> do
-   Refl <- testEquality sa2' (sing :: Sing a2)
-   Refl <- testEquality sa1' (sing :: Sing a1)
+   Refl <- decideEquality sa2' (sing :: Sing a2)
+   Refl <- decideEquality sa1' (sing :: Sing a1)
    return x
 {-# INLINABLE fromSome2 #-}
 
 fromSome3
-   :: forall (f3 :: k3 -> k2 -> k1 -> Type) a3 a2 a1
+   :: forall k3 k2 k1 (f3 :: k3 -> k2 -> k1 -> Type) a3 a2 a1
     . ( SingI a3, SDecide k3
       , SingI a2, SDecide k2
       , SingI a1, SDecide k1 )
    => Some3 f3
    -> Maybe (f3 a3 a2 a1) -- ^
 fromSome3 = \(Some3 sa3' sa2' sa1' x) -> do
-   Refl <- testEquality sa3' (sing :: Sing a3)
-   Refl <- testEquality sa2' (sing :: Sing a2)
-   Refl <- testEquality sa1' (sing :: Sing a1)
+   Refl <- decideEquality sa3' (sing :: Sing a3)
+   Refl <- decideEquality sa2' (sing :: Sing a2)
+   Refl <- decideEquality sa1' (sing :: Sing a1)
    return x
 {-# INLINABLE fromSome3 #-}
 
 fromSome4
-   :: forall (f4 :: k4 -> k3 -> k2 -> k1 -> Type) a4 a3 a2 a1
+   :: forall k4 k3 k2 k1 (f4 :: k4 -> k3 -> k2 -> k1 -> Type) a4 a3 a2 a1
     . ( SingI a4, SDecide k4
       , SingI a3, SDecide k3
       , SingI a2, SDecide k2
@@ -243,10 +242,10 @@ fromSome4
    => Some4 f4
    -> Maybe (f4 a4 a3 a2 a1) -- ^
 fromSome4 = \(Some4 sa4' sa3' sa2' sa1' x) -> do
-   Refl <- testEquality sa4' (sing :: Sing a4)
-   Refl <- testEquality sa3' (sing :: Sing a3)
-   Refl <- testEquality sa2' (sing :: Sing a2)
-   Refl <- testEquality sa1' (sing :: Sing a1)
+   Refl <- decideEquality sa4' (sing :: Sing a4)
+   Refl <- decideEquality sa3' (sing :: Sing a3)
+   Refl <- decideEquality sa2' (sing :: Sing a2)
+   Refl <- decideEquality sa1' (sing :: Sing a1)
    return x
 {-# INLINABLE fromSome4 #-}
 
@@ -254,7 +253,7 @@ fromSome4 = \(Some4 sa4' sa3' sa2' sa1' x) -> do
 
 -- A @lens@-compatible 'Prism'' for constructing and deconstructing a 'Some1'.
 _Some1
-  :: forall (f1 :: k1 -> Type) a1
+  :: forall k1 (f1 :: k1 -> Type) a1
   .  (SingI a1, SDecide k1)
   => Prism' (Some1 f1) (f1 a1)
 _Some1 = prism' some1 fromSome1
@@ -262,7 +261,7 @@ _Some1 = prism' some1 fromSome1
 
 -- A @lens@-compatible 'Prism'' for constructing and deconstructing a 'Some2'.
 _Some2
-  :: forall (f2 :: k2 -> k1 -> Type) a2 a1
+  :: forall k2 k1 (f2 :: k2 -> k1 -> Type) a2 a1
   .  ( SingI a2, SDecide k2
      , SingI a1, SDecide k1 )
   => Prism' (Some2 f2) (f2 a2 a1)
@@ -271,7 +270,7 @@ _Some2 = prism' some2 fromSome2
 
 -- A @lens@-compatible 'Prism'' for constructing and deconstructing a 'Some3'.
 _Some3
-  :: forall (f3 :: k3 -> k2 -> k1 -> Type) a3 a2 a1
+  :: forall k3 k2 k1 (f3 :: k3 -> k2 -> k1 -> Type) a3 a2 a1
   .  ( SingI a3, SDecide k3
      , SingI a2, SDecide k2
      , SingI a1, SDecide k1 )
@@ -281,7 +280,7 @@ _Some3 = prism' some3 fromSome3
 
 -- A @lens@-compatible 'Prism'' for constructing and deconstructing a 'Some4'.
 _Some4
-  :: forall (f4 :: k4 -> k3 -> k2 -> k1 -> Type) a4 a3 a2 a1
+  :: forall k4 k3 k2 k1 (f4 :: k4 -> k3 -> k2 -> k1 -> Type) a4 a3 a2 a1
   .  ( SingI a4, SDecide k4
      , SingI a3, SDecide k3
      , SingI a2, SDecide k2
@@ -330,7 +329,8 @@ some4SingRep = \(Some4 sa4 sa3 sa2 sa1 _) ->
 -- Hint: @'same1' ('some1' . 'Exinst.P1') :: 'Some1' f -> 'Some1' g -> 'Some1' ('Exinst.P1' f g)@
 {-# INLINABLE same1 #-}
 same1
-  :: SDecide k1
+  :: forall k1 f g x
+  .  SDecide k1
   => (forall a1. SingI a1 => f a1 -> g a1 -> x)
   -> Some1 (f :: k1 -> Type)
   -> Some1 (g :: k1 -> Type)
@@ -338,7 +338,7 @@ same1
 same1 z = \s1f s1g ->
   withSome1Sing s1f $ \sa1 f ->
     withSome1Sing s1g $ \sa1' g -> do
-       Refl <- testEquality sa1 sa1'
+       Refl <- decideEquality sa1 sa1'
        pure (z f g)
 
 -- | @'same2' x a b@ applies @x@ to the contents of @a@ and @b@ if their type
@@ -347,7 +347,8 @@ same1 z = \s1f s1g ->
 -- Hint: @'same2' ('some2' . 'Exinst.P2') :: 'Some2' f -> 'Some2' g -> 'Some2' ('Exinst.P2' f g)@
 {-# INLINABLE same2 #-}
 same2
-  :: (SDecide k2, SDecide k1)
+  :: forall k2 k1 f g x
+  .  (SDecide k2, SDecide k1)
   => (forall a2 a1. SingI a1 => f a2 a1 -> g a2 a1 -> x)
   -> Some2 (f :: k2 -> k1 -> Type)
   -> Some2 (g :: k2 -> k1 -> Type)
@@ -355,8 +356,8 @@ same2
 same2 z = \s2l s2g ->
   withSome2Sing s2l $ \sa2 sa1 f ->
     withSome2Sing s2g $ \sa2' sa1' g -> do
-       Refl <- testEquality sa2 sa2'
-       Refl <- testEquality sa1 sa1'
+       Refl <- decideEquality sa2 sa2'
+       Refl <- decideEquality sa1 sa1'
        pure (z f g)
 
 -- | @'same3' x a b@ applies @x@ to the contents of @a@ and @b@ if their type
@@ -365,7 +366,8 @@ same2 z = \s2l s2g ->
 -- Hint: @'same3' ('some3' . 'Exinst.P3') :: 'Some3' f -> 'Some3' g -> 'Some3' ('Exinst.P3' f g)@
 {-# INLINABLE same3 #-}
 same3
-  :: (SDecide k3, SDecide k2, SDecide k1)
+  :: forall k3 k2 k1 f g x
+  .  (SDecide k3, SDecide k2, SDecide k1)
   => (forall a3 a2 a1. (SingI a3, SingI a2, SingI a1)
         => f a3 a2 a1 -> g a3 a2 a1 -> x)
   -> Some3 (f :: k3 -> k2 -> k1 -> Type)
@@ -374,9 +376,9 @@ same3
 same3 z = \s3l s3g ->
   withSome3Sing s3l $ \sa3 sa2 sa1 f ->
     withSome3Sing s3g $ \sa3' sa2' sa1' g -> do
-       Refl <- testEquality sa3 sa3'
-       Refl <- testEquality sa2 sa2'
-       Refl <- testEquality sa1 sa1'
+       Refl <- decideEquality sa3 sa3'
+       Refl <- decideEquality sa2 sa2'
+       Refl <- decideEquality sa1 sa1'
        pure (z f g)
 
 -- | @'same4' x a b@ applies @x@ to the contents of @a@ and @b@ if their type
@@ -385,7 +387,8 @@ same3 z = \s3l s3g ->
 -- Hint: @'same4' ('some4' . 'Exinst.P4') :: 'Some4' f -> 'Some4' g -> 'Some4' ('Exinst.P4' f g)@
 {-# INLINABLE same4 #-}
 same4
-  :: (SDecide k4, SDecide k3, SDecide k2, SDecide k1)
+  :: forall k4 k3 k2 k1 f g x
+  .  (SDecide k4, SDecide k3, SDecide k2, SDecide k1)
   => (forall a4 a3 a2 a1. (SingI a4, SingI a3, SingI a2, SingI a1)
         => f a4 a3 a2 a1 -> g a4 a3 a2 a1 -> x)
   -> Some4 (f :: k4 -> k3 -> k2 -> k1 -> Type)
@@ -394,10 +397,10 @@ same4
 same4 z = \s4l s4g ->
   withSome4Sing s4l $ \sa4 sa3 sa2 sa1 f ->
     withSome4Sing s4g $ \sa4' sa3' sa2' sa1' g -> do
-       Refl <- testEquality sa4 sa4'
-       Refl <- testEquality sa3 sa3'
-       Refl <- testEquality sa2 sa2'
-       Refl <- testEquality sa1 sa1'
+       Refl <- decideEquality sa4 sa4'
+       Refl <- decideEquality sa3 sa3'
+       Refl <- decideEquality sa2 sa2'
+       Refl <- decideEquality sa1 sa1'
        pure (z f g)
 
 --------------------------------------------------------------------------------

@@ -32,7 +32,7 @@ salt0 = 6700417
 
 --------------------------------------------------------------------------------
 
-instance forall (f :: k1 -> Type)
+instance forall k1 (f :: k1 -> Type)
   . ( SingKind k1
     , Hashable (Demote k1)
     , Dict1 Hashable f
@@ -45,7 +45,7 @@ instance forall (f :: k1 -> Type)
                        `hashWithSalt` fromSing sa1
                        `hashWithSalt` x
 
-instance forall (f :: k2 -> k1 -> Type)
+instance forall k2 k1 (f :: k2 -> k1 -> Type)
   . ( SingKind k2
     , SingKind k1
     , Hashable (Demote k2)
@@ -61,7 +61,7 @@ instance forall (f :: k2 -> k1 -> Type)
                        `hashWithSalt` fromSing sa1
                        `hashWithSalt` x
 
-instance forall (f :: k3 -> k2 -> k1 -> Type)
+instance forall k3 k2 k1 (f :: k3 -> k2 -> k1 -> Type)
   . ( SingKind k3
     , SingKind k2
     , SingKind k1
@@ -80,7 +80,7 @@ instance forall (f :: k3 -> k2 -> k1 -> Type)
                        `hashWithSalt` fromSing sa1
                        `hashWithSalt` x
 
-instance forall (f :: k4 -> k3 -> k2 -> k1 -> Type)
+instance forall k4 k3 k2 k1 (f :: k4 -> k3 -> k2 -> k1 -> Type)
   . ( SingKind k4
     , SingKind k3
     , SingKind k2

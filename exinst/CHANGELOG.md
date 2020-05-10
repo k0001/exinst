@@ -1,3 +1,7 @@
+# Version 0.8
+
+* Builds with GHC 8.10 and `singletons-2.7`.
+
 # Version 0.7
 
 * BACKWARDS COMPATIBLE COMPILER ASSISTED CHANGE: All of the cabal flags
