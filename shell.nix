@@ -1,6 +1,2 @@
-# This file, intended to be used with nix-shell, puts you in an
-# environment where all of the dependencies necessary to work on the
-# various Haskell projects in this repo are available.
-{ nixpkgs ? import ./nixpkgs.nix }:
-let pkgs = import ./pkgs.nix { inherit nixpkgs; };
-in pkgs._here.ghc861._shell
+let pkgs = import ./nix;
+in pkgs._here.ghc865._shell

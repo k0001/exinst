@@ -1,21 +1,19 @@
-# This file exports every derivation introduced by this repository.
-{ nixpkgs ? import ./nixpkgs.nix }:
-let pkgs = import ./pkgs.nix { inherit nixpkgs; };
-in
-pkgs.releaseTools.aggregate {
+let pkgs = import ./nix;
+in pkgs.releaseTools.aggregate {
   name = "everything";
-  constituents = [
-    pkgs._here.ghc861.exinst
-    pkgs._here.ghc861.exinst.doc
-    pkgs._here.ghc861.exinst-aeson
-    pkgs._here.ghc861.exinst-aeson.doc
-    pkgs._here.ghc861.exinst-bytes
-    pkgs._here.ghc861.exinst-bytes.doc
-    pkgs._here.ghc861.exinst-cereal
-    pkgs._here.ghc861.exinst-cereal.doc
-    pkgs._here.ghc861.exinst-serialise
-    pkgs._here.ghc861.exinst-serialise.doc
-    pkgs._here.ghc861._shell
+  constituents = let p = pkgs._here.ghc865;
+  in [
+    p.exinst
+    p.exinst.doc
+    p.exinst-aeson
+    p.exinst-aeson.doc
+    p.exinst-bytes
+    p.exinst-bytes.doc
+    p.exinst-cereal
+    p.exinst-cereal.doc
+    p.exinst-serialise
+    p.exinst-serialise.doc
+    p._shell
   ];
 }
 

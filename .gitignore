@@ -1,3 +1,5 @@
 dist/
+dist-newstyle/
+*.local
 result
 .*.sw[a-p]
