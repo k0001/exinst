@@ -31,9 +31,9 @@ import qualified GHC.Generics as G
 import Prelude
 import qualified Text.Read as Read
 
-import Exinst.Internal
+import Exinst
   hiding (Some1(..), Some2(..), Some3(..), Some4(..))
-import qualified Exinst.Internal as Exinst
+import qualified Exinst
 
 --------------------------------------------------------------------------------
 -- Show

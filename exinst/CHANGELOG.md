@@ -1,3 +1,11 @@
+# Version 0.9
+
+* BACKWARDS COMPATIBLE COMPILER ASSISTED CHANGE: `Eq`, `Ord`, `Show` 
+  and `Generic` instances for `Some{1,2,3,4}` now live in
+  the `exinst-base` library.
+
+* Depends on a minimal version of `singletons`.
+
 # Version 0.8
 
 * Builds with GHC 8.10 and `singletons-2.7`.

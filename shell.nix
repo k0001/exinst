@@ -1,2 +1,3 @@
 let pkgs = import ./nix;
-in pkgs._here.ghc865._shell
+in { ghc865 = pkgs._here.ghc865._shell;
+     ghc8101 = pkgs._here.ghc865._shell; }

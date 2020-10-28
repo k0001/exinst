@@ -117,7 +117,6 @@ import Exinst.Internal
 import Exinst.Internal.Product
 import Exinst.Internal.Sum
 
-import Exinst.Base ()
 import Exinst.Binary ()
 import Exinst.DeepSeq ()
 import Exinst.Hashable ()
@@ -371,6 +370,16 @@ instance for @c (f1 a)@ exists for a specific choice of @a@, then, given a term
 level representation for that @a@ and the aid of @dict1@, said instance can be
 looked up at runtime.
 
+Alternatively, if the @QuantifiedConstraints@ GHC extension is available, the 
+implementation of the 'Dict1' instance can be simplified as follows:
+
+@
+instance (forall a. c (f1 a)) => 'Dict1' c (f1 :: Size -> k0) where
+  'dict1' = \x -> case x of
+    SSmall -> 'Dict'
+    SBig -> 'Dict'
+@
+
 Notice that 'Some1' itself doesn't have any requirements about 'Dict1', it's the
 various instances for 'Some1' who rely on 'Dict1'. 'Dict1' has nothing to do
 with 'Some1', nor with the choice of @f@ nor with the choice of @c@; it is only
@@ -379,7 +388,7 @@ related to the singleton type used as a type-index for @f@.
 The @Exinst@ module exports ready-made instances for 'Some1', 'Some2', 'Some3'
 and 'Some4' (they can be enabled or disabled with some cabal flags).
 
-* 'Eq', 'Ord', 'Show' from the @base@ package.
+* 'Eq', 'Ord', 'Show', 'GHC.Generics.Generic' from the @base@ package.
 
 * 'Data.Binary.Binary' from the @binary@ package.
 
@@ -391,6 +400,10 @@ and 'Some4' (they can be enabled or disabled with some cabal flags).
 
 Furthermore, other libraries export other orphan instances for the datatypes
 exported by 'exinst':
+
+* [exinst-base](https://hackage.haskell.org/package/exinst-base) exports
+instances for 'Eq', 'Ord', 'Show' and 'GHC.Generics.Generic' from the @base@
+package.
 
 * [exinst-aeson](https://hackage.haskell.org/package/exinst-aeson) exports
 instances for 'Data.Aeson.FromJSON' and 'Data.Aeson.ToJSON' from the @aeson@

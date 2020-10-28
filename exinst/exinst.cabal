@@ -1,5 +1,5 @@
 name:                exinst
-version:             0.8
+version:             0.9
 author:              Renzo Carbonara
 maintainer:          renλren!zone
 copyright:           Renzo Carbonara 2015
@@ -23,7 +23,6 @@ library
       Exinst.Internal
       Exinst.Internal.Product
       Exinst.Internal.Sum
-      Exinst.Base
       Exinst.Binary
       Exinst.DeepSeq
       Exinst.Hashable

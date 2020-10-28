@@ -22,5 +22,53 @@
         "type": "tarball",
         "url": "https://github.com/k0001/nixpkgs/archive/2973bbb2099d881286b2d3a4a8d88a1aa545f064.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
+    },
+    "singletons": {
+        "branch": "master",
+        "description": "Fake dependent types in Haskell using singletons",
+        "homepage": "",
+        "owner": "goldfirere",
+        "repo": "singletons",
+        "rev": "0261bafe8fe96944d1ee5bd44a6beaf12dc87e3e",
+        "sha256": "13njnn14ci6926kqza2yi3r2vg6g5aimnw5wancg60vn9ygijn2c",
+        "type": "tarball",
+        "url": "https://github.com/goldfirere/singletons/archive/0261bafe8fe96944d1ee5bd44a6beaf12dc87e3e.tar.gz",
+        "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
+    },
+    "th-abstraction": {
+        "branch": "master",
+        "description": "Uniform interface to reified data type information via Template Haskell",
+        "homepage": "",
+        "owner": "glguy",
+        "repo": "th-abstraction",
+        "rev": "873002c6f502d35c1533c6c0e07009b0f40a4995",
+        "sha256": "0b6l1hq29hdrqr42fbp0fcnv687m9fq5fxr43vhg6kmwxxj29imh",
+        "type": "tarball",
+        "url": "https://github.com/glguy/th-abstraction/archive/873002c6f502d35c1533c6c0e07009b0f40a4995.tar.gz",
+        "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
+    },
+    "th-desugar": {
+        "branch": "master",
+        "description": "Desugars Template Haskell abstract syntax to a simpler format without changing semantics",
+        "homepage": "",
+        "owner": "goldfirere",
+        "repo": "th-desugar",
+        "rev": "ca761285741c16c704a4044f551faf4292432d6a",
+        "sha256": "18hzl7wkf1rxzkal9zpg50iyv2b28c2aa3rb4kzq6wlq4wmgnwwx",
+        "type": "tarball",
+        "url": "https://github.com/goldfirere/th-desugar/archive/ca761285741c16c704a4044f551faf4292432d6a.tar.gz",
+        "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
+    },
+    "th-lift": {
+        "branch": "master",
+        "description": "Derive Template Haskell's Lift class for datatypes.",
+        "homepage": "",
+        "owner": "RyanGlScott",
+        "repo": "th-lift",
+        "rev": "6011d652c44d9e9ab5b82fc37c9ece2c53be1510",
+        "sha256": "10288fy5qhhwd9xwz5513hs897pis9gxlhkjw7krjiwqmnv3ncs7",
+        "type": "tarball",
+        "url": "https://github.com/RyanGlScott/th-lift/archive/6011d652c44d9e9ab5b82fc37c9ece2c53be1510.tar.gz",
+        "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     }
 }
