@@ -117,6 +117,10 @@ import Exinst.Internal
 import Exinst.Internal.Product
 import Exinst.Internal.Sum
 
+import Exinst.Base.Eq ()
+import Exinst.Base.Ord ()
+import Exinst.Base.Read ()
+import Exinst.Base.Show ()
 import Exinst.Binary ()
 import Exinst.DeepSeq ()
 import Exinst.Hashable ()
@@ -386,9 +390,9 @@ with 'Some1', nor with the choice of @f@ nor with the choice of @c@; it is only
 related to the singleton type used as a type-index for @f@.
 
 The @Exinst@ module exports ready-made instances for 'Some1', 'Some2', 'Some3'
-and 'Some4' (they can be enabled or disabled with some cabal flags).
+and 'Some4'.
 
-* 'Eq', 'Ord', 'Show', 'GHC.Generics.Generic' from the @base@ package.
+* 'Eq', 'Ord', 'Show', 'Read' from the @base@ package.
 
 * 'Data.Binary.Binary' from the @binary@ package.
 
@@ -402,8 +406,7 @@ Furthermore, other libraries export other orphan instances for the datatypes
 exported by 'exinst':
 
 * [exinst-base](https://hackage.haskell.org/package/exinst-base) exports
-instances for 'Eq', 'Ord', 'Show' and 'GHC.Generics.Generic' from the @base@
-package.
+instances for 'GHC.Generics.Generic' from the @base@ package.
 
 * [exinst-aeson](https://hackage.haskell.org/package/exinst-aeson) exports
 instances for 'Data.Aeson.FromJSON' and 'Data.Aeson.ToJSON' from the @aeson@

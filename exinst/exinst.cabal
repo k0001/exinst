@@ -23,6 +23,10 @@ library
       Exinst.Internal
       Exinst.Internal.Product
       Exinst.Internal.Sum
+      Exinst.Base.Eq
+      Exinst.Base.Ord
+      Exinst.Base.Read
+      Exinst.Base.Show
       Exinst.Binary
       Exinst.DeepSeq
       Exinst.Hashable
