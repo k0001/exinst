@@ -1,5 +1,6 @@
 {-# LANGUAGE BangPatterns #-}
 {-# LANGUAGE DataKinds #-}
+{-# LANGUAGE FlexibleContexts #-}
 {-# LANGUAGE PolyKinds #-}
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE UndecidableInstances #-}
@@ -16,6 +17,7 @@ module Exinst.DeepSeq () where
 
 import Control.DeepSeq (NFData(rnf))
 import Data.Constraint
+import Data.Kind (Type)
 import Prelude
 
 import Exinst.Internal
@@ -24,7 +26,7 @@ import Exinst.Internal.Product
 
 --------------------------------------------------------------------------------
 
-instance forall k1 (f :: k1 -> *).
+instance forall k1 (f :: k1 -> Type).
   ( Dict1 NFData f
   ) => NFData (Some1 f) where
   {-# INLINABLE rnf #-}
@@ -33,7 +35,7 @@ instance forall k1 (f :: k1 -> *).
        case dict1 sa1 :: Dict (NFData (f a1)) of
           Dict -> rnf x `seq` ()
 
-instance forall k2 k1 (f :: k2 -> k1 -> *).
+instance forall k2 k1 (f :: k2 -> k1 -> Type).
   ( Dict2 NFData f
   ) => NFData (Some2 f) where
   {-# INLINABLE rnf #-}
@@ -42,7 +44,7 @@ instance forall k2 k1 (f :: k2 -> k1 -> *).
        case dict2 sa2 sa1 :: Dict (NFData (f a2 a1)) of
           Dict -> rnf x `seq` ()
 
-instance forall k3 k2 k1 (f :: k3 -> k2 -> k1 -> *).
+instance forall k3 k2 k1 (f :: k3 -> k2 -> k1 -> Type).
   ( Dict3 NFData f
   ) => NFData (Some3 f) where
   {-# INLINABLE rnf #-}
@@ -51,7 +53,7 @@ instance forall k3 k2 k1 (f :: k3 -> k2 -> k1 -> *).
        case dict3 sa3 sa2 sa1 :: Dict (NFData (f a3 a2 a1)) of
           Dict -> rnf x `seq` ()
 
-instance forall k4 k3 k2 k1 (f :: k4 -> k3 -> k2 -> k1 -> *).
+instance forall k4 k3 k2 k1 (f :: k4 -> k3 -> k2 -> k1 -> Type).
   ( Dict4 NFData f
   ) => NFData (Some4 f) where
   {-# INLINABLE rnf #-}

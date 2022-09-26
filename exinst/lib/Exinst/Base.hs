@@ -1,5 +1,6 @@
 {-# LANGUAGE ConstraintKinds #-}
 {-# LANGUAGE DataKinds #-}
+{-# LANGUAGE FlexibleContexts #-}
 {-# LANGUAGE FlexibleInstances #-}
 {-# LANGUAGE LambdaCase #-}
 {-# LANGUAGE MultiParamTypeClasses #-}
@@ -22,10 +23,10 @@ module Exinst.Base () where
 import Data.Constraint
 import Data.Kind (Type)
 import Data.Singletons
-import Data.Singletons.Prelude.Enum (PEnum(EnumFromTo), PBounded(MinBound, MaxBound))
-import Data.Singletons.Prelude.Bool (SBool(STrue, SFalse))
-import qualified Data.Singletons.Prelude.List as List
-import Data.Singletons.Prelude.Tuple (Tuple2Sym1)
+import Data.Singletons.Base.Enum (PEnum(EnumFromTo), PBounded(MinBound, MaxBound))
+import Data.Bool.Singletons (SBool(STrue, SFalse))
+import qualified Data.List.Singletons as List
+import Data.Tuple.Singletons (Tuple2Sym1)
 import Data.Singletons.Decide
 import qualified GHC.Generics as G
 import Prelude

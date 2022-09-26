@@ -35,7 +35,8 @@ library
     , deepseq
     , hashable
     , profunctors >=5.0
-    , singletons >=2.6
+    , singletons >= 3.0.2
+    , singletons-base >= 3.1.1
     , QuickCheck
   ghcjs-options: -Wall -O3
   ghc-options: -Wall -O2

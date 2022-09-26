@@ -1,4 +1,5 @@
 {-# LANGUAGE DataKinds #-}
+{-# LANGUAGE FlexibleContexts #-}
 {-# LANGUAGE PolyKinds #-}
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE TypeInType #-}
@@ -36,6 +37,7 @@ instance forall k1 (f :: k1 -> Type)
   . ( SingKind k1
     , Hashable (Demote k1)
     , Dict1 Hashable f
+    , Eq (Some1 f)
     ) => Hashable (Some1 f)
   where
     {-# INLINABLE hashWithSalt #-}
@@ -51,6 +53,7 @@ instance forall k2 k1 (f :: k2 -> k1 -> Type)
     , Hashable (Demote k2)
     , Hashable (Demote k1)
     , Dict2 Hashable f
+    , Eq (Some2 f)
     ) => Hashable (Some2 f)
   where
     {-# INLINABLE hashWithSalt #-}
@@ -69,6 +72,7 @@ instance forall k3 k2 k1 (f :: k3 -> k2 -> k1 -> Type)
     , Hashable (Demote k2)
     , Hashable (Demote k1)
     , Dict3 Hashable f
+    , Eq (Some3 f)
     ) => Hashable (Some3 f)
   where
     {-# INLINABLE hashWithSalt #-}
@@ -89,6 +93,7 @@ instance forall k4 k3 k2 k1 (f :: k4 -> k3 -> k2 -> k1 -> Type)
     , Hashable (Demote k3)
     , Hashable (Demote k2)
     , Hashable (Demote k1)
+    , Eq (Some4 f)
     , Dict4 Hashable f
     ) => Hashable (Some4 f)
   where
