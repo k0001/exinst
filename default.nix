@@ -1,7 +1,7 @@
 let pkgs = import ./nix;
 in pkgs.releaseTools.aggregate {
   name = "everything";
-  constituents = let p = pkgs._here.ghc865;
+  constituents = let p = pkgs._here.ghc943;
   in [
     p.exinst
     p.exinst.doc

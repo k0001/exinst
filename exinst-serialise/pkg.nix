@@ -1,9 +1,9 @@
-{ mkDerivation, base, binary, constraints, exinst, QuickCheck
-, serialise, singletons, stdenv, tasty, tasty-quickcheck
+{ mkDerivation, base, binary, constraints, exinst, lib, QuickCheck
+, serialise, singletons, tasty, tasty-quickcheck
 }:
 mkDerivation {
   pname = "exinst-serialise";
-  version = "0.7";
+  version = "0.7.1";
   src = ./.;
   libraryHaskellDepends = [
     base constraints exinst serialise singletons
@@ -13,5 +13,5 @@ mkDerivation {
   ];
   homepage = "https://github.com/k0001/exinst";
   description = "Dependent pairs and their instances";
-  license = stdenv.lib.licenses.bsd3;
+  license = lib.licenses.bsd3;
 }

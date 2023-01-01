@@ -1,10 +1,10 @@
 { mkDerivation, base, binary, bytes, bytestring, cereal
-, constraints, exinst, exinst-cereal, QuickCheck, singletons
-, stdenv, tasty, tasty-quickcheck
+, constraints, exinst, exinst-cereal, lib, QuickCheck, singletons
+, tasty, tasty-quickcheck
 }:
 mkDerivation {
   pname = "exinst-bytes";
-  version = "0.7";
+  version = "0.7.1";
   src = ./.;
   libraryHaskellDepends = [
     base bytes constraints exinst singletons
@@ -15,5 +15,5 @@ mkDerivation {
   ];
   homepage = "https://github.com/k0001/exinst";
   description = "Dependent pairs and their instances";
-  license = stdenv.lib.licenses.bsd3;
+  license = lib.licenses.bsd3;
 }

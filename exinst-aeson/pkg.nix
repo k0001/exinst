@@ -1,9 +1,9 @@
-{ mkDerivation, aeson, base, bytestring, constraints, exinst
-, QuickCheck, singletons, stdenv, tasty, tasty-quickcheck
+{ mkDerivation, aeson, base, bytestring, constraints, exinst, lib
+, QuickCheck, singletons, tasty, tasty-quickcheck
 }:
 mkDerivation {
   pname = "exinst-aeson";
-  version = "0.7";
+  version = "0.7.1";
   src = ./.;
   libraryHaskellDepends = [
     aeson base constraints exinst singletons
@@ -13,5 +13,5 @@ mkDerivation {
   ];
   homepage = "https://github.com/k0001/exinst";
   description = "Dependent pairs and their instances";
-  license = stdenv.lib.licenses.bsd3;
+  license = lib.licenses.bsd3;
 }

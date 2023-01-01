@@ -12,8 +12,16 @@ let
       exinst-cereal = super.callPackage ../exinst-cereal/pkg.nix { };
       exinst-serialise = super.callPackage ../exinst-serialise/pkg.nix { };
 
+      chell = hs.doJailbreak super.chell;
+      ListLike = hs.dontCheck super.ListLike;
+
+      singletons = self.callHackage "singletons" "3.0.2" {};
+      singletons-th = self.callHackage "singletons-th" "3.1.1" {};
+      singletons-base = self.callHackage "singletons-base" "3.1.1" {};
+
       _shell = super.shellFor {
-        withHoogle = false;
+        withHoogle = true;
+        buildInputs = [ self.cabal-install ];
         packages = p: [
           p.exinst
           p.exinst-aeson
@@ -28,7 +36,7 @@ let
       inherit sources;
       inherit (import sources.niv { }) niv;
 
-      ghc865 = super.haskell.packages.ghc865.override {
+      ghc943 = super.haskell.packages.ghc943.override {
         overrides = ghc-overrides self;
       };
     };
