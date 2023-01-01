@@ -13,7 +13,7 @@
 
 {-# OPTIONS_GHC -fno-warn-orphans #-}
 
--- | This module exports 'Show', 'Eq' and 'Ord' instances for 'Exinst.Some1',
+-- | This module exports 'Show', 'Read', 'Eq', 'Ord' and 'Generic'  instances for 'Exinst.Some1',
 -- 'Exinst.Some2', 'Exinst.Some3' and 'Exinst.Some4' from "Exinst", provided situable
 -- 'Dict1', 'Dict2', 'Dict3' and 'Dict4' instances are available.
 --
@@ -32,9 +32,8 @@ import qualified GHC.Generics as G
 import Prelude
 import qualified Text.Read as Read
 
-import Exinst.Internal
-  hiding (Some1(..), Some2(..), Some3(..), Some4(..))
-import qualified Exinst.Internal as Exinst
+import Exinst hiding (Some1(..), Some2(..), Some3(..), Some4(..))
+import qualified Exinst as Exinst
 
 --------------------------------------------------------------------------------
 -- Show

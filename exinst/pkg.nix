@@ -1,18 +1,13 @@
-{ mkDerivation, base, binary, bytestring, constraints, deepseq
-, hashable, lib, profunctors, QuickCheck, singletons
-, singletons-base, tasty, tasty-hunit, tasty-quickcheck
+{ mkDerivation, base, binary, constraints, deepseq, hashable, lib
+, profunctors, QuickCheck, singletons
 }:
 mkDerivation {
   pname = "exinst";
-  version = "0.8";
+  version = "0.9";
   src = ./.;
   libraryHaskellDepends = [
     base binary constraints deepseq hashable profunctors QuickCheck
-    singletons singletons-base
-  ];
-  testHaskellDepends = [
-    base binary bytestring constraints deepseq hashable profunctors
-    QuickCheck singletons tasty tasty-hunit tasty-quickcheck
+    singletons
   ];
   homepage = "https://github.com/k0001/exinst";
   description = "Dependent pairs and their instances";

@@ -1,3 +1,15 @@
+# Version 0.9
+
+* BACKWARDS COMPATIBLE COMPILER ASSISTED CHANGE: The `Show`, `Read`,
+  `Eq`, `Ord` and `Generic` instances now live in the `exinst-base` package.
+  This is so that `exinst` doesn't need to depend on the large
+  `singletons-base`. Users wanting access to those instances need to import
+  `Exinst.Base` explicitly.
+
+* Builds with GHC 9.4.
+
+* The tests for `exinst` now live in `exinst-base`.
+
 # Version 0.8
 
 * Builds with GHC 8.10 and `singletons-2.7`.

@@ -1,6 +1,7 @@
 packages:
   exinst/
   exinst-aeson/
+  exinst-base/
   exinst-bytes/
   exinst-cereal/
   exinst-serialise/

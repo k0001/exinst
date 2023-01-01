@@ -1,5 +1,5 @@
 name:                exinst-serialise
-version:             0.7.1
+version:             0.9
 author:              Renzo Carbonara
 maintainer:          renλren!zone
 copyright:           Renzo Carbonara 2015
@@ -8,7 +8,7 @@ license-file:        LICENSE.txt
 extra-source-files:  README.md CHANGELOG.md
 category:            Data
 build-type:          Simple
-cabal-version:       >=1.18
+cabal-version:       1.18
 synopsis:            Dependent pairs and their instances.
 homepage:            https://github.com/k0001/exinst
 bug-reports:         https://github.com/k0001/exinst/issues
@@ -22,7 +22,7 @@ library
       base >=4.9 && <5.0
     , serialise
     , constraints
-    , exinst >=0.7
+    , exinst >=0.9
     , singletons
   ghcjs-options: -Wall -O3
   ghc-options: -Wall -O2
@@ -36,6 +36,7 @@ test-suite tests
      base
    , binary
    , exinst
+   , exinst-base
    , exinst-serialise
    , QuickCheck
    , serialise

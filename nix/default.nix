@@ -8,6 +8,7 @@ let
     in {
       exinst = super.callPackage ../exinst/pkg.nix { };
       exinst-aeson = super.callPackage ../exinst-aeson/pkg.nix { };
+      exinst-base = super.callPackage ../exinst-base/pkg.nix { };
       exinst-bytes = super.callPackage ../exinst-bytes/pkg.nix { };
       exinst-cereal = super.callPackage ../exinst-cereal/pkg.nix { };
       exinst-serialise = super.callPackage ../exinst-serialise/pkg.nix { };
@@ -25,6 +26,7 @@ let
         packages = p: [
           p.exinst
           p.exinst-aeson
+          p.exinst-base
           p.exinst-bytes
           p.exinst-cereal
           p.exinst-serialise

@@ -21,6 +21,7 @@ import qualified Test.Tasty.QuickCheck as QC
 
 import Exinst
 import Exinst.Aeson ()
+import Exinst.Base ()
 
 --------------------------------------------------------------------------------
 

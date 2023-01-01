@@ -117,7 +117,6 @@ import Exinst.Internal
 import Exinst.Internal.Product
 import Exinst.Internal.Sum
 
-import Exinst.Base ()
 import Exinst.Binary ()
 import Exinst.DeepSeq ()
 import Exinst.Hashable ()
@@ -377,9 +376,7 @@ with 'Some1', nor with the choice of @f@ nor with the choice of @c@; it is only
 related to the singleton type used as a type-index for @f@.
 
 The @Exinst@ module exports ready-made instances for 'Some1', 'Some2', 'Some3'
-and 'Some4' (they can be enabled or disabled with some cabal flags).
-
-* 'Eq', 'Ord', 'Show' from the @base@ package.
+and 'Some4'.
 
 * 'Data.Binary.Binary' from the @binary@ package.
 
@@ -391,6 +388,11 @@ and 'Some4' (they can be enabled or disabled with some cabal flags).
 
 Furthermore, other libraries export other orphan instances for the datatypes
 exported by 'exinst':
+
+* [exinst-base](https://hackage.haskell.org/package/exinst-aeson) exports
+instances for 'Show', 'Read', 'Eq', 'Ord' and 'Generic' from the @base@
+package. Depends on the large @singleton-base@ package, that's why
+these instances are not in the @exinst@ package itself.
 
 * [exinst-aeson](https://hackage.haskell.org/package/exinst-aeson) exports
 instances for 'Data.Aeson.FromJSON' and 'Data.Aeson.ToJSON' from the @aeson@

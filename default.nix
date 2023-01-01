@@ -7,6 +7,8 @@ in pkgs.releaseTools.aggregate {
     p.exinst.doc
     p.exinst-aeson
     p.exinst-aeson.doc
+    p.exinst-base
+    p.exinst-base.doc
     p.exinst-bytes
     p.exinst-bytes.doc
     p.exinst-cereal

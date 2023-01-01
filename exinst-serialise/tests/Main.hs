@@ -20,6 +20,7 @@ import Test.Tasty.QuickCheck ((===))
 import qualified Test.Tasty.QuickCheck as QC
 
 import Exinst
+import Exinst.Base ()
 import Exinst.Serialise ()
 
 --------------------------------------------------------------------------------

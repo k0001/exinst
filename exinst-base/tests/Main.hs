@@ -24,6 +24,7 @@ import qualified Test.Tasty.QuickCheck as QC
 import Text.Read (readMaybe)
 
 import Exinst
+import Exinst.Base ()
 
 --------------------------------------------------------------------------------
 

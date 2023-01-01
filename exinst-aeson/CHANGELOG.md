@@ -1,3 +1,10 @@
+# Version 0.9
+
+* Builds with GHC 9.4.
+
+* Depends on `exinst>=0.9` and `exinst-base>=0.9`
+
+
 # Version 0.7.1
 
 * Builds with GHC 8.10.
